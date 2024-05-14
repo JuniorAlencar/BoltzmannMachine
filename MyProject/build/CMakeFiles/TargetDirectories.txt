@@ -1,0 +1,5 @@
+/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/bmc.dir
+/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/runTests.dir
+/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/test.dir
+/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/edit_cache.dir
+/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3;-pthread;-lgtest;-lgtest_main CMakeFiles/runTests.dir/tests/test_my_code.cpp.o -o ../bin/runTests  -lpthread -lmy_code 

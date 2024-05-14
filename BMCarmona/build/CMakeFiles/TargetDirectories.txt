@@ -1,0 +1,3 @@
+/media/junior/home/BoltzmannMachine/BMProgramCarmona/build/CMakeFiles/bmc.dir
+/media/junior/home/BoltzmannMachine/BMProgramCarmona/build/CMakeFiles/edit_cache.dir
+/media/junior/home/BoltzmannMachine/BMProgramCarmona/build/CMakeFiles/rebuild_cache.dir

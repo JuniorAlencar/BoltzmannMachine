@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3;-pthread;-lgtest;-lgtest_main CMakeFiles/bmc.dir/src/main.cpp.o CMakeFiles/bmc.dir/src/my_code.cpp.o -o ../bin/bmc  /usr/lib/x86_64-linux-gnu/libspdlog.so.1.9.2 /usr/lib/x86_64-linux-gnu/libfmt.so.8.1.1 -Wl,--as-needed 
