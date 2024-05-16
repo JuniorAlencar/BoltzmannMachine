@@ -57,13 +57,23 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/junior/home/BoltzmannMachine/BMProgramCarmona
+CMAKE_SOURCE_DIR = /home/junior/Documents/BoltzmannMachine/BMCarmona
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/junior/home/BoltzmannMachine/BMProgramCarmona/build
+CMAKE_BINARY_DIR = /home/junior/Documents/BoltzmannMachine/BMCarmona/build
 
 #=============================================================================
 # Targets provided globally by CMake.
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -87,9 +97,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/junior/home/BoltzmannMachine/BMProgramCarmona/build/CMakeFiles /media/junior/home/BoltzmannMachine/BMProgramCarmona/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles /home/junior/Documents/BoltzmannMachine/BMCarmona/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/junior/home/BoltzmannMachine/BMProgramCarmona/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -129,12 +139,166 @@ bmc/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/build
 .PHONY : bmc/fast
 
+#=============================================================================
+# Target rules for targets named test_energy
+
+# Build rule for target.
+test_energy: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_energy
+.PHONY : test_energy
+
+# fast build rule for target.
+test_energy/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/build
+.PHONY : test_energy/fast
+
+#=============================================================================
+# Target rules for targets named test_exact_solution
+
+# Build rule for target.
+test_exact_solution: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_exact_solution
+.PHONY : test_exact_solution
+
+# fast build rule for target.
+test_exact_solution/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/build
+.PHONY : test_exact_solution/fast
+
+#=============================================================================
+# Target rules for targets named test_experimental_means
+
+# Build rule for target.
+test_experimental_means: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_experimental_means
+.PHONY : test_experimental_means
+
+# fast build rule for target.
+test_experimental_means/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/build
+.PHONY : test_experimental_means/fast
+
+#=============================================================================
+# Target rules for targets named test_forwardmethod
+
+# Build rule for target.
+test_forwardmethod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_forwardmethod
+.PHONY : test_forwardmethod
+
+# fast build rule for target.
+test_forwardmethod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/build
+.PHONY : test_forwardmethod/fast
+
+#=============================================================================
+# Target rules for targets named test_initial_guess
+
+# Build rule for target.
+test_initial_guess: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_initial_guess
+.PHONY : test_initial_guess
+
+# fast build rule for target.
+test_initial_guess/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/build
+.PHONY : test_initial_guess/fast
+
+#=============================================================================
+# Target rules for targets named test_metropolis
+
+# Build rule for target.
+test_metropolis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_metropolis
+.PHONY : test_metropolis
+
+# fast build rule for target.
+test_metropolis/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/build
+.PHONY : test_metropolis/fast
+
+#=============================================================================
+# Target rules for targets named test_network
+
+# Build rule for target.
+test_network: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_network
+.PHONY : test_network
+
+# fast build rule for target.
+test_network/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/build
+.PHONY : test_network/fast
+
+#=============================================================================
+# Target rules for targets named test_read_input_json
+
+# Build rule for target.
+test_read_input_json: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_read_input_json
+.PHONY : test_read_input_json
+
+# fast build rule for target.
+test_read_input_json/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/build
+.PHONY : test_read_input_json/fast
+
+#=============================================================================
+# Target rules for targets named test_read_json
+
+# Build rule for target.
+test_read_json: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_read_json
+.PHONY : test_read_json
+
+# fast build rule for target.
+test_read_json/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/build
+.PHONY : test_read_json/fast
+
+#=============================================================================
+# Target rules for targets named test_salvardados
+
+# Build rule for target.
+test_salvardados: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_salvardados
+.PHONY : test_salvardados
+
+# fast build rule for target.
+test_salvardados/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/build
+.PHONY : test_salvardados/fast
+
+#=============================================================================
+# Target rules for targets named test_write_json
+
+# Build rule for target.
+test_write_json: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_write_json
+.PHONY : test_write_json
+
+# fast build rule for target.
+test_write_json/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/build
+.PHONY : test_write_json/fast
+
 src/energy.o: src/energy.cpp.o
 .PHONY : src/energy.o
 
 # target to build an object file
 src/energy.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/energy.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/energy.cpp.o
 .PHONY : src/energy.cpp.o
 
 src/energy.i: src/energy.cpp.i
@@ -143,6 +307,17 @@ src/energy.i: src/energy.cpp.i
 # target to preprocess a source file
 src/energy.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/energy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/energy.cpp.i
 .PHONY : src/energy.cpp.i
 
 src/energy.s: src/energy.cpp.s
@@ -151,6 +326,17 @@ src/energy.s: src/energy.cpp.s
 # target to generate assembly for a file
 src/energy.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/energy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/energy.cpp.s
 .PHONY : src/energy.cpp.s
 
 src/exact_solution.o: src/exact_solution.cpp.o
@@ -159,6 +345,17 @@ src/exact_solution.o: src/exact_solution.cpp.o
 # target to build an object file
 src/exact_solution.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/exact_solution.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/exact_solution.cpp.o
 .PHONY : src/exact_solution.cpp.o
 
 src/exact_solution.i: src/exact_solution.cpp.i
@@ -167,6 +364,17 @@ src/exact_solution.i: src/exact_solution.cpp.i
 # target to preprocess a source file
 src/exact_solution.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/exact_solution.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/exact_solution.cpp.i
 .PHONY : src/exact_solution.cpp.i
 
 src/exact_solution.s: src/exact_solution.cpp.s
@@ -175,6 +383,17 @@ src/exact_solution.s: src/exact_solution.cpp.s
 # target to generate assembly for a file
 src/exact_solution.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/exact_solution.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/exact_solution.cpp.s
 .PHONY : src/exact_solution.cpp.s
 
 src/experimental_means.o: src/experimental_means.cpp.o
@@ -183,6 +402,17 @@ src/experimental_means.o: src/experimental_means.cpp.o
 # target to build an object file
 src/experimental_means.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/experimental_means.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/experimental_means.cpp.o
 .PHONY : src/experimental_means.cpp.o
 
 src/experimental_means.i: src/experimental_means.cpp.i
@@ -191,6 +421,17 @@ src/experimental_means.i: src/experimental_means.cpp.i
 # target to preprocess a source file
 src/experimental_means.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/experimental_means.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/experimental_means.cpp.i
 .PHONY : src/experimental_means.cpp.i
 
 src/experimental_means.s: src/experimental_means.cpp.s
@@ -199,6 +440,17 @@ src/experimental_means.s: src/experimental_means.cpp.s
 # target to generate assembly for a file
 src/experimental_means.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/experimental_means.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/experimental_means.cpp.s
 .PHONY : src/experimental_means.cpp.s
 
 src/forwardmethod.o: src/forwardmethod.cpp.o
@@ -207,6 +459,17 @@ src/forwardmethod.o: src/forwardmethod.cpp.o
 # target to build an object file
 src/forwardmethod.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/forwardmethod.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/forwardmethod.cpp.o
 .PHONY : src/forwardmethod.cpp.o
 
 src/forwardmethod.i: src/forwardmethod.cpp.i
@@ -215,6 +478,17 @@ src/forwardmethod.i: src/forwardmethod.cpp.i
 # target to preprocess a source file
 src/forwardmethod.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/forwardmethod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/forwardmethod.cpp.i
 .PHONY : src/forwardmethod.cpp.i
 
 src/forwardmethod.s: src/forwardmethod.cpp.s
@@ -223,6 +497,17 @@ src/forwardmethod.s: src/forwardmethod.cpp.s
 # target to generate assembly for a file
 src/forwardmethod.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/forwardmethod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/forwardmethod.cpp.s
 .PHONY : src/forwardmethod.cpp.s
 
 src/initial_guess.o: src/initial_guess.cpp.o
@@ -231,6 +516,17 @@ src/initial_guess.o: src/initial_guess.cpp.o
 # target to build an object file
 src/initial_guess.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/initial_guess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/initial_guess.cpp.o
 .PHONY : src/initial_guess.cpp.o
 
 src/initial_guess.i: src/initial_guess.cpp.i
@@ -239,6 +535,17 @@ src/initial_guess.i: src/initial_guess.cpp.i
 # target to preprocess a source file
 src/initial_guess.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/initial_guess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/initial_guess.cpp.i
 .PHONY : src/initial_guess.cpp.i
 
 src/initial_guess.s: src/initial_guess.cpp.s
@@ -247,6 +554,17 @@ src/initial_guess.s: src/initial_guess.cpp.s
 # target to generate assembly for a file
 src/initial_guess.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/initial_guess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/initial_guess.cpp.s
 .PHONY : src/initial_guess.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -279,6 +597,17 @@ src/metropolis.o: src/metropolis.cpp.o
 # target to build an object file
 src/metropolis.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/metropolis.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/metropolis.cpp.o
 .PHONY : src/metropolis.cpp.o
 
 src/metropolis.i: src/metropolis.cpp.i
@@ -287,6 +616,17 @@ src/metropolis.i: src/metropolis.cpp.i
 # target to preprocess a source file
 src/metropolis.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/metropolis.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/metropolis.cpp.i
 .PHONY : src/metropolis.cpp.i
 
 src/metropolis.s: src/metropolis.cpp.s
@@ -295,6 +635,17 @@ src/metropolis.s: src/metropolis.cpp.s
 # target to generate assembly for a file
 src/metropolis.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/metropolis.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/metropolis.cpp.s
 .PHONY : src/metropolis.cpp.s
 
 src/network.o: src/network.cpp.o
@@ -303,6 +654,17 @@ src/network.o: src/network.cpp.o
 # target to build an object file
 src/network.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/network.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/network.cpp.o
 .PHONY : src/network.cpp.o
 
 src/network.i: src/network.cpp.i
@@ -311,6 +673,17 @@ src/network.i: src/network.cpp.i
 # target to preprocess a source file
 src/network.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/network.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/network.cpp.i
 .PHONY : src/network.cpp.i
 
 src/network.s: src/network.cpp.s
@@ -319,6 +692,17 @@ src/network.s: src/network.cpp.s
 # target to generate assembly for a file
 src/network.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/network.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/network.cpp.s
 .PHONY : src/network.cpp.s
 
 src/read_input_json.o: src/read_input_json.cpp.o
@@ -327,6 +711,17 @@ src/read_input_json.o: src/read_input_json.cpp.o
 # target to build an object file
 src/read_input_json.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/read_input_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/read_input_json.cpp.o
 .PHONY : src/read_input_json.cpp.o
 
 src/read_input_json.i: src/read_input_json.cpp.i
@@ -335,6 +730,17 @@ src/read_input_json.i: src/read_input_json.cpp.i
 # target to preprocess a source file
 src/read_input_json.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/read_input_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/read_input_json.cpp.i
 .PHONY : src/read_input_json.cpp.i
 
 src/read_input_json.s: src/read_input_json.cpp.s
@@ -343,6 +749,17 @@ src/read_input_json.s: src/read_input_json.cpp.s
 # target to generate assembly for a file
 src/read_input_json.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/read_input_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/read_input_json.cpp.s
 .PHONY : src/read_input_json.cpp.s
 
 src/read_json.o: src/read_json.cpp.o
@@ -351,6 +768,17 @@ src/read_json.o: src/read_json.cpp.o
 # target to build an object file
 src/read_json.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/read_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/read_json.cpp.o
 .PHONY : src/read_json.cpp.o
 
 src/read_json.i: src/read_json.cpp.i
@@ -359,6 +787,17 @@ src/read_json.i: src/read_json.cpp.i
 # target to preprocess a source file
 src/read_json.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/read_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/read_json.cpp.i
 .PHONY : src/read_json.cpp.i
 
 src/read_json.s: src/read_json.cpp.s
@@ -367,6 +806,17 @@ src/read_json.s: src/read_json.cpp.s
 # target to generate assembly for a file
 src/read_json.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/read_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/read_json.cpp.s
 .PHONY : src/read_json.cpp.s
 
 src/salvardados.o: src/salvardados.cpp.o
@@ -375,6 +825,17 @@ src/salvardados.o: src/salvardados.cpp.o
 # target to build an object file
 src/salvardados.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/salvardados.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/salvardados.cpp.o
 .PHONY : src/salvardados.cpp.o
 
 src/salvardados.i: src/salvardados.cpp.i
@@ -383,6 +844,17 @@ src/salvardados.i: src/salvardados.cpp.i
 # target to preprocess a source file
 src/salvardados.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/salvardados.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/salvardados.cpp.i
 .PHONY : src/salvardados.cpp.i
 
 src/salvardados.s: src/salvardados.cpp.s
@@ -391,6 +863,17 @@ src/salvardados.s: src/salvardados.cpp.s
 # target to generate assembly for a file
 src/salvardados.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/salvardados.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/salvardados.cpp.s
 .PHONY : src/salvardados.cpp.s
 
 src/write_json.o: src/write_json.cpp.o
@@ -399,6 +882,17 @@ src/write_json.o: src/write_json.cpp.o
 # target to build an object file
 src/write_json.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/write_json.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/write_json.cpp.o
 .PHONY : src/write_json.cpp.o
 
 src/write_json.i: src/write_json.cpp.i
@@ -407,6 +901,17 @@ src/write_json.i: src/write_json.cpp.i
 # target to preprocess a source file
 src/write_json.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/write_json.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/write_json.cpp.i
 .PHONY : src/write_json.cpp.i
 
 src/write_json.s: src/write_json.cpp.s
@@ -415,7 +920,282 @@ src/write_json.s: src/write_json.cpp.s
 # target to generate assembly for a file
 src/write_json.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/src/write_json.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/src/write_json.cpp.s
 .PHONY : src/write_json.cpp.s
+
+tests/test_energy.o: tests/test_energy.cpp.o
+.PHONY : tests/test_energy.o
+
+# target to build an object file
+tests/test_energy.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/tests/test_energy.cpp.o
+.PHONY : tests/test_energy.cpp.o
+
+tests/test_energy.i: tests/test_energy.cpp.i
+.PHONY : tests/test_energy.i
+
+# target to preprocess a source file
+tests/test_energy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/tests/test_energy.cpp.i
+.PHONY : tests/test_energy.cpp.i
+
+tests/test_energy.s: tests/test_energy.cpp.s
+.PHONY : tests/test_energy.s
+
+# target to generate assembly for a file
+tests/test_energy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/tests/test_energy.cpp.s
+.PHONY : tests/test_energy.cpp.s
+
+tests/test_exact_solution.o: tests/test_exact_solution.cpp.o
+.PHONY : tests/test_exact_solution.o
+
+# target to build an object file
+tests/test_exact_solution.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/tests/test_exact_solution.cpp.o
+.PHONY : tests/test_exact_solution.cpp.o
+
+tests/test_exact_solution.i: tests/test_exact_solution.cpp.i
+.PHONY : tests/test_exact_solution.i
+
+# target to preprocess a source file
+tests/test_exact_solution.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/tests/test_exact_solution.cpp.i
+.PHONY : tests/test_exact_solution.cpp.i
+
+tests/test_exact_solution.s: tests/test_exact_solution.cpp.s
+.PHONY : tests/test_exact_solution.s
+
+# target to generate assembly for a file
+tests/test_exact_solution.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/tests/test_exact_solution.cpp.s
+.PHONY : tests/test_exact_solution.cpp.s
+
+tests/test_experimental_means.o: tests/test_experimental_means.cpp.o
+.PHONY : tests/test_experimental_means.o
+
+# target to build an object file
+tests/test_experimental_means.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/tests/test_experimental_means.cpp.o
+.PHONY : tests/test_experimental_means.cpp.o
+
+tests/test_experimental_means.i: tests/test_experimental_means.cpp.i
+.PHONY : tests/test_experimental_means.i
+
+# target to preprocess a source file
+tests/test_experimental_means.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/tests/test_experimental_means.cpp.i
+.PHONY : tests/test_experimental_means.cpp.i
+
+tests/test_experimental_means.s: tests/test_experimental_means.cpp.s
+.PHONY : tests/test_experimental_means.s
+
+# target to generate assembly for a file
+tests/test_experimental_means.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/tests/test_experimental_means.cpp.s
+.PHONY : tests/test_experimental_means.cpp.s
+
+tests/test_forwardmethod.o: tests/test_forwardmethod.cpp.o
+.PHONY : tests/test_forwardmethod.o
+
+# target to build an object file
+tests/test_forwardmethod.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/tests/test_forwardmethod.cpp.o
+.PHONY : tests/test_forwardmethod.cpp.o
+
+tests/test_forwardmethod.i: tests/test_forwardmethod.cpp.i
+.PHONY : tests/test_forwardmethod.i
+
+# target to preprocess a source file
+tests/test_forwardmethod.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/tests/test_forwardmethod.cpp.i
+.PHONY : tests/test_forwardmethod.cpp.i
+
+tests/test_forwardmethod.s: tests/test_forwardmethod.cpp.s
+.PHONY : tests/test_forwardmethod.s
+
+# target to generate assembly for a file
+tests/test_forwardmethod.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/tests/test_forwardmethod.cpp.s
+.PHONY : tests/test_forwardmethod.cpp.s
+
+tests/test_initial_guess.o: tests/test_initial_guess.cpp.o
+.PHONY : tests/test_initial_guess.o
+
+# target to build an object file
+tests/test_initial_guess.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/tests/test_initial_guess.cpp.o
+.PHONY : tests/test_initial_guess.cpp.o
+
+tests/test_initial_guess.i: tests/test_initial_guess.cpp.i
+.PHONY : tests/test_initial_guess.i
+
+# target to preprocess a source file
+tests/test_initial_guess.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/tests/test_initial_guess.cpp.i
+.PHONY : tests/test_initial_guess.cpp.i
+
+tests/test_initial_guess.s: tests/test_initial_guess.cpp.s
+.PHONY : tests/test_initial_guess.s
+
+# target to generate assembly for a file
+tests/test_initial_guess.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/tests/test_initial_guess.cpp.s
+.PHONY : tests/test_initial_guess.cpp.s
+
+tests/test_metropolis.o: tests/test_metropolis.cpp.o
+.PHONY : tests/test_metropolis.o
+
+# target to build an object file
+tests/test_metropolis.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/tests/test_metropolis.cpp.o
+.PHONY : tests/test_metropolis.cpp.o
+
+tests/test_metropolis.i: tests/test_metropolis.cpp.i
+.PHONY : tests/test_metropolis.i
+
+# target to preprocess a source file
+tests/test_metropolis.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/tests/test_metropolis.cpp.i
+.PHONY : tests/test_metropolis.cpp.i
+
+tests/test_metropolis.s: tests/test_metropolis.cpp.s
+.PHONY : tests/test_metropolis.s
+
+# target to generate assembly for a file
+tests/test_metropolis.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/tests/test_metropolis.cpp.s
+.PHONY : tests/test_metropolis.cpp.s
+
+tests/test_network.o: tests/test_network.cpp.o
+.PHONY : tests/test_network.o
+
+# target to build an object file
+tests/test_network.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/tests/test_network.cpp.o
+.PHONY : tests/test_network.cpp.o
+
+tests/test_network.i: tests/test_network.cpp.i
+.PHONY : tests/test_network.i
+
+# target to preprocess a source file
+tests/test_network.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/tests/test_network.cpp.i
+.PHONY : tests/test_network.cpp.i
+
+tests/test_network.s: tests/test_network.cpp.s
+.PHONY : tests/test_network.s
+
+# target to generate assembly for a file
+tests/test_network.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/tests/test_network.cpp.s
+.PHONY : tests/test_network.cpp.s
+
+tests/test_read_input_json.o: tests/test_read_input_json.cpp.o
+.PHONY : tests/test_read_input_json.o
+
+# target to build an object file
+tests/test_read_input_json.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/tests/test_read_input_json.cpp.o
+.PHONY : tests/test_read_input_json.cpp.o
+
+tests/test_read_input_json.i: tests/test_read_input_json.cpp.i
+.PHONY : tests/test_read_input_json.i
+
+# target to preprocess a source file
+tests/test_read_input_json.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/tests/test_read_input_json.cpp.i
+.PHONY : tests/test_read_input_json.cpp.i
+
+tests/test_read_input_json.s: tests/test_read_input_json.cpp.s
+.PHONY : tests/test_read_input_json.s
+
+# target to generate assembly for a file
+tests/test_read_input_json.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/tests/test_read_input_json.cpp.s
+.PHONY : tests/test_read_input_json.cpp.s
+
+tests/test_read_json.o: tests/test_read_json.cpp.o
+.PHONY : tests/test_read_json.o
+
+# target to build an object file
+tests/test_read_json.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/tests/test_read_json.cpp.o
+.PHONY : tests/test_read_json.cpp.o
+
+tests/test_read_json.i: tests/test_read_json.cpp.i
+.PHONY : tests/test_read_json.i
+
+# target to preprocess a source file
+tests/test_read_json.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/tests/test_read_json.cpp.i
+.PHONY : tests/test_read_json.cpp.i
+
+tests/test_read_json.s: tests/test_read_json.cpp.s
+.PHONY : tests/test_read_json.s
+
+# target to generate assembly for a file
+tests/test_read_json.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/tests/test_read_json.cpp.s
+.PHONY : tests/test_read_json.cpp.s
+
+tests/test_salvardados.o: tests/test_salvardados.cpp.o
+.PHONY : tests/test_salvardados.o
+
+# target to build an object file
+tests/test_salvardados.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/tests/test_salvardados.cpp.o
+.PHONY : tests/test_salvardados.cpp.o
+
+tests/test_salvardados.i: tests/test_salvardados.cpp.i
+.PHONY : tests/test_salvardados.i
+
+# target to preprocess a source file
+tests/test_salvardados.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/tests/test_salvardados.cpp.i
+.PHONY : tests/test_salvardados.cpp.i
+
+tests/test_salvardados.s: tests/test_salvardados.cpp.s
+.PHONY : tests/test_salvardados.s
+
+# target to generate assembly for a file
+tests/test_salvardados.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/tests/test_salvardados.cpp.s
+.PHONY : tests/test_salvardados.cpp.s
+
+tests/test_write_json.o: tests/test_write_json.cpp.o
+.PHONY : tests/test_write_json.o
+
+# target to build an object file
+tests/test_write_json.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/tests/test_write_json.cpp.o
+.PHONY : tests/test_write_json.cpp.o
+
+tests/test_write_json.i: tests/test_write_json.cpp.i
+.PHONY : tests/test_write_json.i
+
+# target to preprocess a source file
+tests/test_write_json.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/tests/test_write_json.cpp.i
+.PHONY : tests/test_write_json.cpp.i
+
+tests/test_write_json.s: tests/test_write_json.cpp.s
+.PHONY : tests/test_write_json.s
+
+# target to generate assembly for a file
+tests/test_write_json.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/tests/test_write_json.cpp.s
+.PHONY : tests/test_write_json.cpp.s
 
 # Help Target
 help:
@@ -425,7 +1205,19 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... bmc"
+	@echo "... test_energy"
+	@echo "... test_exact_solution"
+	@echo "... test_experimental_means"
+	@echo "... test_forwardmethod"
+	@echo "... test_initial_guess"
+	@echo "... test_metropolis"
+	@echo "... test_network"
+	@echo "... test_read_input_json"
+	@echo "... test_read_json"
+	@echo "... test_salvardados"
+	@echo "... test_write_json"
 	@echo "... src/energy.o"
 	@echo "... src/energy.i"
 	@echo "... src/energy.s"
@@ -462,6 +1254,39 @@ help:
 	@echo "... src/write_json.o"
 	@echo "... src/write_json.i"
 	@echo "... src/write_json.s"
+	@echo "... tests/test_energy.o"
+	@echo "... tests/test_energy.i"
+	@echo "... tests/test_energy.s"
+	@echo "... tests/test_exact_solution.o"
+	@echo "... tests/test_exact_solution.i"
+	@echo "... tests/test_exact_solution.s"
+	@echo "... tests/test_experimental_means.o"
+	@echo "... tests/test_experimental_means.i"
+	@echo "... tests/test_experimental_means.s"
+	@echo "... tests/test_forwardmethod.o"
+	@echo "... tests/test_forwardmethod.i"
+	@echo "... tests/test_forwardmethod.s"
+	@echo "... tests/test_initial_guess.o"
+	@echo "... tests/test_initial_guess.i"
+	@echo "... tests/test_initial_guess.s"
+	@echo "... tests/test_metropolis.o"
+	@echo "... tests/test_metropolis.i"
+	@echo "... tests/test_metropolis.s"
+	@echo "... tests/test_network.o"
+	@echo "... tests/test_network.i"
+	@echo "... tests/test_network.s"
+	@echo "... tests/test_read_input_json.o"
+	@echo "... tests/test_read_input_json.i"
+	@echo "... tests/test_read_input_json.s"
+	@echo "... tests/test_read_json.o"
+	@echo "... tests/test_read_json.i"
+	@echo "... tests/test_read_json.s"
+	@echo "... tests/test_salvardados.o"
+	@echo "... tests/test_salvardados.i"
+	@echo "... tests/test_salvardados.s"
+	@echo "... tests/test_write_json.o"
+	@echo "... tests/test_write_json.i"
+	@echo "... tests/test_write_json.s"
 .PHONY : help
 
 

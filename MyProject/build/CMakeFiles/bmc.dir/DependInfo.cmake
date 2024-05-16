@@ -8,8 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/media/junior/home/BoltzmannMachine/MyProject/src/main.cpp" "CMakeFiles/bmc.dir/src/main.cpp.o" "gcc" "CMakeFiles/bmc.dir/src/main.cpp.o.d"
-  "/media/junior/home/BoltzmannMachine/MyProject/src/my_code.cpp" "CMakeFiles/bmc.dir/src/my_code.cpp.o" "gcc" "CMakeFiles/bmc.dir/src/my_code.cpp.o.d"
+  "/home/junior/Documents/BoltzmannMachine/MyProject/src/add.cpp" "CMakeFiles/bmc.dir/src/add.cpp.o" "gcc" "CMakeFiles/bmc.dir/src/add.cpp.o.d"
+  "/home/junior/Documents/BoltzmannMachine/MyProject/src/dif.cpp" "CMakeFiles/bmc.dir/src/dif.cpp.o" "gcc" "CMakeFiles/bmc.dir/src/dif.cpp.o.d"
+  "/home/junior/Documents/BoltzmannMachine/MyProject/src/main.cpp" "CMakeFiles/bmc.dir/src/main.cpp.o" "gcc" "CMakeFiles/bmc.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links.

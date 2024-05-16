@@ -1,7 +1,7 @@
 CMakeFiles/bmc.dir/src/write_json.cpp.o: \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/write_json.cpp \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/write_json.cpp \
  /usr/include/stdc-predef.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/write_json.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/write_json.h \
  /usr/include/nlohmann/json.hpp /usr/include/c++/11/algorithm \
  /usr/include/c++/11/utility \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
@@ -253,14 +253,15 @@ CMakeFiles/bmc.dir/src/write_json.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
  /usr/include/libintl.h /usr/include/c++/11/bits/codecvt.h \
  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
- /usr/include/c++/11/bits/locale_conv.h /usr/include/c++/11/sstream \
+ /usr/include/c++/11/bits/locale_conv.h \
+ /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/sstream \
  /usr/include/c++/11/bits/sstream.tcc \
  /usr/include/nlohmann/detail/conversions/to_chars.hpp \
  /usr/include/nlohmann/ordered_map.hpp \
  /usr/include/nlohmann/detail/macro_unscope.hpp \
  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/network.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/nr3.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/network.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/nr3.h \
  /usr/include/c++/11/fstream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
@@ -272,12 +273,16 @@ CMakeFiles/bmc.dir/src/write_json.cpp.o: \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl2.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/logger.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/logger.h \
  /usr/include/spdlog/spdlog.h /usr/include/spdlog/common.h \
  /usr/include/spdlog/tweakme.h /usr/include/spdlog/details/null_mutex.h \
  /usr/include/c++/11/atomic /usr/include/c++/11/chrono \
  /usr/include/c++/11/ratio /usr/include/c++/11/bits/parse_numbers.h \
  /usr/include/spdlog/fmt/fmt.h /usr/include/fmt/core.h \
+ /usr/include/c++/11/experimental/string_view \
+ /usr/include/c++/11/bits/ranges_base.h \
+ /usr/include/c++/11/experimental/bits/lfts_config.h \
+ /usr/include/c++/11/experimental/bits/string_view.tcc \
  /usr/include/fmt/format.h /usr/include/fmt/core.h \
  /usr/include/spdlog/details/registry.h /usr/include/c++/11/mutex \
  /usr/include/c++/11/bits/std_mutex.h \

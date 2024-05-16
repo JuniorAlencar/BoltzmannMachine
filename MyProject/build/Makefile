@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/junior/home/BoltzmannMachine/MyProject
+CMAKE_SOURCE_DIR = /home/junior/Documents/BoltzmannMachine/MyProject
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/junior/home/BoltzmannMachine/MyProject/build
+CMAKE_BINARY_DIR = /home/junior/Documents/BoltzmannMachine/MyProject/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,9 +97,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles /media/junior/home/BoltzmannMachine/MyProject/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles /home/junior/Documents/BoltzmannMachine/MyProject/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -140,17 +140,90 @@ bmc/fast:
 .PHONY : bmc/fast
 
 #=============================================================================
-# Target rules for targets named runTests
+# Target rules for targets named test_add
 
 # Build rule for target.
-runTests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 runTests
-.PHONY : runTests
+test_add: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_add
+.PHONY : test_add
 
 # fast build rule for target.
-runTests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/build
-.PHONY : runTests/fast
+test_add/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/build
+.PHONY : test_add/fast
+
+#=============================================================================
+# Target rules for targets named test_dif
+
+# Build rule for target.
+test_dif: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_dif
+.PHONY : test_dif
+
+# fast build rule for target.
+test_dif/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/build
+.PHONY : test_dif/fast
+
+src/add.o: src/add.cpp.o
+.PHONY : src/add.o
+
+# target to build an object file
+src/add.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/add.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/src/add.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/src/add.cpp.o
+.PHONY : src/add.cpp.o
+
+src/add.i: src/add.cpp.i
+.PHONY : src/add.i
+
+# target to preprocess a source file
+src/add.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/add.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/src/add.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/src/add.cpp.i
+.PHONY : src/add.cpp.i
+
+src/add.s: src/add.cpp.s
+.PHONY : src/add.s
+
+# target to generate assembly for a file
+src/add.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/add.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/src/add.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/src/add.cpp.s
+.PHONY : src/add.cpp.s
+
+src/dif.o: src/dif.cpp.o
+.PHONY : src/dif.o
+
+# target to build an object file
+src/dif.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/dif.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/src/dif.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/src/dif.cpp.o
+.PHONY : src/dif.cpp.o
+
+src/dif.i: src/dif.cpp.i
+.PHONY : src/dif.i
+
+# target to preprocess a source file
+src/dif.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/dif.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/src/dif.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/src/dif.cpp.i
+.PHONY : src/dif.cpp.i
+
+src/dif.s: src/dif.cpp.s
+.PHONY : src/dif.s
+
+# target to generate assembly for a file
+src/dif.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/dif.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/src/dif.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/src/dif.cpp.s
+.PHONY : src/dif.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -176,53 +249,53 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/my_code.o: src/my_code.cpp.o
-.PHONY : src/my_code.o
+tests/test_add.o: tests/test_add.cpp.o
+.PHONY : tests/test_add.o
 
 # target to build an object file
-src/my_code.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/my_code.cpp.o
-.PHONY : src/my_code.cpp.o
+tests/test_add.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/tests/test_add.cpp.o
+.PHONY : tests/test_add.cpp.o
 
-src/my_code.i: src/my_code.cpp.i
-.PHONY : src/my_code.i
+tests/test_add.i: tests/test_add.cpp.i
+.PHONY : tests/test_add.i
 
 # target to preprocess a source file
-src/my_code.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/my_code.cpp.i
-.PHONY : src/my_code.cpp.i
+tests/test_add.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/tests/test_add.cpp.i
+.PHONY : tests/test_add.cpp.i
 
-src/my_code.s: src/my_code.cpp.s
-.PHONY : src/my_code.s
+tests/test_add.s: tests/test_add.cpp.s
+.PHONY : tests/test_add.s
 
 # target to generate assembly for a file
-src/my_code.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/src/my_code.cpp.s
-.PHONY : src/my_code.cpp.s
+tests/test_add.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/tests/test_add.cpp.s
+.PHONY : tests/test_add.cpp.s
 
-tests/test_my_code.o: tests/test_my_code.cpp.o
-.PHONY : tests/test_my_code.o
+tests/test_dif.o: tests/test_dif.cpp.o
+.PHONY : tests/test_dif.o
 
 # target to build an object file
-tests/test_my_code.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/tests/test_my_code.cpp.o
-.PHONY : tests/test_my_code.cpp.o
+tests/test_dif.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/tests/test_dif.cpp.o
+.PHONY : tests/test_dif.cpp.o
 
-tests/test_my_code.i: tests/test_my_code.cpp.i
-.PHONY : tests/test_my_code.i
+tests/test_dif.i: tests/test_dif.cpp.i
+.PHONY : tests/test_dif.i
 
 # target to preprocess a source file
-tests/test_my_code.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/tests/test_my_code.cpp.i
-.PHONY : tests/test_my_code.cpp.i
+tests/test_dif.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/tests/test_dif.cpp.i
+.PHONY : tests/test_dif.cpp.i
 
-tests/test_my_code.s: tests/test_my_code.cpp.s
-.PHONY : tests/test_my_code.s
+tests/test_dif.s: tests/test_dif.cpp.s
+.PHONY : tests/test_dif.s
 
 # target to generate assembly for a file
-tests/test_my_code.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/tests/test_my_code.cpp.s
-.PHONY : tests/test_my_code.cpp.s
+tests/test_dif.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/tests/test_dif.cpp.s
+.PHONY : tests/test_dif.cpp.s
 
 # Help Target
 help:
@@ -234,16 +307,23 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... bmc"
-	@echo "... runTests"
+	@echo "... test_add"
+	@echo "... test_dif"
+	@echo "... src/add.o"
+	@echo "... src/add.i"
+	@echo "... src/add.s"
+	@echo "... src/dif.o"
+	@echo "... src/dif.i"
+	@echo "... src/dif.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/my_code.o"
-	@echo "... src/my_code.i"
-	@echo "... src/my_code.s"
-	@echo "... tests/test_my_code.o"
-	@echo "... tests/test_my_code.i"
-	@echo "... tests/test_my_code.s"
+	@echo "... tests/test_add.o"
+	@echo "... tests/test_add.i"
+	@echo "... tests/test_add.s"
+	@echo "... tests/test_dif.o"
+	@echo "... tests/test_dif.i"
+	@echo "... tests/test_dif.s"
 .PHONY : help
 
 

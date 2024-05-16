@@ -1,5 +1,5 @@
 CMakeFiles/bmc.dir/src/main.cpp.o: \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/main.cpp \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/main.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/11/ctime \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -256,15 +256,16 @@ CMakeFiles/bmc.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
  /usr/include/libintl.h /usr/include/c++/11/bits/locale_facets_nonio.tcc \
- /usr/include/c++/11/bits/locale_conv.h /usr/include/c++/11/sstream \
+ /usr/include/c++/11/bits/locale_conv.h \
+ /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/sstream \
  /usr/include/c++/11/bits/sstream.tcc \
  /usr/include/nlohmann/detail/conversions/to_chars.hpp \
  /usr/include/nlohmann/ordered_map.hpp \
  /usr/include/nlohmann/detail/macro_unscope.hpp \
  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/exact_solution.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/network.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/nr3.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/exact_solution.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/network.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/nr3.h \
  /usr/include/c++/11/complex /usr/include/c++/11/stdlib.h \
  /usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -272,15 +273,19 @@ CMakeFiles/bmc.dir/src/main.cpp.o: \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl2.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/energy.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/experimental_means.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/forwardmethod.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/logger.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/energy.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/experimental_means.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/forwardmethod.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/logger.h \
  /usr/include/spdlog/spdlog.h /usr/include/spdlog/common.h \
  /usr/include/spdlog/tweakme.h /usr/include/spdlog/details/null_mutex.h \
  /usr/include/c++/11/atomic /usr/include/c++/11/chrono \
  /usr/include/c++/11/ratio /usr/include/c++/11/bits/parse_numbers.h \
  /usr/include/spdlog/fmt/fmt.h /usr/include/fmt/core.h \
+ /usr/include/c++/11/experimental/string_view \
+ /usr/include/c++/11/bits/ranges_base.h \
+ /usr/include/c++/11/experimental/bits/lfts_config.h \
+ /usr/include/c++/11/experimental/bits/string_view.tcc \
  /usr/include/fmt/format.h /usr/include/fmt/core.h \
  /usr/include/spdlog/details/registry.h /usr/include/c++/11/mutex \
  /usr/include/c++/11/bits/std_mutex.h \
@@ -297,7 +302,7 @@ CMakeFiles/bmc.dir/src/main.cpp.o: \
  /usr/include/spdlog/sinks/basic_file_sink.h \
  /usr/include/spdlog/details/file_helper.h \
  /usr/include/spdlog/sinks/base_sink.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/metropolis.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/read_input_json.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/read_json.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/write_json.h
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/metropolis.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/read_input_json.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/read_json.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/write_json.h

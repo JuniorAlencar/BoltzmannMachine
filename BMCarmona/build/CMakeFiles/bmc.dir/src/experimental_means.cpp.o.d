@@ -1,7 +1,7 @@
 CMakeFiles/bmc.dir/src/experimental_means.cpp.o: \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/experimental_means.cpp \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/experimental_means.cpp \
  /usr/include/stdc-predef.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/experimental_means.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/experimental_means.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -167,7 +167,7 @@ CMakeFiles/bmc.dir/src/experimental_means.cpp.o: \
  /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/stl_tempbuf.h \
  /usr/include/c++/11/bits/uniform_int_dist.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/logger.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/logger.h \
  /usr/include/spdlog/spdlog.h /usr/include/spdlog/common.h \
  /usr/include/spdlog/tweakme.h /usr/include/spdlog/details/null_mutex.h \
  /usr/include/c++/11/atomic /usr/include/c++/11/bits/atomic_base.h \
@@ -194,6 +194,10 @@ CMakeFiles/bmc.dir/src/experimental_means.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
  /usr/include/c++/11/iterator /usr/include/c++/11/bits/stream_iterator.h \
+ /usr/include/c++/11/experimental/string_view \
+ /usr/include/c++/11/bits/ranges_base.h \
+ /usr/include/c++/11/experimental/bits/lfts_config.h \
+ /usr/include/c++/11/experimental/bits/string_view.tcc \
  /usr/include/fmt/format.h /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \

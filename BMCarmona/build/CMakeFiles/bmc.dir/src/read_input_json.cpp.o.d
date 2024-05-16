@@ -1,8 +1,8 @@
 CMakeFiles/bmc.dir/src/read_input_json.cpp.o: \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/read_input_json.cpp \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/read_input_json.cpp \
  /usr/include/stdc-predef.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/read_input_json.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/logger.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/read_input_json.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/logger.h \
  /usr/include/spdlog/spdlog.h /usr/include/spdlog/common.h \
  /usr/include/spdlog/tweakme.h /usr/include/spdlog/details/null_mutex.h \
  /usr/include/c++/11/atomic /usr/include/c++/11/bits/atomic_base.h \
@@ -46,13 +46,13 @@ CMakeFiles/bmc.dir/src/read_input_json.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/c++/11/bits/parse_numbers.h /usr/include/c++/11/memory \
+ /usr/include/c++/11/bits/parse_numbers.h \
+ /usr/include/c++/11/ext/numeric_traits.h \
+ /usr/include/c++/11/bits/cpp_type_traits.h \
+ /usr/include/c++/11/ext/type_traits.h /usr/include/c++/11/memory \
  /usr/include/c++/11/bits/stl_algobase.h \
  /usr/include/c++/11/bits/functexcept.h \
  /usr/include/c++/11/bits/exception_defines.h \
- /usr/include/c++/11/bits/cpp_type_traits.h \
- /usr/include/c++/11/ext/type_traits.h \
- /usr/include/c++/11/ext/numeric_traits.h \
  /usr/include/c++/11/bits/stl_iterator_base_types.h \
  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/11/bits/concept_check.h \
@@ -169,6 +169,10 @@ CMakeFiles/bmc.dir/src/read_input_json.cpp.o: \
  /usr/include/c++/11/system_error \
  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
  /usr/include/c++/11/stdexcept /usr/include/c++/11/bits/streambuf.tcc \
+ /usr/include/c++/11/experimental/string_view \
+ /usr/include/c++/11/bits/ranges_base.h \
+ /usr/include/c++/11/experimental/bits/lfts_config.h \
+ /usr/include/c++/11/experimental/bits/string_view.tcc \
  /usr/include/fmt/format.h /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
@@ -273,7 +277,8 @@ CMakeFiles/bmc.dir/src/read_input_json.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
  /usr/include/libintl.h /usr/include/c++/11/bits/codecvt.h \
  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
- /usr/include/c++/11/bits/locale_conv.h /usr/include/c++/11/sstream \
+ /usr/include/c++/11/bits/locale_conv.h \
+ /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/sstream \
  /usr/include/c++/11/bits/sstream.tcc \
  /usr/include/nlohmann/detail/conversions/to_chars.hpp \
  /usr/include/nlohmann/ordered_map.hpp \

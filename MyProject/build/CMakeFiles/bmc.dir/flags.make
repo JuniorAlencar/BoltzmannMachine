@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DFMT_LOCALE -DFMT_SHARED -DSPDLOG_COMPILED_LIB -DSPDLOG_FMT_EXTERNAL -DSPDLOG_SHARED_LIB
 
-CXX_INCLUDES = -I/media/junior/home/BoltzmannMachine/MyProject
+CXX_INCLUDES = -I/home/junior/Documents/BoltzmannMachine/MyProject -I/home/junior/Documents/BoltzmannMachine/MyProject/src
 
-CXX_FLAGS = -O3;-pthread;-lgtest;-lgtest_main -std=gnu++14
+CXX_FLAGS = -O3 -std=gnu++14
 

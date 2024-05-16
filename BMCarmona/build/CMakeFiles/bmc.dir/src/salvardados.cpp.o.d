@@ -1,8 +1,8 @@
 CMakeFiles/bmc.dir/src/salvardados.cpp.o: \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/salvardados.cpp \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/salvardados.cpp \
  /usr/include/stdc-predef.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/network.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/nr3.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/network.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/nr3.h \
  /usr/include/c++/11/fstream /usr/include/c++/11/istream \
  /usr/include/c++/11/ios /usr/include/c++/11/iosfwd \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
@@ -175,7 +175,8 @@ CMakeFiles/bmc.dir/src/salvardados.cpp.o: \
  /usr/include/c++/11/bits/unique_ptr.h /usr/include/c++/11/utility \
  /usr/include/c++/11/bits/stl_relops.h /usr/include/c++/11/tuple \
  /usr/include/c++/11/array /usr/include/c++/11/bits/uses_allocator.h \
- /usr/include/c++/11/bits/invoke.h /usr/include/c++/11/vector \
+ /usr/include/c++/11/bits/invoke.h \
+ /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/vector \
  /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
@@ -190,5 +191,5 @@ CMakeFiles/bmc.dir/src/salvardados.cpp.o: \
  /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/forwardmethod.h \
- /media/junior/home/BoltzmannMachine/BMProgramCarmona/src/energy.h
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/forwardmethod.h \
+ /home/junior/Documents/BoltzmannMachine/BMCarmona/src/energy.h

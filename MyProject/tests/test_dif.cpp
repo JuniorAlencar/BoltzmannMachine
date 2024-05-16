@@ -1,13 +1,12 @@
 #include <gtest/gtest.h>
-#include "../src/my_code.h"
+#include "../src/dif.h"
 
-// Definir um caso de teste
-TEST(AddTest, PositiveNumbers) {
-    EXPECT_EQ(Add(3, 4), 7);
+TEST(DifTest1, NegativeNumbers1) {
+    EXPECT_EQ(Dif(3, 4), -1);
 }
 
-TEST(AddTest, NegativeNumbers) {
-    EXPECT_EQ(Add(-3, -4), -7);
+TEST(DifTest2, NegativeNumbers2) {
+    EXPECT_EQ(Dif(4, 4), 0);
 }
 
 // Ponto de entrada para o executável de testes

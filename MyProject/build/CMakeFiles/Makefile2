@@ -54,17 +54,18 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/junior/home/BoltzmannMachine/MyProject
+CMAKE_SOURCE_DIR = /home/junior/Documents/BoltzmannMachine/MyProject
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/junior/home/BoltzmannMachine/MyProject/build
+CMAKE_BINARY_DIR = /home/junior/Documents/BoltzmannMachine/MyProject/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
 all: CMakeFiles/bmc.dir/all
-all: CMakeFiles/runTests.dir/all
+all: CMakeFiles/test_add.dir/all
+all: CMakeFiles/test_dif.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -73,7 +74,8 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/bmc.dir/clean
-clean: CMakeFiles/runTests.dir/clean
+clean: CMakeFiles/test_add.dir/clean
+clean: CMakeFiles/test_dif.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -83,14 +85,14 @@ clean: CMakeFiles/runTests.dir/clean
 CMakeFiles/bmc.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=1,2,3 "Built target bmc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=1,2,3,4 "Built target bmc"
 .PHONY : CMakeFiles/bmc.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/bmc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/bmc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles 0
 .PHONY : CMakeFiles/bmc.dir/rule
 
 # Convenience name for target.
@@ -103,30 +105,56 @@ CMakeFiles/bmc.dir/clean:
 .PHONY : CMakeFiles/bmc.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/runTests.dir
+# Target rules for target CMakeFiles/test_add.dir
 
 # All Build rule for target.
-CMakeFiles/runTests.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=4,5 "Built target runTests"
-.PHONY : CMakeFiles/runTests.dir/all
+CMakeFiles/test_add.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=5,6,7,8 "Built target test_add"
+.PHONY : CMakeFiles/test_add.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/runTests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/runTests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles 0
-.PHONY : CMakeFiles/runTests.dir/rule
+CMakeFiles/test_add.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_add.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_add.dir/rule
 
 # Convenience name for target.
-runTests: CMakeFiles/runTests.dir/rule
-.PHONY : runTests
+test_add: CMakeFiles/test_add.dir/rule
+.PHONY : test_add
 
 # clean rule for target.
-CMakeFiles/runTests.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runTests.dir/build.make CMakeFiles/runTests.dir/clean
-.PHONY : CMakeFiles/runTests.dir/clean
+CMakeFiles/test_add.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_add.dir/build.make CMakeFiles/test_add.dir/clean
+.PHONY : CMakeFiles/test_add.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_dif.dir
+
+# All Build rule for target.
+CMakeFiles/test_dif.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=9,10,11,12 "Built target test_dif"
+.PHONY : CMakeFiles/test_dif.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_dif.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_dif.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_dif.dir/rule
+
+# Convenience name for target.
+test_dif: CMakeFiles/test_dif.dir/rule
+.PHONY : test_dif
+
+# clean rule for target.
+CMakeFiles/test_dif.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dif.dir/build.make CMakeFiles/test_dif.dir/clean
+.PHONY : CMakeFiles/test_dif.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

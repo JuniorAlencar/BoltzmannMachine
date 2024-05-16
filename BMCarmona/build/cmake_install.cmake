@@ -1,4 +1,4 @@
-# Install script for directory: /media/junior/home/BoltzmannMachine/BMProgramCarmona
+# Install script for directory: /home/junior/Documents/BoltzmannMachine/BMCarmona
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/media/junior/home/BoltzmannMachine/BMProgramCarmona/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/junior/Documents/BoltzmannMachine/BMCarmona/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

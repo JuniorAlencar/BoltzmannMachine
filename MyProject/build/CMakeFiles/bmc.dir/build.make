@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/junior/home/BoltzmannMachine/MyProject
+CMAKE_SOURCE_DIR = /home/junior/Documents/BoltzmannMachine/MyProject
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/junior/home/BoltzmannMachine/MyProject/build
+CMAKE_BINARY_DIR = /home/junior/Documents/BoltzmannMachine/MyProject/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/bmc.dir/depend.make
@@ -72,46 +72,62 @@ include CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/main.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/bmc.dir/src/main.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/bmc.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/main.cpp.o -MF CMakeFiles/bmc.dir/src/main.cpp.o.d -o CMakeFiles/bmc.dir/src/main.cpp.o -c /media/junior/home/BoltzmannMachine/MyProject/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/bmc.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/main.cpp.o -MF CMakeFiles/bmc.dir/src/main.cpp.o.d -o CMakeFiles/bmc.dir/src/main.cpp.o -c /home/junior/Documents/BoltzmannMachine/MyProject/src/main.cpp
 
 CMakeFiles/bmc.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bmc.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/junior/home/BoltzmannMachine/MyProject/src/main.cpp > CMakeFiles/bmc.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junior/Documents/BoltzmannMachine/MyProject/src/main.cpp > CMakeFiles/bmc.dir/src/main.cpp.i
 
 CMakeFiles/bmc.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bmc.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/junior/home/BoltzmannMachine/MyProject/src/main.cpp -o CMakeFiles/bmc.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junior/Documents/BoltzmannMachine/MyProject/src/main.cpp -o CMakeFiles/bmc.dir/src/main.cpp.s
 
-CMakeFiles/bmc.dir/src/my_code.cpp.o: CMakeFiles/bmc.dir/flags.make
-CMakeFiles/bmc.dir/src/my_code.cpp.o: ../src/my_code.cpp
-CMakeFiles/bmc.dir/src/my_code.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/bmc.dir/src/my_code.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/my_code.cpp.o -MF CMakeFiles/bmc.dir/src/my_code.cpp.o.d -o CMakeFiles/bmc.dir/src/my_code.cpp.o -c /media/junior/home/BoltzmannMachine/MyProject/src/my_code.cpp
+CMakeFiles/bmc.dir/src/add.cpp.o: CMakeFiles/bmc.dir/flags.make
+CMakeFiles/bmc.dir/src/add.cpp.o: ../src/add.cpp
+CMakeFiles/bmc.dir/src/add.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/bmc.dir/src/add.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/add.cpp.o -MF CMakeFiles/bmc.dir/src/add.cpp.o.d -o CMakeFiles/bmc.dir/src/add.cpp.o -c /home/junior/Documents/BoltzmannMachine/MyProject/src/add.cpp
 
-CMakeFiles/bmc.dir/src/my_code.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bmc.dir/src/my_code.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/junior/home/BoltzmannMachine/MyProject/src/my_code.cpp > CMakeFiles/bmc.dir/src/my_code.cpp.i
+CMakeFiles/bmc.dir/src/add.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bmc.dir/src/add.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junior/Documents/BoltzmannMachine/MyProject/src/add.cpp > CMakeFiles/bmc.dir/src/add.cpp.i
 
-CMakeFiles/bmc.dir/src/my_code.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bmc.dir/src/my_code.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/junior/home/BoltzmannMachine/MyProject/src/my_code.cpp -o CMakeFiles/bmc.dir/src/my_code.cpp.s
+CMakeFiles/bmc.dir/src/add.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bmc.dir/src/add.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junior/Documents/BoltzmannMachine/MyProject/src/add.cpp -o CMakeFiles/bmc.dir/src/add.cpp.s
+
+CMakeFiles/bmc.dir/src/dif.cpp.o: CMakeFiles/bmc.dir/flags.make
+CMakeFiles/bmc.dir/src/dif.cpp.o: ../src/dif.cpp
+CMakeFiles/bmc.dir/src/dif.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/bmc.dir/src/dif.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/dif.cpp.o -MF CMakeFiles/bmc.dir/src/dif.cpp.o.d -o CMakeFiles/bmc.dir/src/dif.cpp.o -c /home/junior/Documents/BoltzmannMachine/MyProject/src/dif.cpp
+
+CMakeFiles/bmc.dir/src/dif.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bmc.dir/src/dif.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junior/Documents/BoltzmannMachine/MyProject/src/dif.cpp > CMakeFiles/bmc.dir/src/dif.cpp.i
+
+CMakeFiles/bmc.dir/src/dif.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bmc.dir/src/dif.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junior/Documents/BoltzmannMachine/MyProject/src/dif.cpp -o CMakeFiles/bmc.dir/src/dif.cpp.s
 
 # Object files for target bmc
 bmc_OBJECTS = \
 "CMakeFiles/bmc.dir/src/main.cpp.o" \
-"CMakeFiles/bmc.dir/src/my_code.cpp.o"
+"CMakeFiles/bmc.dir/src/add.cpp.o" \
+"CMakeFiles/bmc.dir/src/dif.cpp.o"
 
 # External object files for target bmc
 bmc_EXTERNAL_OBJECTS =
 
 ../bin/bmc: CMakeFiles/bmc.dir/src/main.cpp.o
-../bin/bmc: CMakeFiles/bmc.dir/src/my_code.cpp.o
+../bin/bmc: CMakeFiles/bmc.dir/src/add.cpp.o
+../bin/bmc: CMakeFiles/bmc.dir/src/dif.cpp.o
 ../bin/bmc: CMakeFiles/bmc.dir/build.make
 ../bin/bmc: /usr/lib/x86_64-linux-gnu/libspdlog.so.1.9.2
 ../bin/bmc: /usr/lib/x86_64-linux-gnu/libfmt.so.8.1.1
 ../bin/bmc: CMakeFiles/bmc.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable ../bin/bmc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../bin/bmc"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/bmc.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -123,6 +139,6 @@ CMakeFiles/bmc.dir/clean:
 .PHONY : CMakeFiles/bmc.dir/clean
 
 CMakeFiles/bmc.dir/depend:
-	cd /media/junior/home/BoltzmannMachine/MyProject/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/junior/home/BoltzmannMachine/MyProject /media/junior/home/BoltzmannMachine/MyProject /media/junior/home/BoltzmannMachine/MyProject/build /media/junior/home/BoltzmannMachine/MyProject/build /media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/bmc.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/junior/Documents/BoltzmannMachine/MyProject/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/junior/Documents/BoltzmannMachine/MyProject /home/junior/Documents/BoltzmannMachine/MyProject /home/junior/Documents/BoltzmannMachine/MyProject/build /home/junior/Documents/BoltzmannMachine/MyProject/build /home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles/bmc.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bmc.dir/depend
 

@@ -1,5 +1,6 @@
-/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/bmc.dir
-/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/runTests.dir
-/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/test.dir
-/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/edit_cache.dir
-/media/junior/home/BoltzmannMachine/MyProject/build/CMakeFiles/rebuild_cache.dir
+/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles/bmc.dir
+/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles/test_add.dir
+/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles/test_dif.dir
+/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles/test.dir
+/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles/edit_cache.dir
+/home/junior/Documents/BoltzmannMachine/MyProject/build/CMakeFiles/rebuild_cache.dir
