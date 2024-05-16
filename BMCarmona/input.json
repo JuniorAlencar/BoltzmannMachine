@@ -1,0 +1,21 @@
+{
+    "run_name": "RandomLaser",
+    "input_data": "./Data/dataTeste.dat",
+    "input_init_guess": "./Results/RandomLaser",
+    "output_err": "./Results/err_RandomLaser.csv",
+    "output_data": "./Results/RandomLaser.json",
+    "use_exact": false,
+    "relax": {
+        "iter_display": 100,
+        "iter_max": 100000,
+        "eta_J": 0.5,
+        "eta_h": 1.0,
+        "min_err_S": 0.001,
+        "min_err_SS": 1e-6
+    },
+    "mc": {
+        "n_rep": 50,
+        "t_eq": 3000,
+        "t_meas": 150000
+    }
+}

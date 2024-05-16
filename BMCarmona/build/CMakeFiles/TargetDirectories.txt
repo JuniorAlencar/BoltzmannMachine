@@ -1,0 +1,15 @@
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/bmc.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_energy.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_exact_solution.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_experimental_means.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_forwardmethod.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_initial_guess.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_metropolis.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_network.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_read_input_json.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_read_json.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_salvardados.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_write_json.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/edit_cache.dir
+/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/rebuild_cache.dir
