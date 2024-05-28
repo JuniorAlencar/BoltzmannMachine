@@ -6,10 +6,6 @@
 /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_initial_guess.dir
 /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_metropolis.dir
 /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_network.dir
-/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_read_input_json.dir
-/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_read_json.dir
-/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_salvardados.dir
-/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test_write_json.dir
 /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/test.dir
 /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/edit_cache.dir
 /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles/rebuild_cache.dir

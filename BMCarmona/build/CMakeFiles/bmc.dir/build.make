@@ -83,10 +83,24 @@ CMakeFiles/bmc.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bmc.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junior/Documents/BoltzmannMachine/BMCarmona/src/main.cpp -o CMakeFiles/bmc.dir/src/main.cpp.s
 
+CMakeFiles/bmc.dir/src/benchmark.cpp.o: CMakeFiles/bmc.dir/flags.make
+CMakeFiles/bmc.dir/src/benchmark.cpp.o: ../src/benchmark.cpp
+CMakeFiles/bmc.dir/src/benchmark.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/bmc.dir/src/benchmark.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/benchmark.cpp.o -MF CMakeFiles/bmc.dir/src/benchmark.cpp.o.d -o CMakeFiles/bmc.dir/src/benchmark.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/benchmark.cpp
+
+CMakeFiles/bmc.dir/src/benchmark.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bmc.dir/src/benchmark.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/junior/Documents/BoltzmannMachine/BMCarmona/src/benchmark.cpp > CMakeFiles/bmc.dir/src/benchmark.cpp.i
+
+CMakeFiles/bmc.dir/src/benchmark.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bmc.dir/src/benchmark.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/junior/Documents/BoltzmannMachine/BMCarmona/src/benchmark.cpp -o CMakeFiles/bmc.dir/src/benchmark.cpp.s
+
 CMakeFiles/bmc.dir/src/energy.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/energy.cpp.o: ../src/energy.cpp
 CMakeFiles/bmc.dir/src/energy.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/bmc.dir/src/energy.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/bmc.dir/src/energy.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/energy.cpp.o -MF CMakeFiles/bmc.dir/src/energy.cpp.o.d -o CMakeFiles/bmc.dir/src/energy.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/energy.cpp
 
 CMakeFiles/bmc.dir/src/energy.cpp.i: cmake_force
@@ -100,7 +114,7 @@ CMakeFiles/bmc.dir/src/energy.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/exact_solution.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/exact_solution.cpp.o: ../src/exact_solution.cpp
 CMakeFiles/bmc.dir/src/exact_solution.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/bmc.dir/src/exact_solution.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/bmc.dir/src/exact_solution.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/exact_solution.cpp.o -MF CMakeFiles/bmc.dir/src/exact_solution.cpp.o.d -o CMakeFiles/bmc.dir/src/exact_solution.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/exact_solution.cpp
 
 CMakeFiles/bmc.dir/src/exact_solution.cpp.i: cmake_force
@@ -114,7 +128,7 @@ CMakeFiles/bmc.dir/src/exact_solution.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/experimental_means.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/experimental_means.cpp.o: ../src/experimental_means.cpp
 CMakeFiles/bmc.dir/src/experimental_means.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/bmc.dir/src/experimental_means.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/bmc.dir/src/experimental_means.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/experimental_means.cpp.o -MF CMakeFiles/bmc.dir/src/experimental_means.cpp.o.d -o CMakeFiles/bmc.dir/src/experimental_means.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/experimental_means.cpp
 
 CMakeFiles/bmc.dir/src/experimental_means.cpp.i: cmake_force
@@ -128,7 +142,7 @@ CMakeFiles/bmc.dir/src/experimental_means.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/forwardmethod.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/forwardmethod.cpp.o: ../src/forwardmethod.cpp
 CMakeFiles/bmc.dir/src/forwardmethod.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/bmc.dir/src/forwardmethod.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/bmc.dir/src/forwardmethod.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/forwardmethod.cpp.o -MF CMakeFiles/bmc.dir/src/forwardmethod.cpp.o.d -o CMakeFiles/bmc.dir/src/forwardmethod.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/forwardmethod.cpp
 
 CMakeFiles/bmc.dir/src/forwardmethod.cpp.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/bmc.dir/src/forwardmethod.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/initial_guess.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/initial_guess.cpp.o: ../src/initial_guess.cpp
 CMakeFiles/bmc.dir/src/initial_guess.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/bmc.dir/src/initial_guess.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/bmc.dir/src/initial_guess.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/initial_guess.cpp.o -MF CMakeFiles/bmc.dir/src/initial_guess.cpp.o.d -o CMakeFiles/bmc.dir/src/initial_guess.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/initial_guess.cpp
 
 CMakeFiles/bmc.dir/src/initial_guess.cpp.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/bmc.dir/src/initial_guess.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/metropolis.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/metropolis.cpp.o: ../src/metropolis.cpp
 CMakeFiles/bmc.dir/src/metropolis.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/bmc.dir/src/metropolis.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/bmc.dir/src/metropolis.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/metropolis.cpp.o -MF CMakeFiles/bmc.dir/src/metropolis.cpp.o.d -o CMakeFiles/bmc.dir/src/metropolis.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/metropolis.cpp
 
 CMakeFiles/bmc.dir/src/metropolis.cpp.i: cmake_force
@@ -170,7 +184,7 @@ CMakeFiles/bmc.dir/src/metropolis.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/network.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/network.cpp.o: ../src/network.cpp
 CMakeFiles/bmc.dir/src/network.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/bmc.dir/src/network.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/bmc.dir/src/network.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/network.cpp.o -MF CMakeFiles/bmc.dir/src/network.cpp.o.d -o CMakeFiles/bmc.dir/src/network.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/network.cpp
 
 CMakeFiles/bmc.dir/src/network.cpp.i: cmake_force
@@ -184,7 +198,7 @@ CMakeFiles/bmc.dir/src/network.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/read_input_json.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/read_input_json.cpp.o: ../src/read_input_json.cpp
 CMakeFiles/bmc.dir/src/read_input_json.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/bmc.dir/src/read_input_json.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/bmc.dir/src/read_input_json.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/read_input_json.cpp.o -MF CMakeFiles/bmc.dir/src/read_input_json.cpp.o.d -o CMakeFiles/bmc.dir/src/read_input_json.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/read_input_json.cpp
 
 CMakeFiles/bmc.dir/src/read_input_json.cpp.i: cmake_force
@@ -198,7 +212,7 @@ CMakeFiles/bmc.dir/src/read_input_json.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/read_json.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/read_json.cpp.o: ../src/read_json.cpp
 CMakeFiles/bmc.dir/src/read_json.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/bmc.dir/src/read_json.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/bmc.dir/src/read_json.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/read_json.cpp.o -MF CMakeFiles/bmc.dir/src/read_json.cpp.o.d -o CMakeFiles/bmc.dir/src/read_json.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/read_json.cpp
 
 CMakeFiles/bmc.dir/src/read_json.cpp.i: cmake_force
@@ -212,7 +226,7 @@ CMakeFiles/bmc.dir/src/read_json.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/salvardados.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/salvardados.cpp.o: ../src/salvardados.cpp
 CMakeFiles/bmc.dir/src/salvardados.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/bmc.dir/src/salvardados.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/bmc.dir/src/salvardados.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/salvardados.cpp.o -MF CMakeFiles/bmc.dir/src/salvardados.cpp.o.d -o CMakeFiles/bmc.dir/src/salvardados.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/salvardados.cpp
 
 CMakeFiles/bmc.dir/src/salvardados.cpp.i: cmake_force
@@ -226,7 +240,7 @@ CMakeFiles/bmc.dir/src/salvardados.cpp.s: cmake_force
 CMakeFiles/bmc.dir/src/write_json.cpp.o: CMakeFiles/bmc.dir/flags.make
 CMakeFiles/bmc.dir/src/write_json.cpp.o: ../src/write_json.cpp
 CMakeFiles/bmc.dir/src/write_json.cpp.o: CMakeFiles/bmc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/bmc.dir/src/write_json.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/bmc.dir/src/write_json.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bmc.dir/src/write_json.cpp.o -MF CMakeFiles/bmc.dir/src/write_json.cpp.o.d -o CMakeFiles/bmc.dir/src/write_json.cpp.o -c /home/junior/Documents/BoltzmannMachine/BMCarmona/src/write_json.cpp
 
 CMakeFiles/bmc.dir/src/write_json.cpp.i: cmake_force
@@ -240,6 +254,7 @@ CMakeFiles/bmc.dir/src/write_json.cpp.s: cmake_force
 # Object files for target bmc
 bmc_OBJECTS = \
 "CMakeFiles/bmc.dir/src/main.cpp.o" \
+"CMakeFiles/bmc.dir/src/benchmark.cpp.o" \
 "CMakeFiles/bmc.dir/src/energy.cpp.o" \
 "CMakeFiles/bmc.dir/src/exact_solution.cpp.o" \
 "CMakeFiles/bmc.dir/src/experimental_means.cpp.o" \
@@ -256,6 +271,7 @@ bmc_OBJECTS = \
 bmc_EXTERNAL_OBJECTS =
 
 ../bin/bmc: CMakeFiles/bmc.dir/src/main.cpp.o
+../bin/bmc: CMakeFiles/bmc.dir/src/benchmark.cpp.o
 ../bin/bmc: CMakeFiles/bmc.dir/src/energy.cpp.o
 ../bin/bmc: CMakeFiles/bmc.dir/src/exact_solution.cpp.o
 ../bin/bmc: CMakeFiles/bmc.dir/src/experimental_means.cpp.o
@@ -271,7 +287,7 @@ bmc_EXTERNAL_OBJECTS =
 ../bin/bmc: /usr/lib/x86_64-linux-gnu/libspdlog.so.1.9.2
 ../bin/bmc: /usr/lib/x86_64-linux-gnu/libfmt.so.8.1.1
 ../bin/bmc: CMakeFiles/bmc.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable ../bin/bmc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable ../bin/bmc"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/bmc.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

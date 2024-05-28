@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "../bin/bmc"
   "../bin/bmc.pdb"
+  "CMakeFiles/bmc.dir/src/benchmark.cpp.o"
+  "CMakeFiles/bmc.dir/src/benchmark.cpp.o.d"
   "CMakeFiles/bmc.dir/src/energy.cpp.o"
   "CMakeFiles/bmc.dir/src/energy.cpp.o.d"
   "CMakeFiles/bmc.dir/src/exact_solution.cpp.o"

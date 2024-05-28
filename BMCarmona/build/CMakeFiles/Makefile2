@@ -71,10 +71,6 @@ all: CMakeFiles/test_forwardmethod.dir/all
 all: CMakeFiles/test_initial_guess.dir/all
 all: CMakeFiles/test_metropolis.dir/all
 all: CMakeFiles/test_network.dir/all
-all: CMakeFiles/test_read_input_json.dir/all
-all: CMakeFiles/test_read_json.dir/all
-all: CMakeFiles/test_salvardados.dir/all
-all: CMakeFiles/test_write_json.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -90,10 +86,6 @@ clean: CMakeFiles/test_forwardmethod.dir/clean
 clean: CMakeFiles/test_initial_guess.dir/clean
 clean: CMakeFiles/test_metropolis.dir/clean
 clean: CMakeFiles/test_network.dir/clean
-clean: CMakeFiles/test_read_input_json.dir/clean
-clean: CMakeFiles/test_read_json.dir/clean
-clean: CMakeFiles/test_salvardados.dir/clean
-clean: CMakeFiles/test_write_json.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -103,12 +95,12 @@ clean: CMakeFiles/test_write_json.dir/clean
 CMakeFiles/bmc.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bmc.dir/build.make CMakeFiles/bmc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target bmc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12 "Built target bmc"
 .PHONY : CMakeFiles/bmc.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/bmc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/bmc.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : CMakeFiles/bmc.dir/rule
@@ -129,12 +121,12 @@ CMakeFiles/bmc.dir/clean:
 CMakeFiles/test_energy.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_energy.dir/build.make CMakeFiles/test_energy.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=9,10,11,12,13,14,15,16 "Built target test_energy"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=13,14,15,16,17,18,19,20,21,22,23,24,25 "Built target test_energy"
 .PHONY : CMakeFiles/test_energy.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_energy.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_energy.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_energy.dir/rule
@@ -155,12 +147,12 @@ CMakeFiles/test_energy.dir/clean:
 CMakeFiles/test_exact_solution.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_exact_solution.dir/build.make CMakeFiles/test_exact_solution.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=17,18,19,20,21,22,23,24,25 "Built target test_exact_solution"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=26,27,28,29,30,31,32,33,34,35,36,37 "Built target test_exact_solution"
 .PHONY : CMakeFiles/test_exact_solution.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_exact_solution.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_exact_solution.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_exact_solution.dir/rule
@@ -181,12 +173,12 @@ CMakeFiles/test_exact_solution.dir/clean:
 CMakeFiles/test_experimental_means.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_experimental_means.dir/build.make CMakeFiles/test_experimental_means.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=26,27,28,29,30,31,32,33 "Built target test_experimental_means"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=38,39,40,41,42,43,44,45,46,47,48,49,50 "Built target test_experimental_means"
 .PHONY : CMakeFiles/test_experimental_means.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_experimental_means.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_experimental_means.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_experimental_means.dir/rule
@@ -207,12 +199,12 @@ CMakeFiles/test_experimental_means.dir/clean:
 CMakeFiles/test_forwardmethod.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_forwardmethod.dir/build.make CMakeFiles/test_forwardmethod.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=34,35,36,37,38,39,40,41 "Built target test_forwardmethod"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61,62 "Built target test_forwardmethod"
 .PHONY : CMakeFiles/test_forwardmethod.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_forwardmethod.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_forwardmethod.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_forwardmethod.dir/rule
@@ -233,12 +225,12 @@ CMakeFiles/test_forwardmethod.dir/clean:
 CMakeFiles/test_initial_guess.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_initial_guess.dir/build.make CMakeFiles/test_initial_guess.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=42,43,44,45,46,47,48,49,50 "Built target test_initial_guess"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=63,64,65,66,67,68,69,70,71,72,73,74,75 "Built target test_initial_guess"
 .PHONY : CMakeFiles/test_initial_guess.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_initial_guess.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_initial_guess.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_initial_guess.dir/rule
@@ -259,12 +251,12 @@ CMakeFiles/test_initial_guess.dir/clean:
 CMakeFiles/test_metropolis.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_metropolis.dir/build.make CMakeFiles/test_metropolis.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=51,52,53,54,55,56,57,58 "Built target test_metropolis"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=76,77,78,79,80,81,82,83,84,85,86,87 "Built target test_metropolis"
 .PHONY : CMakeFiles/test_metropolis.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_metropolis.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_metropolis.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_metropolis.dir/rule
@@ -285,12 +277,12 @@ CMakeFiles/test_metropolis.dir/clean:
 CMakeFiles/test_network.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=59,60,61,62,63,64,65,66 "Built target test_network"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=88,89,90,91,92,93,94,95,96,97,98,99,100 "Built target test_network"
 .PHONY : CMakeFiles/test_network.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_network.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_network.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
 .PHONY : CMakeFiles/test_network.dir/rule
@@ -303,110 +295,6 @@ test_network: CMakeFiles/test_network.dir/rule
 CMakeFiles/test_network.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_network.dir/build.make CMakeFiles/test_network.dir/clean
 .PHONY : CMakeFiles/test_network.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_read_input_json.dir
-
-# All Build rule for target.
-CMakeFiles/test_read_input_json.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=67,68,69,70,71,72,73,74,75 "Built target test_read_input_json"
-.PHONY : CMakeFiles/test_read_input_json.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_read_input_json.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_read_input_json.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_read_input_json.dir/rule
-
-# Convenience name for target.
-test_read_input_json: CMakeFiles/test_read_input_json.dir/rule
-.PHONY : test_read_input_json
-
-# clean rule for target.
-CMakeFiles/test_read_input_json.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_input_json.dir/build.make CMakeFiles/test_read_input_json.dir/clean
-.PHONY : CMakeFiles/test_read_input_json.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_read_json.dir
-
-# All Build rule for target.
-CMakeFiles/test_read_json.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=76,77,78,79,80,81,82,83 "Built target test_read_json"
-.PHONY : CMakeFiles/test_read_json.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_read_json.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_read_json.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_read_json.dir/rule
-
-# Convenience name for target.
-test_read_json: CMakeFiles/test_read_json.dir/rule
-.PHONY : test_read_json
-
-# clean rule for target.
-CMakeFiles/test_read_json.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_read_json.dir/build.make CMakeFiles/test_read_json.dir/clean
-.PHONY : CMakeFiles/test_read_json.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_salvardados.dir
-
-# All Build rule for target.
-CMakeFiles/test_salvardados.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=84,85,86,87,88,89,90,91 "Built target test_salvardados"
-.PHONY : CMakeFiles/test_salvardados.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_salvardados.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_salvardados.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_salvardados.dir/rule
-
-# Convenience name for target.
-test_salvardados: CMakeFiles/test_salvardados.dir/rule
-.PHONY : test_salvardados
-
-# clean rule for target.
-CMakeFiles/test_salvardados.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_salvardados.dir/build.make CMakeFiles/test_salvardados.dir/clean
-.PHONY : CMakeFiles/test_salvardados.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_write_json.dir
-
-# All Build rule for target.
-CMakeFiles/test_write_json.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles --progress-num=92,93,94,95,96,97,98,99,100 "Built target test_write_json"
-.PHONY : CMakeFiles/test_write_json.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_write_json.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_write_json.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junior/Documents/BoltzmannMachine/BMCarmona/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_write_json.dir/rule
-
-# Convenience name for target.
-test_write_json: CMakeFiles/test_write_json.dir/rule
-.PHONY : test_write_json
-
-# clean rule for target.
-CMakeFiles/test_write_json.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_write_json.dir/build.make CMakeFiles/test_write_json.dir/clean
-.PHONY : CMakeFiles/test_write_json.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

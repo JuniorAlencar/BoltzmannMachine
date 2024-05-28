@@ -6,25 +6,30 @@
 #include <filesystem>
 #include <numeric>
 #include <nlohmann/json.hpp>
+#include <experimental/filesystem>
 #include <iomanip>  // For std::fixed and std::setprecision
 #include <sstream>  // For std::stringstream
 #include <iostream> // For std::cerr
 #include <unistd.h>
+#include <chrono>
 #include <functional> // For std::function
 #include <tuple> // For std::tuple
 
 using json = nlohmann::json;
-namespace fs = std::filesystem;
+//namespace fs = std::filesystem;
+//namespace fs = std::filesystem;
+namespace fs = std::experimental::filesystem;
+using namespace std;
 
-template<typename Func, typename Args>
-bench_values benchmarkFunction(Func func, const std::string& functionName, Args args) {
+template<typename Func, typename... Args>
+bench_values benchmarkFunction(Func&& func, Args&&... args) {
     struct bench_values banch;
     
     // Start measuring time
     auto start = std::chrono::high_resolution_clock::now();
 
     // Call the function to benchmark
-    func(std::forward<Args>(args)...);
+    CallH<Func, Args...>::call(std::forward<Func>(func), std::forward<Args>(args)...);
 
     // End measuring time
     auto end = std::chrono::high_resolution_clock::now();
@@ -58,8 +63,8 @@ bench_values benchmarkFunction(Func func, const std::string& functionName, Args 
     return banch;
 }
 
-template<typename Func, typename Args>
-void write_json_benchmark(Func func, const std::string& functionName, Args args) {
+template<typename Func, typename... Args>
+void write_json_benchmark(Func&& func, Args&&... args) {
     // Create folder_benchmark---
     
     // Get the name of the .cpp file
@@ -71,6 +76,9 @@ void write_json_benchmark(Func func, const std::string& functionName, Args args)
     // Create the benchmark folder
     fs::create_directories(benchmarkFolder);
     
+    // function_name
+    std::string functionName = FUNCTION_NAME(func);
+
     // Set the benchmark file path
     std::string filename = benchmarkFolder + "/" + executableName + "_" + functionName + ".json";    
     
@@ -96,14 +104,14 @@ void write_json_benchmark(Func func, const std::string& functionName, Args args)
     }
 
     // Call the benchmark function with myFunction as argument
-    auto result = benchmark::benchmarkFunction(func, forward<Args>(args));
+    auto result = benchmark::benchmarkFunction(std::forward<Func>(func), std::forward<Args>(args)...);
 
     // Extract variables
     double timeTaken = std::get<0>(result);
     double memoryUsed = std::get<1>(result);
     
-    std::time_process.push_back(timeTaken);
-    std::memory_usage.push_back(memoryUsed);
+    time_process.push_back(timeTaken);
+    memory_usage.push_back(memoryUsed);
     
     // Number of implementations
     int n = time_process.size();
