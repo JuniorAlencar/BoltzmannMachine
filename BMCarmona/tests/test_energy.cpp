@@ -1,5 +1,8 @@
 #include <gtest/gtest.h>
-#include "../src/energy.h"
+#include "../src/energy.h"    // Energy test
+#include "../src/benchmark.h" // Benchmark calculate
+
+
 // Ponto de entrada para o executável de testes
 
 // // Definir um caso de teste

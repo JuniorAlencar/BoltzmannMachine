@@ -9,6 +9,7 @@
 #include "../src/read_input_json.h"
 #include "../src/read_json.h"
 #include "../src/write_json.h"
+#include "../src/benchmark.h" // Benchmark calculate
 
 // Ponto de entrada para o executável de testes
 // // Definir um caso de teste
