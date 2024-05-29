@@ -3,21 +3,18 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <filesystem>
 #include <numeric>
 #include <nlohmann/json.hpp>
-#include <experimental/filesystem>
+#include <experimental/filesystem> // filesystem to c++14
 #include <iomanip>  // For std::fixed and std::setprecision
 #include <sstream>  // For std::stringstream
 #include <iostream> // For std::cerr
 #include <unistd.h>
-#include <chrono>
+#include <chrono>   // For std::chrono (time process)
 #include <functional> // For std::function
 #include <tuple> // For std::tuple
 
 using json = nlohmann::json;
-//namespace fs = std::filesystem;
-//namespace fs = std::filesystem;
 namespace fs = std::experimental::filesystem;
 using namespace std;
 
@@ -63,6 +60,7 @@ bench_values benchmarkFunction(Func&& func, Args&&... args) {
     return banch;
 }
 
+// Save benchmark values in .json
 template<typename Func, typename... Args>
 void write_json_benchmark(Func&& func, Args&&... args) {
     // Create folder_benchmark---
@@ -103,9 +101,11 @@ void write_json_benchmark(Func&& func, Args&&... args) {
         }
     }
 
+    
+    using BenchmarkType = benchmark<int>;  // Replace 'int' with the appropriate type
     // Call the benchmark function with myFunction as argument
-    auto result = benchmark::benchmarkFunction(std::forward<Func>(func), std::forward<Args>(args)...);
-
+    auto result = BenchmarkType::benchmarkFunction(std::forward<Func>(func), std::forward<Args>(args)...);
+    
     // Extract variables
     double timeTaken = std::get<0>(result);
     double memoryUsed = std::get<1>(result);
@@ -118,7 +118,8 @@ void write_json_benchmark(Func&& func, Args&&... args) {
     // Sum terms of memory and time
     double sum_time = std::accumulate(time_process.begin(), time_process.end(), 0.0);
     double sum_mem = std::accumulate(memory_usage.begin(), memory_usage.end(), 0.0);
-
+    
+    // Avarage of implementations
     double avg_time = sum_time / n;
     double avg_mem = sum_mem / n;
 
@@ -131,13 +132,12 @@ void write_json_benchmark(Func&& func, Args&&... args) {
     // Create JSON object in the desired order
     json j = json::object();
     j["file_test"] = executableName;
-    j["memory_mean(Gb)"] = memory_mean_ss.str();
-    j["memory_usage(Gb)"] = memory_usage;
     j["method"] = functionName;
-    j["num_runs"] = n;
+    j["memory_mean(Gb)"] = memory_mean_ss.str();
     j["time_mean(ms)"] = time_mean_ss.str();
+    j["num_runs"] = n;
+    j["memory_usage(Gb)"] = memory_usage;
     j["time_process(ms)"] = time_process;
-
     
     // Write to the file
     std::ofstream file(filename);

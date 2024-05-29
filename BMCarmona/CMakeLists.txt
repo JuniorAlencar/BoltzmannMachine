@@ -22,7 +22,7 @@ endif()
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Include directories
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # Add source files (excluding main.cpp)
