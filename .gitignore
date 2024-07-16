@@ -1,8 +1,8 @@
-/BM_Program/Results/
-/BMCarmona/Results/
+BM_Program/Results/
+BMCarmona/Results/
 
-/BMCarmona/build/
-/BMCarmona/bin/
-/BMCarmona/logs/
+BMCarmona/build/
+BMCarmona/bin/
+BMCarmona/logs/
 
-/MyProject/build/
+**/build/

@@ -9,37 +9,6 @@
 
 using namespace std;
 
-void read_network(int argc, char *argv[]){
-	string text_input = argv[1];
-
-	int n;
-
-	int cont;
-	int cort = 100;
-	
-	string file_network_name = "../Results/Network/network_" + text_input + ".dat";
-	
-	ifstream network (file_network_name.c_str());
-	
-	network >> n;
-	
-	Rede r(n, 0, 0, 0, 0, 0);
-	
-	for(int i = 0; i < r.nbonds; i++)
-	{
-		network >> r.J[i];
-				
-		if (i < n)
-			network >> r.h[i];
-	
-	}
-	
-	network.close();
-}
-
-
-
-
 int main(int argc, char *argv[]){
 
 
@@ -76,12 +45,10 @@ int main(int argc, char *argv[]){
 //Escala linear
 
 	//variaveis para MC
-	//int t_eq = n*150;
-	int t_eq = 3000;
+	int t_eq = n*150;
 	int relx = 2*n;
-	int rept = 50;
-	//int t_step = n*6000*relx/rept;
-	int t_step = 150000;
+	int rept = 40;
+	int t_step = n*6000*relx/rept;
 
 	bool use_exact = false;
 	
