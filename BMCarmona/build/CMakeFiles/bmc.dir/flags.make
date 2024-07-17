@@ -6,5 +6,5 @@ CXX_DEFINES = -DFMT_LOCALE -DFMT_SHARED -DSPDLOG_COMPILED_LIB -DSPDLOG_FMT_EXTER
 
 CXX_INCLUDES = -I/home/junior/Documents/BoltzmannMachine/BMCarmona/src
 
-CXX_FLAGS = -O3 -std=gnu++14
+CXX_FLAGS = -g -std=gnu++14
 

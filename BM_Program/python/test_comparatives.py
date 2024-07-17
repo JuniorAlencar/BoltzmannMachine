@@ -55,6 +55,10 @@ def test_parms(variavel, N_spins):
         df = pd.read_csv(f"../Results/Comparativo/{variavel}/mag_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
     elif variavel=="Tripleto":
         df = pd.read_csv(f"../Results/Comparativo/{variavel}/Tijk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    elif variavel=="sisjsk":
+        df = pd.read_csv(f"../Results/Comparativo/{variavel}/sisjsk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    elif variavel=="sisj":
+        df = pd.read_csv(f"../Results/Comparativo/{variavel}/sisj_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
     df.columns = ['x','y']
     
     plt.plot(df['x'], df['y'],'o',ms=10,color='red', label='dado')

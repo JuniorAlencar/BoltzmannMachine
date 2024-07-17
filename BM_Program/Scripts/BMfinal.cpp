@@ -113,14 +113,17 @@ int main(int argc, char *argv[]){
 	//int inter_max = atoi(argv[4]);
 	int cort = 1000;
 	int inter = 1;//= inter_ini;
-	int inter_max = 60000;
+	int inter_max = 100000;
 	
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
 
-	// N20 -> 6,5 -> 1 step
-	double min_erro_j = 0.4e-4;
-	double min_erro_h = 0.2e-3;
+	// N30 (j,h) -> (4e-5, 2e-4)
+	// N30 new (j,h) -> (9e-6, 8e-5)
+	
+	// N20 (j,h) -> (6e-7, 5e-6)
+	double min_erro_j = 2.0e-7;
+	double min_erro_h = 2.0e-6;
 
 	bool use_exact = false;
 

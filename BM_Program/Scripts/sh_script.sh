@@ -27,7 +27,7 @@
 
 # Wolrd samples ------------------------------------------------------------------------------------------------
 
-list_name_pop=$(ls ../Data/TidyData/sampleN30.dat)
+list_name_pop=$(ls ../Data/TidyData/sampleN20.dat)
 #list_name_popB=$(ls ../Data/TidyData/importFortalezaN20.dat)
 #list_name_popC=$(ls ../Data/TidyData/importMaracanauN20.dat)
 

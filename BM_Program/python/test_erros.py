@@ -36,6 +36,7 @@ def extract_formatted_values_from_cpp():
     return results
 
 
+
 def erro_parms(parms,N_spins):
     min_values = extract_formatted_values_from_cpp()
 
