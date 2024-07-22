@@ -9,18 +9,10 @@
 #include "./include/forwardmethod.h"
 #include "./include/InverseMethod.h"
 #include "./include/LUdcmp.h"
-#include <boost/filesystem.hpp>
 
 using namespace std;
-namespace fs = boost::filesystem;
 
-// Converter float number to string
-template < typename Type > std::string to_str (const Type & t)
-{
-  std::ostringstream os;
-  os << t;
-  return os.str ();
-}
+
 
 
 int main(int argc, char *argv[]){
@@ -37,119 +29,9 @@ int main(int argc, char *argv[]){
 	//string text_input  = argv[1];
 	//string rede_output = argv[2];
 	string text_name     = argv[1];
-	float min_erro_j = std::stof(argv[2]);
-	float min_erro_h = std::stof(argv[3]);
-	bool test = argv[4];
-
-	// Create folders----------------------------------------------------------------------------------------------------------------------
-	// set filenames
-	char results_folder[50], specificHeat_folder[50], comparative_folder[50], CorrJij_folder[100], Energy_folder[100], 
-		Erro_folder[100], Histogram_folder[100], Mag_Corr_ising_folder[100], Magnetization_vs_T_folder[100], MatrixJij_folder[100],
-		Network_folder[100], PJij_folder[100], SeparateData_folder[100];
 	
-	string results;
-
-	sprintf(results_folder, "../%s", results);
-	sprintf(specificHeat_folder, "%s/specificHeat", results_folder);
-	sprintf(comparative_folder, "%s/comparative", results_folder);
-	sprintf(CorrJij_folder, "%s/corrJij", results_folder);
-	sprintf(Energy_folder, "%s/energy", results_folder);
-	sprintf(Erro_folder, "%s/erro", results_folder);
-	sprintf(Histogram_folder, "%s/histogram", results_folder);
-	sprintf(Mag_Corr_ising_folder, "%s/mag_Corr_ising", results_folder);
-	sprintf(Magnetization_vs_T_folder, "%s/magnetization_vs_T", results_folder);
-	sprintf(MatrixJij_folder, "%s/matrixJij", results_folder);
-	sprintf(Network_folder, "%s/network", results_folder);
-	sprintf(PJij_folder, "%s/PJij", results_folder);
-	sprintf(SeparateData_folder, "%s/SeparateData", results_folder);
-
-	// Create folders
-	fs::create_directories(results_folder);
-	fs::create_directories(specificHeat_folder);
-	fs::create_directories(comparative_folder);
-	fs::create_directories(CorrJij_folder);
-	fs::create_directories(Energy_folder);
-	fs::create_directories(Erro_folder);
-	fs::create_directories(Histogram_folder);
-	fs::create_directories(Mag_Corr_ising_folder);
-	fs::create_directories(Magnetization_vs_T_folder);
-	fs::create_directories(MatrixJij_folder);
-
-
-	// Create subfolders--------------------------------------------------------------------------------------------------------------------
-	// Histogram
-	char hi_folder[50], Jij_folder[50], mi_folder[50], Pij_folder[50], Tijk_folder[50];
-	
-	sprintf(hi_folder, "%s/%s/hi", results_folder, Histogram_folder);
-	sprintf(Jij_folder, "%s/%s/Jij", results_folder, Histogram_folder);
-	sprintf(Pij_folder, "%s/%s/Pij", results_folder, Histogram_folder);
-	sprintf(Tijk_folder, "%s/%s/Tijk", results_folder, Histogram_folder);
-	// Create Folders
-	fs::create_directories(hi_folder);
-	fs::create_directories(Pij_folder);
-	fs::create_directories(mi_folder);
-	fs::create_directories(Tijk_folder);
-
-	// Comparative---------------------------------------------------------------------------------------------------------------------------
-	char correlation_folder[50], covariance_folder[50], magnetization_folder[50], sisj_folder[50], 
-		sisjsk_folder[50], triplet_folder[50], triplet_same_space_folder[50], triplet_same_number_points_folder[50], triplet_ordered_folder[50];
-	
-	
-	sprintf(correlation_folder, "%s/%s/correlation", results_folder, comparative_folder);
-	sprintf(magnetization_folder, "%s/%s/magnetization", results_folder, comparative_folder);
-	sprintf(sisj_folder, "%s/%s/sisj", results_folder, comparative_folder);
-	sprintf(sisjsk_folder, "%s/%s/sisjsk", results_folder, comparative_folder);
-	sprintf(triplet_folder, "%s/%s/triplet", results_folder, comparative_folder);
-	sprintf(triplet_same_space_folder, "%s/%s/triplet_same_space", results_folder, comparative_folder);
-	sprintf(triplet_same_number_points_folder, "%s/%s/triplet_same_number_points", results_folder, comparative_folder);
-
-	fs::create_directories(correlation_folder);
-	fs::create_directories(magnetization_folder);
-	fs::create_directories(sisj_folder);
-	fs::create_directories(sisjsk_folder);
-	fs::create_directories(triplet_folder);
-	fs::create_directories(triplet_same_space_folder);
-	fs::create_directories(triplet_same_number_points_folder);
-
-	// SeparateData---------------------------------------------------------------------------------------------------------------------------
-	char Cij_exp_folder[50], Cij_ising_folder[50], h_by_year_folder[50], hi_folder[50], Jij_folder[50], mi_exp_folder[50], 
-		mi_ising_folder[50], Pij_exp_folder[50], Pij_ising_folder[50], sisj_exp_folder[50], sisj_ising_folder[50], sisjsk_exp_folder[50], 
-		sisjsk_ising_folder[50], Tijk_exp_folder[50], Tijk_ising_folder[50];
-	
-	sprintf(Cij_exp_folder, "%s/%s/Cij-exp", results_folder, comparative_folder);
-	sprintf(Cij_ising_folder, "%s/%s/Cij-ising", results_folder, comparative_folder);
-	sprintf(h_by_year_folder, "%s/%s/h_by_year", results_folder, comparative_folder);
-	sprintf(hi_folder, "%s/%s/hi", results_folder, comparative_folder);
-	sprintf(Jij_folder, "%s/%s/Jij", results_folder, comparative_folder);
-	sprintf(mi_exp_folder, "%s/%s/mi-exp", results_folder, comparative_folder);
-	sprintf(mi_ising_folder, "%s/%s/mi-ising", results_folder, comparative_folder);
-	sprintf(Pij_exp_folder, "%s/%s/Pij-exp", results_folder, comparative_folder);
-	sprintf(Pij_ising_folder, "%s/%s/Pij-ising", results_folder, comparative_folder);
-	sprintf(sisj_exp_folder, "%s/%s/sisj-exp", results_folder, comparative_folder);
-	sprintf(sisj_ising_folder, "%s/%s/sisj-ising", results_folder, comparative_folder);
-	sprintf(sisjsk_exp_folder, "%s/%s/sisjsk-exp", results_folder, comparative_folder);
-	sprintf(sisjsk_ising_folder, "%s/%s/sisjsk-ising", results_folder, comparative_folder);
-	sprintf(Tijk_exp_folder, "%s/%s/Tijk-exp", results_folder, comparative_folder);
-	sprintf(Tijk_ising_folder, "%s/%s/Tijk-ising", results_folder, comparative_folder);
-
-	fs::create_directories(Cij_exp_folder);
-	fs::create_directories(Cij_ising_folder);
-	fs::create_directories(h_by_year_folder);
-	fs::create_directories(hi_folder);
-	fs::create_directories(Jij_folder);
-	fs::create_directories(mi_exp_folder);
-	fs::create_directories(mi_ising_folder);
-	fs::create_directories(Pij_exp_folder);
-	fs::create_directories(Pij_ising_folder);
-	fs::create_directories(sisj_exp_folder);
-	fs::create_directories(sisj_ising_folder);
-	fs::create_directories(sisjsk_exp_folder);
-	fs::create_directories(sisjsk_ising_folder);
-	fs::create_directories(Tijk_exp_folder);
-	fs::create_directories(Tijk_ising_folder);
-	
-	//-----------------------------------------------------------------------------
-	//Ler o arquivo com as correlações e magnetizações de um certo arquivo
+//-----------------------------------------------------------------------------
+//Ler o arquivo com as correlações e magnetizações de um certo arquivo
 
 	string file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + ".dat";
 
@@ -234,35 +116,19 @@ int main(int argc, char *argv[]){
 	//int inter_max = atoi(argv[4]);
 	int cort = 1000;
 	int inter = 1;//= inter_ini;
-	int inter_max = 100000;
+	int inter_max = 20000;
 	
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
 
-	// N30 (j,h) -> (4e-5, 2e-4)
-	// N30 new (j,h) -> (9.0e-6, 8.0e-5)
-	
-	// N20 (j,h) -> (5.0e-8, 6.0e-7)
-	//double min_erro_j = 5.0e-8;
-	//double min_erro_h = 6.0e-7;
-	
-	//float min_erro_j = std::stof(argv[2]);
-	//float min_erro_h = std::stof(argv[3]);
-	
-	bool use_exact = false;
-	if(test==true){
-		// Convert float to std::string in scientific notation
-		std::ostringstream min_erro_j_stream;
-		min_erro_j_stream << std::scientific << std::setprecision(6) << min_erro_j;
-		std::string min_erro_j_str = min_erro_j_stream.str();
+	double min_erro_j = 9.0e-8;
+	double min_erro_h = 6.0e-7;
 
-		std::ostringstream min_erro_h_stream;
-		min_erro_h_stream << std::scientific << std::setprecision(6) << min_erro_h;
-		std::string min_erro_h_str = min_erro_h_stream.str();
-		string file_name_erros = "../Results/Erro/erro_" + text_name + "_j_" + min_erro_j_str + "_h_" + min_erro_h_str + ".dat";
-	}
+	bool use_exact = false;
+
 	//Arquivo para salvar os erros ao longo do tempo
 	string file_name_erros = "../Results/Erro/erro_" + text_name + ".dat";
+
 	ofstream erros (file_name_erros.c_str());
 
 	//erros.seekg(0, std::ios_base::end);

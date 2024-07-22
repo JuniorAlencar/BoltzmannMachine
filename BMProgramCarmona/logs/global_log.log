@@ -1,0 +1,88 @@
+[2024-01-16 12:11:08.357] [bm] [info] Params: run_name          RandomLaser
+[2024-01-16 12:11:08.357] [bm] [info] Params: input_data        ./Data/RandomLaser.dat
+[2024-01-16 12:11:08.357] [bm] [info] Params: input_init_guess  ./Results/RandomLaser
+[2024-01-16 12:11:08.357] [bm] [info] Params: output_data       ./Results/RandomLaser.json
+[2024-01-16 12:11:08.357] [bm] [info] Params: output_err        ./Results/err_RandomLaser.csv
+[2024-01-16 12:11:08.357] [bm] [info] Params: use_exact         false
+[2024-01-16 12:11:08.357] [bm] [info] Params: iter_display      100
+[2024-01-16 12:11:08.357] [bm] [info] Params: iter_max          100000
+[2024-01-16 12:11:08.357] [bm] [info] Params: eta_J             0.5
+[2024-01-16 12:11:08.357] [bm] [info] Params: eta_h             1
+[2024-01-16 12:11:08.357] [bm] [info] Params: min_err_S         0.001
+[2024-01-16 12:11:08.357] [bm] [info] Params: min_err_SS        1e-06
+[2024-01-16 12:11:08.357] [bm] [info] Params: n_rep             50
+[2024-01-16 12:11:08.357] [bm] [info] Params: t_eq              3000
+[2024-01-16 12:11:08.357] [bm] [info] Params: t_meas            150000
+[2024-01-16 12:11:08.357] [bm] [info] read_tidy_data: read from ./Data/RandomLaser.dat
+[2024-01-16 12:11:08.357] [bm] [info] read_tidy_data: n_spins: 20, n_samples: 857
+[2024-01-16 12:11:08.360] [bm] [info] main: using metropolis
+[2024-01-16 12:11:38.435] [bm] [info] main: RandomLaser iter=100 err_S=0.041469 err_SS=0.000160
+[2024-01-16 12:12:13.725] [bm] [info] main: RandomLaser iter=200 err_S=0.020502 err_SS=0.000015
+[2024-01-16 12:12:49.166] [bm] [info] main: RandomLaser iter=300 err_S=0.001590 err_SS=0.000004
+[2024-01-16 12:13:22.108] [bm] [info] main: RandomLaser iter=400 err_S=0.003515 err_SS=0.000002
+[2024-01-16 12:13:55.857] [bm] [info] main: RandomLaser iter=500 err_S=0.006906 err_SS=0.000002
+[2024-01-16 12:14:29.415] [bm] [info] main: RandomLaser iter=600 err_S=0.019250 err_SS=0.000002
+[2024-01-16 12:15:04.593] [bm] [info] main: RandomLaser iter=700 err_S=0.002850 err_SS=0.000002
+[2024-01-16 12:15:38.627] [bm] [info] main: RandomLaser iter=800 err_S=0.010208 err_SS=0.000002
+[2024-01-16 12:16:12.992] [bm] [info] main: RandomLaser iter=900 err_S=0.001521 err_SS=0.000002
+[2024-01-16 12:16:49.614] [bm] [info] main: RandomLaser iter=1000 err_S=0.001684 err_SS=0.000002
+[2024-01-16 12:17:22.300] [bm] [info] main: RandomLaser iter=1100 err_S=0.001209 err_SS=0.000002
+[2024-01-16 12:17:54.103] [bm] [info] main: RandomLaser iter=1200 err_S=0.002664 err_SS=0.000002
+[2024-01-16 12:18:26.004] [bm] [info] main: RandomLaser iter=1300 err_S=0.001760 err_SS=0.000002
+[2024-01-16 12:18:57.893] [bm] [info] main: RandomLaser iter=1400 err_S=0.003354 err_SS=0.000002
+[2024-01-16 12:19:29.392] [bm] [info] main: RandomLaser iter=1500 err_S=0.003199 err_SS=0.000006
+[2024-01-16 12:20:01.112] [bm] [info] main: RandomLaser iter=1600 err_S=0.003068 err_SS=0.000002
+[2024-01-16 12:20:32.612] [bm] [info] main: RandomLaser iter=1700 err_S=0.001865 err_SS=0.000003
+[2024-01-16 12:21:03.910] [bm] [info] main: RandomLaser iter=1800 err_S=0.002786 err_SS=0.000001
+[2024-01-16 12:21:35.234] [bm] [info] main: RandomLaser iter=1900 err_S=0.003504 err_SS=0.000002
+[2024-01-16 12:22:06.507] [bm] [info] main: RandomLaser iter=2000 err_S=0.011676 err_SS=0.000004
+[2024-01-16 12:22:37.978] [bm] [info] main: RandomLaser iter=2100 err_S=0.002127 err_SS=0.000001
+[2024-01-16 12:23:10.727] [bm] [info] main: RandomLaser iter=2200 err_S=0.010631 err_SS=0.000003
+[2024-01-16 12:23:43.258] [bm] [info] main: RandomLaser iter=2300 err_S=0.006744 err_SS=0.000002
+[2024-01-16 12:24:15.733] [bm] [info] main: RandomLaser iter=2400 err_S=0.007200 err_SS=0.000002
+[2024-01-16 12:24:48.342] [bm] [info] main: RandomLaser iter=2500 err_S=0.007832 err_SS=0.000003
+[2024-01-16 12:25:22.224] [bm] [info] main: RandomLaser iter=2600 err_S=0.001613 err_SS=0.000001
+[2024-01-16 12:25:54.739] [bm] [info] main: RandomLaser iter=2700 err_S=0.007234 err_SS=0.000002
+[2024-01-16 12:26:27.306] [bm] [info] main: RandomLaser iter=2800 err_S=0.001862 err_SS=0.000002
+[2024-01-16 12:26:59.363] [bm] [info] main: RandomLaser iter=2900 err_S=0.019503 err_SS=0.000006
+[2024-01-16 12:27:31.795] [bm] [info] main: RandomLaser iter=3000 err_S=0.005238 err_SS=0.000001
+[2024-01-16 12:28:05.277] [bm] [info] main: RandomLaser iter=3100 err_S=0.001532 err_SS=0.000001
+[2024-01-16 12:28:37.177] [bm] [info] main: RandomLaser iter=3200 err_S=0.001985 err_SS=0.000002
+[2024-01-16 12:29:08.857] [bm] [info] main: RandomLaser iter=3300 err_S=0.008346 err_SS=0.000001
+[2024-01-16 12:29:41.732] [bm] [info] main: RandomLaser iter=3400 err_S=0.012725 err_SS=0.000002
+[2024-01-16 12:30:14.651] [bm] [info] main: RandomLaser iter=3500 err_S=0.005036 err_SS=0.000002
+[2024-01-16 12:30:47.139] [bm] [info] main: RandomLaser iter=3600 err_S=0.008851 err_SS=0.000002
+[2024-01-16 12:31:21.183] [bm] [info] main: RandomLaser iter=3700 err_S=0.005731 err_SS=0.000002
+[2024-01-16 12:31:54.676] [bm] [info] main: RandomLaser iter=3800 err_S=0.004069 err_SS=0.000002
+[2024-01-16 12:32:26.703] [bm] [info] main: RandomLaser iter=3900 err_S=0.001053 err_SS=0.000002
+[2024-01-16 12:32:57.935] [bm] [info] main: RandomLaser iter=4000 err_S=0.003619 err_SS=0.000002
+[2024-01-16 12:33:29.160] [bm] [info] main: RandomLaser iter=4100 err_S=0.003577 err_SS=0.000001
+[2024-01-16 12:34:00.469] [bm] [info] main: RandomLaser iter=4200 err_S=0.002145 err_SS=0.000003
+[2024-01-16 12:34:31.735] [bm] [info] main: RandomLaser iter=4300 err_S=0.015878 err_SS=0.000002
+[2024-01-16 12:35:03.150] [bm] [info] main: RandomLaser iter=4400 err_S=0.002038 err_SS=0.000002
+[2024-01-16 12:35:36.202] [bm] [info] main: RandomLaser iter=4500 err_S=0.005820 err_SS=0.000002
+[2024-01-16 12:36:08.705] [bm] [info] main: RandomLaser iter=4600 err_S=0.007668 err_SS=0.000002
+[2024-01-16 12:36:41.372] [bm] [info] main: RandomLaser iter=4700 err_S=0.001320 err_SS=0.000001
+[2024-01-16 12:37:13.405] [bm] [info] main: RandomLaser iter=4800 err_S=0.004473 err_SS=0.000002
+[2024-01-16 12:37:45.226] [bm] [info] main: RandomLaser iter=4900 err_S=0.006226 err_SS=0.000002
+[2024-01-16 12:38:16.934] [bm] [info] main: RandomLaser iter=5000 err_S=0.002695 err_SS=0.000001
+[2024-01-16 12:38:49.032] [bm] [info] main: RandomLaser iter=5100 err_S=0.006922 err_SS=0.000002
+[2024-01-16 12:39:20.675] [bm] [info] main: RandomLaser iter=5200 err_S=0.002847 err_SS=0.000001
+[2024-01-16 12:39:52.563] [bm] [info] main: RandomLaser iter=5300 err_S=0.008094 err_SS=0.000003
+[2024-01-16 12:40:24.326] [bm] [info] main: RandomLaser iter=5400 err_S=0.017258 err_SS=0.000002
+[2024-01-16 12:40:56.229] [bm] [info] main: RandomLaser iter=5500 err_S=0.002803 err_SS=0.000002
+[2024-01-16 12:41:28.186] [bm] [info] main: RandomLaser iter=5600 err_S=0.005975 err_SS=0.000002
+[2024-01-16 12:41:59.767] [bm] [info] main: RandomLaser iter=5700 err_S=0.001679 err_SS=0.000002
+[2024-01-16 12:42:31.712] [bm] [info] main: RandomLaser iter=5800 err_S=0.007892 err_SS=0.000001
+[2024-01-16 12:43:03.499] [bm] [info] main: RandomLaser iter=5900 err_S=0.008191 err_SS=0.000002
+[2024-01-16 12:43:35.037] [bm] [info] main: RandomLaser iter=6000 err_S=0.003417 err_SS=0.000002
+[2024-01-16 12:44:06.422] [bm] [info] main: RandomLaser iter=6100 err_S=0.001605 err_SS=0.000001
+[2024-01-16 12:44:39.554] [bm] [info] main: RandomLaser iter=6200 err_S=0.002202 err_SS=0.000002
+[2024-01-16 12:45:13.152] [bm] [info] main: RandomLaser iter=6300 err_S=0.011331 err_SS=0.000002
+[2024-01-16 12:45:47.717] [bm] [info] main: RandomLaser iter=6400 err_S=0.008771 err_SS=0.000001
+[2024-01-16 12:46:21.955] [bm] [info] main: RandomLaser iter=6500 err_S=0.002939 err_SS=0.000002
+[2024-01-16 12:46:54.288] [bm] [info] main: RandomLaser iter=6600 err_S=0.001463 err_SS=0.000001
+[2024-01-16 12:47:27.217] [bm] [info] main: RandomLaser iter=6700 err_S=0.000920 err_SS=0.000001
+[2024-01-16 12:47:59.632] [bm] [info] main: RandomLaser iter=6800 err_S=0.009721 err_SS=0.000003
+[2024-01-16 12:48:14.086] [bm] [info] main: RandomLaser iter=6843 err_S=0.000605 err_SS=0.000001
+[2024-01-16 12:48:14.529] [bm] [info] wrote to ./Results/RandomLaser.json

@@ -1,0 +1,15 @@
+[2024-07-22 11:57:42.158] [bm] [info] Params: run_name          RandomLaser
+[2024-07-22 11:57:42.158] [bm] [info] Params: input_data        ./Data/RandomLaser.dat
+[2024-07-22 11:57:42.158] [bm] [info] Params: input_init_guess  ./Results/RandomLaser
+[2024-07-22 11:57:42.158] [bm] [info] Params: output_data       ./Results/RandomLaser.json
+[2024-07-22 11:57:42.158] [bm] [info] Params: output_err        ./Results/err_RandomLaser.csv
+[2024-07-22 11:57:42.158] [bm] [info] Params: use_exact         false
+[2024-07-22 11:57:42.158] [bm] [info] Params: iter_display      100
+[2024-07-22 11:57:42.158] [bm] [info] Params: iter_max          100000
+[2024-07-22 11:57:42.158] [bm] [info] Params: eta_J             0.5
+[2024-07-22 11:57:42.158] [bm] [info] Params: eta_h             1
+[2024-07-22 11:57:42.159] [bm] [info] Params: min_err_S         0.001
+[2024-07-22 11:57:42.159] [bm] [info] Params: min_err_SS        1e-06
+[2024-07-22 11:57:42.159] [bm] [info] Params: n_rep             50
+[2024-07-22 11:57:42.159] [bm] [info] Params: t_eq              3000
+[2024-07-22 11:57:42.159] [bm] [info] Params: t_meas            150000
