@@ -95,7 +95,7 @@ def test_parms(variavel, N_spins, save):
         j_min = min_values["min_erro_j"]
         h_min = min_values["min_erro_h"]
         
-        plt.savefig(folder + f"/{MCH_conv}_j_{j_min}_h_{h_min}.pdf", dpi=300)
+        plt.savefig(folder + f"/sampleN{N_spins}_MCH_{MCH_conv}_j_{j_min}_h_{h_min}.pdf", dpi=300)
     
     #plt.xlim([-0.15, 0.35])
     plt.show()
@@ -107,4 +107,8 @@ if __name__ == "__main__":
     nspins = int(sys.argv[1])
     variable = str(sys.argv[2])
     save = bool(sys.argv[3])
+    
+    if(len(sys.argv) != 4):
+        print(f'please, run:python <test_comparatives.py> <nspins> <variable> <save>')
+    
     test_parms(variable, nspins, save)    

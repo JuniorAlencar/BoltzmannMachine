@@ -4,6 +4,7 @@ import re
 import numpy as np
 import sys
 from matplotlib.animation import FuncAnimation
+import os
 
 # Abre o arquivo cpp do BMFinal e retorna o min_erro_j e min_erro_h
 def extract_formatted_values_from_cpp():
@@ -35,9 +36,7 @@ def extract_formatted_values_from_cpp():
 
     return results
 
-
-
-def erro_parms(parms,N_spins):
+def erro_parms(parms,N_spins, save):
     min_values = extract_formatted_values_from_cpp()
 
     df = pd.read_csv(f"../Results/Erro/erro_sampleN{N_spins}.dat",sep=' ',header=None)
@@ -67,13 +66,25 @@ def erro_parms(parms,N_spins):
     plt.ylabel(f"Erro {parms}",fontsize=22)
     plt.xlim(min(x),max(x))
     plt.title(f"Erro {parms} para Nspins = {N_spins}",fontsize=25)
+    
+    if(save==True):
+        folder = f"./tests_erro/{parms}"
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        plt.savefig(folder + f"/sampleN{N_spins}_MCH_{len(x)}.pdf", dpi=300)
+    
     plt.show()
 
-# nspins: number of spins, variable: propertie
+# nspins: number of spins, parms: h or J
 if __name__ == "__main__":
     nspins = int(sys.argv[1])
     parms = str(sys.argv[2])
-    erro_parms(parms,nspins)
+    save = str(sys.argv[3])
+    try:
+        erro_parms(parms,nspins,save)
+    except:
+        print(f'please, run:python <test_erros.py> <nspins> <parameter> <save>')
+    
     #test_parms(variable,nspins)    
 # Initialize the plot
 #fig, ax = plt.subplots()

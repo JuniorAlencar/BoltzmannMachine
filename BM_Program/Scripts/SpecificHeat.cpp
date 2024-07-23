@@ -22,7 +22,7 @@ int main(int argc, char *argv[]){
 //-----------------------------------------------------------------------------
 //Abrir arquivo da rede
 
-	string file_network_name = "../Results/Network/network_" + text_input + ".dat";
+	string file_network_name = "../Results/Network/network_" + text_input;
 	
 	ifstream network (file_network_name.c_str());
 	
@@ -52,23 +52,23 @@ int main(int argc, char *argv[]){
 
 	bool use_exact = false;
 	
-	string file_cap_linear_name = "../Results/CalorEspecifico/linear_specific_heat_" + text_input + ".dat";
+	string file_cap_linear_name = "../Results/CalorEspecifico/linear_specific_heat_" + text_input;
 	
 	ofstream cap_li (file_cap_linear_name.c_str());
 
-	string file_energia_name = "../Results/Energia/energia_" + text_input + ".dat";
+	string file_energia_name = "../Results/Energia/energia_" + text_input;
 	
 	ofstream ene (file_energia_name.c_str());
 	
 	double E, E2, sp;
 
 	//Arquivo para salvar magnetização versus temperatura
-    string file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input + ".dat";
+    string file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input;
     
     ofstream magT (file_mag_vs_T_name.c_str());
 
     //Arquivo para salvar Susceptibility versus temperatura
-    string file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input + ".dat";
+    string file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input;
     
     ofstream susc (file_susc_vs_T_name.c_str());
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]){
 //-----------------------------------------------------------------------------
 //Escala logaritmica
 
-	string file_cap_log_name = "./results/log_specific_heat/log_specific_heat_" + text_input + ".dat";
+	string file_cap_log_name = "./results/log_specific_heat/log_specific_heat_" + text_input;
 	
 	ofstream cap_log (file_cap_log_name.c_str());
 	

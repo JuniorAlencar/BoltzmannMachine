@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <string>
 #include <cmath>
+#include "./include/create_folders.h"
 
 /******************************************************************************
 
@@ -15,14 +16,20 @@
 
 using namespace std;
 
-int main (int argc, char *argv[])
-{
-    //cout << "Starting " << argv[0] << " ... " << endl;
-
+int main (int argc, char *argv[]){
+	
+	// Create folders
+	try {
+		create_folders();
+		cout << "Folders created successfully!" << endl;
+    } catch (const fs::filesystem_error& ex) {
+        cerr << ex.what() << endl;
+    }
+	
     //---------------------------------
     //Configuração para receber os dados
 	string file_name_input = argv[1];
-    string file_input = "../Data/TidyData/" + file_name_input + ".dat";
+    string file_input = "../Data/TidyData/" + file_name_input;
     ifstream data_input (file_input.c_str());
     //---------------------------------
 
@@ -178,7 +185,7 @@ int main (int argc, char *argv[])
 	}
 
     //Cria arquivo para salvar correlação e magnetização-----------------------
-	string file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + ".dat";
+	string file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input;
 	
 	ofstream mag_corr (file_name_output.c_str());
 	
@@ -200,7 +207,7 @@ int main (int argc, char *argv[])
 //Salvar os dados separadamente
 
     //Arquivo para Cij -----------------
-    string file_name_mi = "../Results/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
+    string file_name_mi = "../Results/SeparateData/mi-exp/mi_exp_" + file_name_input;
 
     //abrir arquivo
     ofstream file_mi (file_name_mi.c_str());
@@ -215,19 +222,19 @@ int main (int argc, char *argv[])
 
     //-----------------------------------------------------
     //Arquivo para Cij -----------------
-    string file_name_Cij = "../Results/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
+    string file_name_Cij = "../Results/SeparateData/Cij-exp/Cij_exp_" + file_name_input;
 
     //abrir arquivo
     ofstream file_Cij (file_name_Cij.c_str());
 
 	//Arquivo para Pij------------------
-	string file_name_Pij = "../Results/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
+	string file_name_Pij = "../Results/SeparateData/Pij-exp/Pij_exp_" + file_name_input;
 
 	//Abrir arquivo
 	ofstream file_Pij (file_name_Pij.c_str());
 
 	//Arquivo para sisj
-	string file_name_sisj = "../Results/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
+	string file_name_sisj = "../Results/SeparateData/sisj-exp/sisj_exp_" + file_name_input;
 
 	//abrir arquivo
 	ofstream file_sisj (file_name_sisj.c_str());
@@ -248,13 +255,13 @@ int main (int argc, char *argv[])
 
 	//-----------------------------------------------------
     //Arquivo para Cij -----------------
-    string file_name_Tijk = "../Results/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
+    string file_name_Tijk = "../Results/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input;
 
     //abrir arquivo
     ofstream file_Tijk (file_name_Tijk.c_str());
 
 	//Arquivo para sisjsk
-	string file_name_sisjsk = "../Results/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
+	string file_name_sisjsk = "../Results/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input;
 
 	//abrir arquivo
 	ofstream file_sisjsk (file_name_sisjsk.c_str());

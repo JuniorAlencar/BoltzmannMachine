@@ -116,13 +116,14 @@ int main(int argc, char *argv[]){
 	//int inter_max = atoi(argv[4]);
 	int cort = 1000;
 	int inter = 1;//= inter_ini;
-	int inter_max = 20000;
+	int inter_max = 100000;
 	
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
-
-	double min_erro_j = 9.0e-8;
-	double min_erro_h = 6.0e-7;
+	
+	//N30 -> j,h -> 9.0e-6, 8.0e-5
+	double min_erro_j = 0.5e-5;
+	double min_erro_h = 0.1e-3;
 
 	bool use_exact = false;
 
