@@ -44,22 +44,28 @@ def MCH_convergencia(N_spins):
     return len(df["MCH"])
 
 
-def test_parms(variavel, N_spins, save):
+def test_parms(variable, N_spins, save):
+    
+    # Create folder to test_comparative
+    folder = f"./tests_comparatives/{variable}"
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    
     min_values = extract_formatted_values_from_cpp()
     MCH_conv = MCH_convergencia(N_spins)
     
-    if variavel=="Correlação":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/Pij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="Covariancia":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/Cij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="Magnetização":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/mag_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="Tripleto":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/Tijk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="sisjsk":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/sisjsk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="sisj":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/sisj_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    if variable=="Correlação":
+        df = pd.read_csv(f"../Results/Comparativo/{variable}/Pij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    elif variable=="Covariancia":
+        df = pd.read_csv(f"../Results/Comparativo/{variable}/Cij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    elif variable=="Magnetização":
+        df = pd.read_csv(f"../Results/Comparativo/{variable}/mag_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    elif variable=="Tripleto":
+        df = pd.read_csv(f"../Results/Comparativo/{variable}/Tijk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    elif variable=="sisjsk":
+        df = pd.read_csv(f"../Results/Comparativo/{variable}/sisjsk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    elif variable=="sisj":
+        df = pd.read_csv(f"../Results/Comparativo/{variable}/sisj_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
     df.columns = ['x','y']
     
     plt.plot(df['x'], df['y'],'o',ms=10,color='red', label='dado')
@@ -74,7 +80,7 @@ def test_parms(variavel, N_spins, save):
     #plt.text(x=)
     plt.grid(alpha=0.4)
     plt.tick_params(labeltop=True, labelright=True, labelsize=14, width=1.4, length=6.0)
-    plt.title(f"{variavel} com N = {N_spins}",fontsize=20)
+    plt.title(f"{variable} com N = {N_spins}",fontsize=20)
     
     plt.draw()
     xticks = plt.gca().get_xticks()
@@ -87,16 +93,13 @@ def test_parms(variavel, N_spins, save):
     straight.insert(len(straight),df['x'].max() + step)
     plt.plot(straight, straight, color='k',label=r'$y = x$')
     
-    if(save==True):
-        folder = f"./tests_comparativos/{variable}"
-        if not os.path.exists(folder):
-            os.makedirs(folder)
-        
+    if(save == True):
         j_min = min_values["min_erro_j"]
         h_min = min_values["min_erro_h"]
         
         plt.savefig(folder + f"/sampleN{N_spins}_MCH_{MCH_conv}_j_{j_min}_h_{h_min}.pdf", dpi=300)
-    
+    else:
+        pass
     #plt.xlim([-0.15, 0.35])
     plt.show()
     
@@ -106,9 +109,9 @@ def test_parms(variavel, N_spins, save):
 if __name__ == "__main__":
     nspins = int(sys.argv[1])
     variable = str(sys.argv[2])
-    save = bool(sys.argv[3])
+    save = sys.argv[3].lower() == 'true'
     
-    if(len(sys.argv) != 4):
-        print(f'please, run:python <test_comparatives.py> <nspins> <variable> <save>')
+    # if(len(sys.argv) != 4):
+    #     print(f'please, run:python <test_comparatives.py> <nspins> <variable> <save>')
     
     test_parms(variable, nspins, save)    

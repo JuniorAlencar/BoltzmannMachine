@@ -37,6 +37,11 @@ def extract_formatted_values_from_cpp():
     return results
 
 def erro_parms(parms,N_spins, save):
+    # Create folder to test_erro
+    folder = f"./tests_erro/{parms}"
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    
     min_values = extract_formatted_values_from_cpp()
 
     df = pd.read_csv(f"../Results/Erro/erro_sampleN{N_spins}.dat",sep=' ',header=None)
@@ -67,30 +72,48 @@ def erro_parms(parms,N_spins, save):
     plt.xlim(min(x),max(x))
     plt.title(f"Erro {parms} para Nspins = {N_spins}",fontsize=25)
     
-    if(save==True):
-        folder = f"./tests_erro/{parms}"
-        if not os.path.exists(folder):
-            os.makedirs(folder)
-        plt.savefig(folder + f"/sampleN{N_spins}_MCH_{len(x)}.pdf", dpi=300)
-    
+    if(save == True):
+        j_min = min_values["min_erro_j"]
+        h_min = min_values["min_erro_h"]
+        
+        plt.savefig(folder + f"/sampleN{N_spins}_parm_{parms}_j_{j_min}_h_{h_min}.pdf", dpi=300)
+        
     plt.show()
+
+def erro_min(N_spins, value):
+    df = pd.read_csv(f"../Results/Erro/erro_sampleN{N_spins}.dat",sep=' ',header=None)
+    df.columns = ["MCS", "Erro_J", "Erro_h"]
+
+    err_min_J = df["Erro_J"].min()
+    err_min_idx_J = df["Erro_J"].idxmin()
+    err_min_j="{:e}".format(err_min_J)
+
+    err_min_H = df["Erro_h"].min()
+    err_min_idx_h = df["Erro_h"].idxmin()
+    err_min_h="{:e}".format(err_min_H)
+    if(value==True):
+        return print(err_min_j, err_min_h)
+    else:
+        return print(df["Erro_h"][76363])
+        #return print(err_min_idx_J, err_min_idx_h)
+    # if parms=="J":
+    #     err_min_J = df["Erro_J"].min()
+    #     err_min_idx_J = df["Erro_J"].idxmin()
+    #     err_min_j="{:e}".format(err_min_J)
+        
+    #     return print(err_min_j, err_min_idx_J)
+    
+    # elif parms=="h":
+    #     err_min_H = df["Erro_h"].min()
+    #     err_min_idx_h = df["Erro_h"].idxmin()
+    #     err_min_h="{:e}".format(err_min_H)
+        
+    #     return print(err_min_h, err_min_idx_h)
 
 # nspins: number of spins, parms: h or J
 if __name__ == "__main__":
     nspins = int(sys.argv[1])
     parms = str(sys.argv[2])
-    save = str(sys.argv[3])
-    try:
-        erro_parms(parms,nspins,save)
-    except:
-        print(f'please, run:python <test_erros.py> <nspins> <parameter> <save>')
-    
-    #test_parms(variable,nspins)    
-# Initialize the plot
-#fig, ax = plt.subplots()
-
-# Create an animation
-#ani = FuncAnimation(fig, erro_parms(parms,N_spins), frames=np.arange(0, 10), interval=1000)  # Update every 10 seconds (10000 milliseconds)
-
-# Show the plot
-#plt.show()
+    save = sys.argv[3].lower() == 'true'
+    #erro_min(nspins,True)
+    erro_parms(parms, nspins, save)

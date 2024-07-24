@@ -14,7 +14,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-
+	
 	srand (time(NULL));
 	
 	// Gaussian Parameters
@@ -25,13 +25,15 @@ int main(int argc, char *argv[]){
 	int type;
 	int H;
 	
-	string text_name     = argv[1];
-	float min_erro_j = std::stof(argv[2]);
-	float min_erro_h = std::stof(argv[3]);
-	bool test = argv[4];
+	string text_name	= argv[1];
+	//float min_erro_j	= std::stof(argv[2]);
+	//float min_erro_h	= std::stof(argv[3]);
+	double min_erro_j	= std::stod(argv[2]);
+	double min_erro_h	= std::stod(argv[3]);
 	
 	if (argc != 4) {
-		cout << "Usage: " << argv[0] << argv[1] << argv[2] << argv[3] << argv[4] << endl;
+		string textname, min_err_j, min_err_h;
+		cout << "Usage: " << argv[0] << "textname" << min_err_j << min_err_h << endl;
 		return 1;
 	}
 	
@@ -60,7 +62,7 @@ int main(int argc, char *argv[]){
 		 
 	}
 	
-	rede.close();
+	//rede.close();
 	
 //-----------------------------------------------------------------------------
 //Verifica os vetores de magnetizações e correlações
@@ -76,24 +78,21 @@ int main(int argc, char *argv[]){
 //	}
 
 //-----------------------------------------------------------------------------
-
-
-//-----------------------------------------------------------------------------
 //Abrir arquivo da rede
 
 	string file_network_name = "../Results/Network/network_" + text_name;
 	
 	ifstream network_in (file_network_name.c_str());
 	
-	network_in >> n;
-
+	network_in >> r.n;
+	
 	//rede para ser atualizada
 	Rede bm(n, 0, 0, 0, 0, 0);
 	
 	for(int i = 0; i < r.nbonds; i++)
 	{
 		network_in >> bm.J[i];
-				
+
 		if (i < n)
 			network_in >> bm.h[i];
 	
@@ -119,8 +118,6 @@ int main(int argc, char *argv[]){
 	
 	double erroJ = 1, erroh = 1;
 	double dJ, dh;
-	//int inter_ini = atoi(argv[3]);
-	//int inter_max = atoi(argv[4]);
 	int cort = 1000;
 	int inter = 1;//= inter_ini;
 	int inter_max = 100000;
@@ -128,33 +125,11 @@ int main(int argc, char *argv[]){
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
 
-	// N30 (j,h) -> (4e-5, 2e-4)
-	// N30 new (j,h) -> (9.0e-6, 8.0e-5)
-	
-	// N20 (j,h) -> (5.0e-8, 6.0e-7)
-	//double min_erro_j = 5.0e-8;
-	//double min_erro_h = 6.0e-7;
-	
-	//float min_erro_j = std::stof(argv[2]);
-	//float min_erro_h = std::stof(argv[3]);
-	
 	bool use_exact = false;
-	if(test==true){
-		// Convert float to std::string in scientific notation
-		std::ostringstream min_erro_j_stream;
-		min_erro_j_stream << std::scientific << std::setprecision(6) << min_erro_j;
-		std::string min_erro_j_str = min_erro_j_stream.str();
-
-		std::ostringstream min_erro_h_stream;
-		min_erro_h_stream << std::scientific << std::setprecision(6) << min_erro_h;
-		std::string min_erro_h_str = min_erro_h_stream.str();
-		string file_name_erros = "../Results/Erro/erro_" + text_name + "_j_" + min_erro_j_str + "_h_" + min_erro_h_str;
-	}
+	
 	//Arquivo para salvar os erros ao longo do tempo
 	string file_name_erros = "../Results/Erro/erro_" + text_name;
 	ofstream erros (file_name_erros.c_str());
-
-	//erros.seekg(0, std::ios_base::end);
 	
 	while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
 	{	
@@ -190,8 +165,8 @@ int main(int argc, char *argv[]){
 
 		}
 		
-		erroJ = sqrt(erroJ)/bm.nbonds;
-		erroh = sqrt(erroh)/bm.n;
+		erroJ = sqrt(erroJ/bm.nbonds);
+		erroh = sqrt(erroh/bm.n);
 
 		//Salvando Erros
 		erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl; 
@@ -236,7 +211,7 @@ int main(int argc, char *argv[]){
 //-----------------------------------------------------------------------------
 //Arquivo para salvar a correlação e magnetizações geradas pela rede encontrada
 
-	string file_mag_corr_output = "../Results/Mag_Corr-ising/mag_corr_ising_" + text_name;
+	string file_mag_corr_output = "../Results/Mag_Corr_ising/mag_corr_ising_" + text_name;
 
 	ofstream mag_corr (file_mag_corr_output.c_str());
 
@@ -314,6 +289,8 @@ int main(int argc, char *argv[]){
     {
         file_hi << bm.h[i] << endl;
         file_mi << bm_av_s[i] << endl;
+		if(i<5)
+			cout << bm.h[i] << endl;
     }
 
     //fechando arquivos
@@ -345,8 +322,8 @@ int main(int argc, char *argv[]){
 
 	//abrir arquivo
 	ofstream file_sisj (file_name_sisj.c_str());
-
-    //salvar arquivos
+    
+	//salvar arquivos
     for (int i = 0; i < (n*(n-1)/2); i++)
     {
         file_Jij  << bm.J[i] << endl;
@@ -354,7 +331,7 @@ int main(int argc, char *argv[]){
 		file_Pij  << pearson_ising[i] << endl;
 		file_sisj << bm_av_ss[i] << endl;
     }
-
+	
     //fechando arquivos
     file_Jij.close();
     file_Cij.close();

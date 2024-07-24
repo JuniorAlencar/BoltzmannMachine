@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
 	ifstream rede (file_rede_input.c_str());
 	
 	rede >> n;
-	
+	cout << n << endl;
 	VecDoub av_s(n, 0.0), av_ss(n*(n-1)/2, 0.0), C(n*(n-1)/2, 0.0);
 	
 	//Rede r(tamanho, media, desvio, k, type = 0(random) 1(tree), H = 0(no field) 1(ConstField) -1(ConstField) 2(RandField))
@@ -122,8 +122,8 @@ int main(int argc, char *argv[]){
 	double eta_h = 0.03;
 	
 	//N30 -> j,h -> 9.0e-6, 8.0e-5
-	double min_erro_j = 0.5e-5;
-	double min_erro_h = 0.1e-3;
+	double min_erro_j = 1.2e-7;
+	double min_erro_h = 1.6e-6;
 
 	bool use_exact = false;
 
@@ -168,8 +168,8 @@ int main(int argc, char *argv[]){
 
 		}
 		
-		erroJ = sqrt(erroJ)/bm.nbonds;
-		erroh = sqrt(erroh)/bm.n;
+		erroJ = sqrt(erroJ/bm.nbonds);
+		erroh = sqrt(erroh/bm.n);
 
 		//Salvando Erros
 		erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl; 

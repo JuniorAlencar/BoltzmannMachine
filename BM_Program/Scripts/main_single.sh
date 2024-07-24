@@ -2,7 +2,7 @@
 
 # flags to run create folders with libboost
 g++ ProcessingData.cpp -o ProcessingData -lboost_filesystem -lboost_system -O3 
-g++ -O3 BMfinal.cpp -o BMfinal 
+g++ -O3 BMfinal.cpp -o BMfinal
 g++ -O3 SpecificHeat.cpp -o SpecificHeat
 #g++ -O3 Magnetization_T.cpp -o Magnetization_T
 #g++ -O3 Matriz_Jij.cpp -o Matriz_Jij
@@ -10,15 +10,14 @@ g++ -O3 SpecificHeat.cpp -o SpecificHeat
 # Check if the correct number of arguments is provided
 
 # File_name j_min_erro h_min_erro
-if [ $# -ne 4 ]; then
-    echo "Usage: $0 <nome_do_arquivo> <j_min_erro> <h_min_erro> <test>"
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 <nome_do_arquivo> <j_min_erro> <h_min_erro>"
     exit 1
 fi
 
 filename=$1
 j_min_erro=$2
 h_min_erro=$3
-test=$4
 
 # Check if the input file exists
 if [ ! -f "../Data/TidyData/$filename" ]; then
@@ -38,16 +37,11 @@ if ! [[ $h_min_erro =~ $re_float ]]; then
     exit 1
 fi
 
-# Check if the fourth argument is a valid boolean
-if [ "$test" != "true" ] && [ "$test" != "false" ]; then
-    echo "Error: '$test' is not a valid boolean. Use 'true' or 'false'."
-    exit 1
-fi
-
 echo "Processando arquivo "$filename" ..."
 
 # Generate comparative and separate folders with files inside
-bash ./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" $test &
+#bash ./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" &
+./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" &
 
 
 count_processes() {
@@ -81,9 +75,12 @@ while [ $c -ge 17 ]; do
 done
 
 # Run the scripts with the three arguments
-bash ./ProcessingData $filename &
-bash ./BMfinal "$filename" "$j_min_erro" "$h_min_erro" "$test" &
-bash ./SpecificHeat "$filename" &
+# bash ./ProcessingData $filename &
+# bash ./BMfinal "$filename" "$j_min_erro" "$h_min_erro" "$test" &
+# bash ./SpecificHeat "$filename" &
+./ProcessingData $filename &
+./BMfinal "$filename" "$j_min_erro" "$h_min_erro" &
+./SpecificHeat "$filename" &
 # bash ./Magnetization_T "$filename" "$j_min_erro" "$h_min_erro" &
 # bash ./Matriz_Jij "$filename" "$j_min_erro" "$h_min_erro" &
 

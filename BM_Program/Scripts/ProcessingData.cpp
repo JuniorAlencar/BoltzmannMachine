@@ -29,7 +29,10 @@ int main (int argc, char *argv[]){
     //---------------------------------
     //Configuração para receber os dados
 	string file_name_input = argv[1];
-    string file_input = "../Data/TidyData/" + file_name_input;
+    
+	
+	
+	string file_input = "../Data/TidyData/" + file_name_input;
     ifstream data_input (file_input.c_str());
     //---------------------------------
 
@@ -43,27 +46,29 @@ int main (int argc, char *argv[]){
 
     //Contar o numero de amostrar
     int m = 0;
-
-    while (getline(data_input, first_line))
+	
+	int number = N + 1;
+    
+	while (getline(data_input, first_line))
     {
         m++;
     }
 
 	m++;
 
-    cout << "Numero de observaveis = " << N << endl;
+    cout << "Numero de observaveis = " << number << endl;
     cout << "Numero de amostrar = " << m << endl;
 
     //Voltar para o inicio do arquivo
     data_input.clear();
 	data_input.seekg (0, ios::beg);
 
-    //Criar matriz para receber os valores
+    
+	//Criar matriz para receber os valores
     vector<vector<int>> M(m, vector<int>(N));
-
-    //getline(data_input, first_line);
-
 	
+	
+    //getline(data_input, first_line);
 
     for (int w = 0; w < m; w++)
 	{
@@ -78,14 +83,13 @@ int main (int argc, char *argv[]){
                 getline(data_input, a);
             }           
 
-			M[w][p] = stoi(a);
-
+			M[w][p] = stoi(a);				
         }
 
 	}
 
     //fechar arquivo
-    //data_input.close();
+    data_input.close();
 
     //-------------------------------------------------------------------------
     //Calcular as magnetizações, segundos momentos e terceiros momentos

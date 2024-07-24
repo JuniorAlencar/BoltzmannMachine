@@ -25,8 +25,9 @@ int main(int argc, char *argv[]){
 	string file_network_name = "../Results/Network/network_" + text_input;
 	
 	ifstream network (file_network_name.c_str());
+	int number = n+1;
 	
-	network >> n;
+	network >> number;
 	
 	Rede r(n, 0, 0, 0, 0, 0);
 	

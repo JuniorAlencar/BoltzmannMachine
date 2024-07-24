@@ -73,8 +73,7 @@ Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double HH) : 
 			else
 				h[i] = (double) rand()/RAND_MAX;
 		}
-	}
-	
+	}	
 }
 
 //Função que cria as ligaçoes aleatorias e da valores para as constante J's e h's de acordo com alguma distribuição
