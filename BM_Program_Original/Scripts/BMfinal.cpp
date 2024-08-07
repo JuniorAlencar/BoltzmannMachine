@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
 	ifstream rede (file_rede_input.c_str());
 	
 	rede >> n;
-	cout << n << endl;
+	
 	VecDoub av_s(n, 0.0), av_ss(n*(n-1)/2, 0.0), C(n*(n-1)/2, 0.0);
 	
 	//Rede r(tamanho, media, desvio, k, type = 0(random) 1(tree), H = 0(no field) 1(ConstField) -1(ConstField) 2(RandField))
@@ -105,7 +105,7 @@ int main(int argc, char *argv[]){
 	VecDoub bm_av_s(n, 0.0), bm_av_ss(n*(n-1)/2, 0.0);
 
 	//variaveis para MC
-	int t_eq = n*150;
+	int t_eq = n*300;
 	int relx = 2*n;
 	int rept = 40;
 	int t_step = n*6000*relx/rept;
@@ -122,8 +122,8 @@ int main(int argc, char *argv[]){
 	double eta_h = 0.03;
 	
 	//N30 -> j,h -> 9.0e-6, 8.0e-5
-	double min_erro_j = 1.2e-7;
-	double min_erro_h = 1.6e-6;
+	double min_erro_j = 9.1e-6;
+	double min_erro_h = 4.2e-6;
 
 	bool use_exact = false;
 

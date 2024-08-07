@@ -1,8 +1,8 @@
-BM_Program/Results/
-BMCarmona/Results/
+**Results/
+#BMCarmona/Results/
 
 BMCarmona/build/
 BMCarmona/bin/
 BMCarmona/logs/
-BM_Program_Original/Results/Erro/erro_sampleN30.dat
+#BM_Program_Original/Results/Erro/erro_sampleN30.dat
 **/build/

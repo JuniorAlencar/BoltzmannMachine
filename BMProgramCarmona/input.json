@@ -1,21 +1,21 @@
 {
-    "run_name": "RandomLaser",
-    "input_data": "./Data/RandomLaser.dat",
-    "input_init_guess": "./Results/RandomLaser",
-    "output_err": "./Results/err_RandomLaser.csv",
-    "output_data": "./Results/RandomLaser.json",
-    "use_exact": false,
+    "run_name": "sampleN30",
+    "input_data": "./Data/sampleN30.dat",
+    "input_init_guess": "./Results/sampleN30",
+    "output_err": "./Results/err_sampleN30.csv",
+    "output_data": "./Results/sampleN30.json",
+    "use_exact": true,
     "relax": {
         "iter_display": 100,
         "iter_max": 100000,
-        "eta_J": 0.5,
-        "eta_h": 1.0,
-        "min_err_S": 0.001,
-        "min_err_SS": 1e-6
+        "eta_J": 0.05,
+        "eta_h": 0.03,
+        "min_err_S": 9.1e-4,
+        "min_err_SS": 4.2e-4
     },
     "mc": {
-        "n_rep": 50,
-        "t_eq": 3000,
-        "t_meas": 150000
+        "n_rep": 40,
+        "t_eq": 9000,
+        "t_meas": 270000
     }
 }

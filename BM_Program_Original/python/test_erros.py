@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import re
 import numpy as np
 import sys
-from matplotlib.animation import FuncAnimation
+#from matplotlib.animation import FuncAnimation
 import os
 
 # Abre o arquivo cpp do BMFinal e retorna o min_erro_j e min_erro_h
@@ -47,7 +47,7 @@ def erro_parms(parms,N_spins, save):
     df = pd.read_csv(f"../Results/Erro/erro_sampleN{N_spins}.dat",sep=' ',header=None)
     df.columns = ["MCS", "Erro_J", "Erro_h"]
     x = df["MCS"]
-
+    plt.figure(figsize=(16,9))
     if parms=="J":
         y = df["Erro_J"]
         if len(y)==1:
