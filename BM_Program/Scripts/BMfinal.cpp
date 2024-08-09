@@ -26,16 +26,29 @@ int main(int argc, char *argv[]){
 	int H;
 	
 	string text_name	= argv[1];
-	//float min_erro_j	= std::stof(argv[2]);
-	//float min_erro_h	= std::stof(argv[3]);
 	double min_erro_j	= std::stod(argv[2]);
 	double min_erro_h	= std::stod(argv[3]);
+	//double min_erro_j	= std::stod(argv[2]);
+	//double min_erro_h	= std::stod(argv[3]);
 	
-	if (argc != 4) {
-		string textname, min_err_j, min_err_h;
-		cout << "Usage: " << argv[0] << "textname" << min_err_j << min_err_h << endl;
-		return 1;
-	}
+    if (argc < 4) {
+        std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h>" << std::endl;
+        return 1;
+    }
+
+    try {
+        double min_erro_j = std::stod(argv[2]);
+        double min_erro_h = std::stod(argv[3]);
+
+        std::cout << "min_erro_j: " << min_erro_j << std::endl;
+        std::cout << "min_erro_h: " << min_erro_h << std::endl;
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Argumento inválido: " << e.what() << std::endl;
+        return 1;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Valor fora do intervalo: " << e.what() << std::endl;
+        return 1;
+    }
 	
 	//-----------------------------------------------------------------------------
 	//Ler o arquivo com as correlações e magnetizações de um certo arquivo
@@ -64,19 +77,6 @@ int main(int argc, char *argv[]){
 	
 	//rede.close();
 	
-//-----------------------------------------------------------------------------
-//Verifica os vetores de magnetizações e correlações
-
-//	for (int i = 0; i < r.nbonds; i++)
-//	{
-//		cout << left << setw(15) << av_ss[i] << left << setw(15) << C[i];
-//		
-//		if (i < r.n)
-//			cout << left << setw(15) << av_s[i];
-//			
-//		cout << endl;
-//	}
-
 //-----------------------------------------------------------------------------
 //Abrir arquivo da rede
 
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]){
 	VecDoub bm_av_s(n, 0.0), bm_av_ss(n*(n-1)/2, 0.0);
 
 	//variaveis para MC
-	int t_eq = n*150;
+	int t_eq = n*300;
 	int relx = 2*n;
 	int rept = 40;
 	int t_step = n*6000*relx/rept;
@@ -120,16 +120,19 @@ int main(int argc, char *argv[]){
 	double dJ, dh;
 	int cort = 1000;
 	int inter = 1;//= inter_ini;
-	int inter_max = 100000;
+	int inter_max = 150000;
 	
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
 
-	bool use_exact = false;
+	bool use_exact = true;
+	
 	
 	//Arquivo para salvar os erros ao longo do tempo
 	string file_name_erros = "../Results/Erro/erro_" + text_name;
 	ofstream erros (file_name_erros.c_str());
+	
+	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
 	
 	while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
 	{	
@@ -141,7 +144,7 @@ int main(int argc, char *argv[]){
 		eta_h = 2*pow(inter, -0.4);
 
 		
-		if (n > 25 && use_exact == false)
+		if (use_exact == false)
 		{
 			metropolis_bm (bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
 		}
@@ -173,7 +176,7 @@ int main(int argc, char *argv[]){
 		
 		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
 		{
-			cout  << text_name << " " << inter << "  " << left << setw(13) << erroJ << left << setw(13) << erroh << endl;
+			cout  << text_name << " " << inter << " " << "err_J" << " " << left << setw(13) << erroJ <<  "err_h" << " " << left << setw(13) << erroh << '\n';
 			//save_data (r, bm, av_s, av_ss, bm_av_s, bm_av_ss, pasta, inter);
 
 			//salvando dados
@@ -289,8 +292,6 @@ int main(int argc, char *argv[]){
     {
         file_hi << bm.h[i] << endl;
         file_mi << bm_av_s[i] << endl;
-		if(i<5)
-			cout << bm.h[i] << endl;
     }
 
     //fechando arquivos

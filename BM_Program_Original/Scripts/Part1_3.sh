@@ -1,6 +1,6 @@
-./ProcessingData1 $1
-./BMfinal1 $1
-./SpecificHeat1 $1
+./ProcessingData3 $1
+./BMfinal3 $1
+./SpecificHeat3 $1
 #./Magnetization_T $1
 #./Matriz_Jij $1
 

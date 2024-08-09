@@ -2,15 +2,15 @@ name="sampleN20"
 
 # ----------------------------------------------------------------------------------------------------------------
 
-g++ -O3 ProcessingData.cpp -o ProcessingData1
-g++ -O3 BMfinal.cpp -o BMfinal1
-g++ -O3 SpecificHeat.cpp -o SpecificHeat1
+g++ -O3 ProcessingData.cpp -o ProcessingData2
+g++ -O3 BMfinal.cpp -o BMfinal2
+g++ -O3 SpecificHeat.cpp -o SpecificHeat2
 #g++ -O3 Magnetization_T.cpp -o Magnetization_T
 #g++ -O3 Matriz_Jij.cpp -o Matriz_Jij
 
 echo "Processando arquivo "$name" ..."
 
-bash ./Part1.sh $name &
+bash ./Part1_2.sh $name &
 
 cP=$( ps aux | grep "./ProcessingData2" | wc -l )
 cB=$( ps aux | grep "./BMfinal2" | wc -l )

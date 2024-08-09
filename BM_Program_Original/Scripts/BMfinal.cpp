@@ -105,15 +105,13 @@ int main(int argc, char *argv[]){
 	VecDoub bm_av_s(n, 0.0), bm_av_ss(n*(n-1)/2, 0.0);
 
 	//variaveis para MC
-	int t_eq = n*300;
+	int t_eq = n*150;
 	int relx = 2*n;
 	int rept = 40;
 	int t_step = n*6000*relx/rept;
 	
 	double erroJ = 1, erroh = 1;
 	double dJ, dh;
-	//int inter_ini = atoi(argv[3]);
-	//int inter_max = atoi(argv[4]);
 	int cort = 1000;
 	int inter = 1;//= inter_ini;
 	int inter_max = 150000;
@@ -122,13 +120,10 @@ int main(int argc, char *argv[]){
 	double eta_h = 0.03;
 	
 	//N30 -> j,h -> 9.0e-6, 8.0e-5
-<<<<<<< HEAD
-	double min_erro_j = 9.1e-6;
-	double min_erro_h = 4.2e-6;
-=======
-	double min_erro_j = 9.712739e-04;
-	double min_erro_h = 6.670033e-04;
->>>>>>> bb11ea7 (update final)
+
+	double min_erro_j = 9.1e-06;
+	double min_erro_h = 4.2e-06;
+
 
 	bool use_exact = false;
 
@@ -138,6 +133,7 @@ int main(int argc, char *argv[]){
 	ofstream erros (file_name_erros.c_str());
 
 	//erros.seekg(0, std::ios_base::end);
+	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
 	
 	while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
 	{	
@@ -149,12 +145,12 @@ int main(int argc, char *argv[]){
 		eta_h = 2*pow(inter, -0.4);
 
 		
-		if (n > 25 && use_exact == false)
+		if (use_exact == false)
 		{
 			metropolis_bm (bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
 		}
 		else
-		{
+		{	
 			exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
 		}		
 
@@ -181,11 +177,7 @@ int main(int argc, char *argv[]){
 		
 		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
 		{
-			cout  << text_name << " " << inter << " " << "err_J" << left << setw(13) << erroJ <<  "err_h" << left << setw(13) << erroh << endl;
-			//save_data (r, bm, av_s, av_ss, bm_av_s, bm_av_ss, pasta, inter);
-
-			//salvando dados
-			//SalvarDados(bm, bm_av_s, bm_av_ss, text_name);
+			cout  << text_name << " " << inter << " " << "err_J" << " " << left << setw(13) << erroJ <<  "err_h" << " " << left << setw(13) << erroh << '\n';
 		}			
 
 		inter++;

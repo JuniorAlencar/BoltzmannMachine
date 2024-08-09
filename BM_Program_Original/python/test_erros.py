@@ -44,23 +44,22 @@ def erro_parms(parms,N_spins, save):
     
     min_values = extract_formatted_values_from_cpp()
 
-    df = pd.read_csv(f"../Results/Erro/erro_sampleN{N_spins}.dat",sep=' ',header=None)
-    df.columns = ["MCS", "Erro_J", "Erro_h"]
-    x = df["MCS"]
+    df = pd.read_csv(f"../Results/Erro/erro_sampleN{N_spins}.dat",sep=' ')
+    x = df["inter"]
     plt.figure(figsize=(16,9))
     if parms=="J":
-        y = df["Erro_J"]
+        y = df["erroJ"]
         if len(y)==1:
             return print(f'erro_{parms} Atinge mínimo com um MCH para Nspins = {N_spins}')
         else:
-            y_lim = np.ones(len(y))*9.712739e-04
+            y_lim = np.ones(len(y))*9.1e-06
     
     elif parms=="h":
-        y = df["Erro_h"]
+        y = df["erroh"]
         if len(y)==1:
             return print(f'erro_{parms} Atinge mínimo com um MCH para Nspins = {N_spins}')
         else:
-            y_lim = np.ones(len(y))*6.670033e-04
+            y_lim = np.ones(len(y))*4.2e-06
     
     # Clear previous plot
     #print(float(min_values['min_erro_j']))
