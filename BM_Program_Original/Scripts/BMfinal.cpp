@@ -116,14 +116,19 @@ int main(int argc, char *argv[]){
 	//int inter_max = atoi(argv[4]);
 	int cort = 1000;
 	int inter = 1;//= inter_ini;
-	int inter_max = 100000;
+	int inter_max = 150000;
 	
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
 	
 	//N30 -> j,h -> 9.0e-6, 8.0e-5
+<<<<<<< HEAD
 	double min_erro_j = 9.1e-6;
 	double min_erro_h = 4.2e-6;
+=======
+	double min_erro_j = 9.712739e-04;
+	double min_erro_h = 6.670033e-04;
+>>>>>>> bb11ea7 (update final)
 
 	bool use_exact = false;
 
@@ -176,7 +181,7 @@ int main(int argc, char *argv[]){
 		
 		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
 		{
-			cout  << text_name << " " << inter << "  " << left << setw(13) << erroJ << left << setw(13) << erroh << endl;
+			cout  << text_name << " " << inter << " " << "err_J" << left << setw(13) << erroJ <<  "err_h" << left << setw(13) << erroh << endl;
 			//save_data (r, bm, av_s, av_ss, bm_av_s, bm_av_ss, pasta, inter);
 
 			//salvando dados

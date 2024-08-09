@@ -53,14 +53,14 @@ def erro_parms(parms,N_spins, save):
         if len(y)==1:
             return print(f'erro_{parms} Atinge mínimo com um MCH para Nspins = {N_spins}')
         else:
-            y_lim = np.ones(len(y))*float(min_values['min_erro_j'])
+            y_lim = np.ones(len(y))*9.712739e-04
     
     elif parms=="h":
         y = df["Erro_h"]
         if len(y)==1:
             return print(f'erro_{parms} Atinge mínimo com um MCH para Nspins = {N_spins}')
         else:
-            y_lim = np.ones(len(y))*float(min_values['min_erro_h'])
+            y_lim = np.ones(len(y))*6.670033e-04
     
     # Clear previous plot
     #print(float(min_values['min_erro_j']))

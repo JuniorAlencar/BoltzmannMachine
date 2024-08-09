@@ -2,6 +2,7 @@
     "run_name": "sampleN30",
     "input_data": "./Data/sampleN30.dat",
     "input_init_guess": "./Results/sampleN30",
+<<<<<<< HEAD
     "output_err": "./Results/err_sampleN30.csv",
     "output_data": "./Results/sampleN30.json",
     "use_exact": true,
@@ -12,6 +13,18 @@
         "eta_h": 0.03,
         "min_err_S": 9.1e-4,
         "min_err_SS": 4.2e-4
+=======
+    "output_err": "./Results/err_sampleN30.txt",
+    "output_data": "./Results/sampleN30.json",
+    "use_exact": false,
+    "relax": {
+        "iter_display": 100,
+        "iter_max": 150000,
+        "eta_J": 0.05,
+        "eta_h": 0.03,
+        "min_err_S": 6.670033e-04,
+        "min_err_SS": 9.712739e-04
+>>>>>>> bb11ea7 (update final)
     },
     "mc": {
         "n_rep": 40,

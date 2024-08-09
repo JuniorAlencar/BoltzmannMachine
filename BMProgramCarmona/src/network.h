@@ -11,16 +11,21 @@
 class Rede
 {
 	public:
+		// Number spins and 
 		int n, nbonds;
+		// 
 		double mean, sigma; 
+		// Probability of connection
 		double k;
 		VecInt no, s, nb, s_nb;
+		// Vector that will carry the values ​​of Jij
 		VecDoub J;
+		// Vector that will carry the values ​​of hi
 		VecDoub h;
-		
+		// Type 0 -> random network, Type 1 -> regular network
 		int type;
 		double H;
-		
+		// Constructor to network
 		Rede(const int &m, 
 		const double &mean_, 
 		const double &sigma_, 

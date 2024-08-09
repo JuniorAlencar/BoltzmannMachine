@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 name="sampleN20"
 
+=======
+name='sampleN20'
+>>>>>>> bb11ea7 (update final)
 # ----------------------------------------------------------------------------------------------------------------
+
 
 g++ -O3 ProcessingData.cpp -o ProcessingData2
 g++ -O3 BMfinal.cpp -o BMfinal2
@@ -20,19 +25,30 @@ cS=$( ps aux | grep "./SpecificHeat2" | wc -l )
 
 #c=$((cP+cB+cS+cM+CT))
 c=$((cP+cB+cS))
+<<<<<<< HEAD
+
+while [ $c -ge 17 ] ; do
+=======
+>>>>>>> bb11ea7 (update final)
 
 while [ $c -ge 17 ] ; do
 
-    cP=$( ps aux | grep "./ProcessingData2" | wc -l )
-    cB=$( ps aux | grep "./BMfinal2" | wc -l )
-    cS=$( ps aux | grep "./SpecificHeat2" | wc -l )
-    #cM=$( ps aux | grep "./Magnetization_T" | wc -l )
-    #cT=$( ps aux | grep "./Matriz_Jij" | wc -l )
+	cP=$( ps aux | grep "./ProcessingData2" | wc -l )
+	cB=$( ps aux | grep "./BMfinal2" | wc -l )
+	cS=$( ps aux | grep "./SpecificHeat2" | wc -l )
+	#cM=$( ps aux | grep "./Magnetization_T" | wc -l )
+	#cT=$( ps aux | grep "./Matriz_Jij" | wc -l )
 
-    #c=$((cP+cB+cS+cM+CT))
-    c=$((cP+cB+cS))
-
+<<<<<<< HEAD
     sleep 5
+=======
+	#c=$((cP+cB+cS+cM+CT))
+	c=$((cP+cB+cS))
+
+	sleep 5
+
+    
+>>>>>>> bb11ea7 (update final)
 
 done
 

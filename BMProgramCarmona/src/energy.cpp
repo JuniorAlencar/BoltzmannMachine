@@ -1,14 +1,19 @@
 #include "energy.h"
 
+// Network arguments in network.h
+
 //CALCULA A ENERGIA TOTAL DO ESTADO ATUAL----------------------------------------------------------
 double Energy (Rede &r)
 {
+	// Initial Energy
 	double E = 0;
 	int k = 0;
-
+	
+	// Sum of the contribution of all spins
 	for (int i = 0; i < r.nbonds; i++)
 	{
 		if (i < r.n)
+			
 			E += r.h[i]*r.s[i];
 		
 		r.Rede::node(i);
@@ -22,6 +27,7 @@ double Energy (Rede &r)
 }
 //-------------------------------------------------------------------------------------------------
 
+// Energy difference after flip spin
 double delta_E (Rede &r, const int s_flip)
 {
 	double dE, Jsum = 0;
