@@ -2,14 +2,19 @@
 # $2, $3 -> j_min_erro, h_min_erro (cientific notation, ex: 1.0e-8)
 # $4 -> bolean_variable (test), if test=true, create test_files
 
-./ProcessingData $1
+./ProcessingData $1 $4
 ./BMfinal $1 $2 $3 $4
 ./SpecificHeat $1
 #./Magnetization_T $1
 #./Matriz_Jij $1
-
-path_in='../Results/SeparateData/'
-path_out='../Results/Comparativo/'
+use_exact=$4
+if [ "$use_exact" = "true" ]; then
+    path_in='../Results/SeparateData/'
+    path_out='../Results/Comparativo/'
+else
+    path_in='../Results_Metropolis/SeparateData/'
+    path_out='../Results_Metropolis/Comparativo/'
+fi
 
 #Magnetização
 paste $path_in'mi-exp/mi_exp_'$1'' $path_in'mi-ising/mi_ising_'$1'' | sed 's/\t/ /g' > $path_out'Magnetização/mag_exp_ising_'$1''

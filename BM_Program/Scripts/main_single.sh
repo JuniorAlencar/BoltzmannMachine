@@ -10,14 +10,15 @@ g++ -O3 SpecificHeat.cpp -o SpecificHeat
 # Check if the correct number of arguments is provided
 
 # File_name j_min_erro h_min_erro
-if [ $# -ne 3 ]; then
-    echo "Usage: $0 <nome_do_arquivo> <j_min_erro> <h_min_erro>"
+if [ $# -ne 4 ]; then
+    echo "Usage: $0 <nome_do_arquivo> <j_min_erro> <h_min_erro> <use_exact>"
     exit 1
 fi
 
 filename=$1
 j_min_erro=$2
 h_min_erro=$3
+use_exact=$4
 
 # Check if the input file exists
 if [ ! -f "../Data/TidyData/$filename" ]; then
@@ -41,7 +42,7 @@ echo "Processando arquivo "$filename" ..."
 
 # Generate comparative and separate folders with files inside
 #bash ./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" &
-./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" &
+./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" "$use_exact"&
 
 
 count_processes() {
@@ -78,9 +79,9 @@ done
 # bash ./ProcessingData $filename &
 # bash ./BMfinal "$filename" "$j_min_erro" "$h_min_erro" "$test" &
 # bash ./SpecificHeat "$filename" &
-./ProcessingData $filename &
-./BMfinal "$filename" "$j_min_erro" "$h_min_erro" &
-./SpecificHeat "$filename" &
+./ProcessingData $filename "$use_exact" &
+./BMfinal "$filename" "$j_min_erro" "$h_min_erro" "$use_exact" &
+./SpecificHeat "$filename" "$use_exact" &
 # bash ./Magnetization_T "$filename" "$j_min_erro" "$h_min_erro" &
 # bash ./Matriz_Jij "$filename" "$j_min_erro" "$h_min_erro" &
 

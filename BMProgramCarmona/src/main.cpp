@@ -4,6 +4,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
+#include <boost/filesystem.hpp>
 
 #include "exact_solution.h"
 #include "experimental_means.h"
@@ -17,8 +18,21 @@
 #include "write_json.h"
 
 using namespace std;
+namespace fs = boost::filesystem;
+
+void create_folders(){
+    string results_folder = "./Results";
+    fs::create_directories(results_folder);
+    
+    string results_folder_metropolis = "./Results_Metropolis";
+    fs::create_directories(results_folder_metropolis);
+}
+
 
 int main(int argc, char *argv[]) {
+  // Create Folders
+  create_folders();
+  
   spdlog::flush_every(std::chrono::seconds(10));
 
   auto logger = get_logger();
@@ -107,7 +121,7 @@ int main(int argc, char *argv[]) {
     logger->info("main: using full ensemble");
   else
     logger->info("main: using metropolis");
-
+  
   while ((err_SS > min_err_SS || err_S > min_err_S) &&
          iter <= iter_max) //(inter <= inter_max)
   {
@@ -119,14 +133,13 @@ int main(int argc, char *argv[]) {
     eta_J = pow(iter, -0.4);
     eta_h = 2 * pow(iter, -0.4);
 
-    if (p.use_exact && nspins < 24) {
+    if (p.use_exact) {
       exact_solution_bm(bm, bm_av_s, bm_av_ss, beta);
     } else {
       metropolis(bm, bm_av_s, bm_av_ss, bm_av_ss, t_eq, t_meas, t_rep, n_rep,
                  beta, false);
     }
 
-    
     for (int i = 0; i < bm.nbonds; i++) {
       if (i < bm.n) {
         dh = eta_h * (bm_av_s[i] - av_s[i]);
@@ -147,7 +160,8 @@ int main(int argc, char *argv[]) {
 
     if (iter % iter_display == 0 ||
         (err_SS < min_err_SS && err_S < min_err_S)) {
-      logger->info("main: {0} iter={1:d} err_S={2:07.6f} err_SS={3:07.6f}",
+          
+      logger->info("main: {0} iter={1:d} err_S={2:.6E} err_SS={3:.6E}",
                    p.run_name, iter, err_S, err_SS);
     }
 
@@ -157,7 +171,7 @@ int main(int argc, char *argv[]) {
   // Fechar arquivos dos erros salvos
   cerr_f.close();
 
-  if (p.use_exact && nspins < 24) {
+  if (p.use_exact) {
     exact_solution_triplet(bm, bm_av_s, bm_av_ss, bm_av_sss, beta);
   } else {
     metropolis(bm, bm_av_s, bm_av_ss, bm_av_sss, t_eq, t_meas, t_rep, n_rep,

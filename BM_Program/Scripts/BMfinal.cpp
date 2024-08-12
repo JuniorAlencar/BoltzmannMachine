@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
+#include <fmt/core.h>
 #include "./include/nr3.h"
 #include "./include/network.h"
 #include "./include/forwardmethod.h"
@@ -28,11 +29,12 @@ int main(int argc, char *argv[]){
 	string text_name	= argv[1];
 	double min_erro_j	= std::stod(argv[2]);
 	double min_erro_h	= std::stod(argv[3]);
+	bool use_exact = (std::string(argv[4]) == "true");
 	//double min_erro_j	= std::stod(argv[2]);
 	//double min_erro_h	= std::stod(argv[3]);
 	
-    if (argc < 4) {
-        std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h>" << std::endl;
+    if (argc < 5) {
+        std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <exact_solutions>" << std::endl;
         return 1;
     }
 
@@ -49,14 +51,59 @@ int main(int argc, char *argv[]){
         std::cerr << "Valor fora do intervalo: " << e.what() << std::endl;
         return 1;
     }
+	// If true -> exact_solutions, else -> Metropolis
+	string file_name_erros;
+	string file_mag_corr_output;
+	string file_name_Jij;
+	string file_name_Cij;
+	string file_name_Pij;
+	string file_name_sisj;
+	string file_name_Tijk;
+	string file_name_sisjsk;
+	string file_name_CorrJij;
+	string file_name_PJij;
+	string file_name_hi;
+	string file_name_mi;
+
+	string file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name;
+	string file_network_name = "../Results/Network/network_" + text_name;
+	string file_rede_output = "../Results/Network/network_" + text_name;
 	
+	if(use_exact == true){
+		file_name_erros = "../Results/Erro/erro_" + text_name;
+		file_mag_corr_output = "../Results/Mag_Corr_ising/mag_corr_ising_" + text_name;
+		file_name_Jij = "../Results/SeparateData/Jij/Jij_" + text_name;
+		file_name_Cij = "../Results/SeparateData/Cij-ising/Cij_ising_" + text_name;
+		file_name_Pij = "../Results/SeparateData/Pij-ising/Pij_ising_" + text_name;
+		file_name_sisj = "../Results/SeparateData/sisj-ising/sisj_ising_" + text_name;
+		file_name_Tijk = "../Results/SeparateData/Tijk-ising/Tijk_ising_" + text_name;
+		file_name_sisjsk = "../Results/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name;
+		file_name_CorrJij = "../Results/CorrJij/CorrJij_" + text_name;
+		file_name_PJij = "../Results/PJij/PJij_" + text_name;
+		file_name_hi = "../Results/SeparateData/hi/hi_" + text_name;
+		file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name;
+	}
+	
+	file_name_erros = "../Results_Metropolis/Erro/erro_" + text_name;
+	file_mag_corr_output = "../Results_Metropolis/Mag_Corr_ising/mag_corr_ising_" + text_name;
+	file_name_Jij = "../Results_Metropolis/SeparateData/Jij/Jij_" + text_name;
+	file_name_Cij = "../Results_Metropolis/SeparateData/Cij-ising/Cij_ising_" + text_name;
+	file_name_Pij = "../Results_Metropolis/SeparateData/Pij-ising/Pij_ising_" + text_name;
+	file_name_sisj = "../Results_Metropolis/SeparateData/sisj-ising/sisj_ising_" + text_name;
+	file_name_Tijk = "../Results_Metropolis/SeparateData/Tijk-ising/Tijk_ising_" + text_name;
+	file_name_sisjsk = "../Results_Metropolis/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name;
+	file_name_CorrJij = "../Results_Metropolis/CorrJij/CorrJij_" + text_name;
+	file_name_PJij = "../Results_Metropolis/PJij/PJij_" + text_name;
+	file_name_hi = "../Results_Metropolis/SeparateData/hi/hi_" + text_name;
+	file_name_mi = "../Results_Metropolis/SeparateData/mi-ising/mi_ising_" + text_name;
+
+	// nomes dos arquivos
+
 	//-----------------------------------------------------------------------------
 	//Ler o arquivo com as correlações e magnetizações de um certo arquivo
 
 	//create_folders();
 	
-	string file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name;
-
 	ifstream rede (file_rede_input.c_str());
 	
 	rede >> n;
@@ -80,7 +127,7 @@ int main(int argc, char *argv[]){
 //-----------------------------------------------------------------------------
 //Abrir arquivo da rede
 
-	string file_network_name = "../Results/Network/network_" + text_name;
+	
 	
 	ifstream network_in (file_network_name.c_str());
 	
@@ -125,11 +172,8 @@ int main(int argc, char *argv[]){
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
 
-	bool use_exact = true;
-	
-	
 	//Arquivo para salvar os erros ao longo do tempo
-	string file_name_erros = "../Results/Erro/erro_" + text_name;
+	
 	ofstream erros (file_name_erros.c_str());
 	
 	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
@@ -176,7 +220,8 @@ int main(int argc, char *argv[]){
 		
 		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
 		{
-			cout  << text_name << " " << inter << " " << "err_J" << " " << left << setw(13) << erroJ <<  "err_h" << " " << left << setw(13) << erroh << '\n';
+			//cout  << text_name << " " << inter << " " << "err_J" << " " << left << setw(13) << erroJ <<  "err_h" << " " << left << setw(13) << erroh << '\n';
+			cout  << text_name << " " << inter << " " << "err_J" << " " << left << scientificNumber(erroJ, 3) <<  "err_h" << " " << left << scientificNumber(erroh,3) << '\n';
 			//save_data (r, bm, av_s, av_ss, bm_av_s, bm_av_ss, pasta, inter);
 
 			//salvando dados
@@ -193,7 +238,7 @@ int main(int argc, char *argv[]){
 //-----------------------------------------------------------------------------
 //Arquivo para salvar a rede obtida	
 
-	string file_rede_output = "../Results/Network/network_" + text_name;
+	
 
 	ofstream network (file_rede_output.c_str());
 
@@ -214,7 +259,7 @@ int main(int argc, char *argv[]){
 //-----------------------------------------------------------------------------
 //Arquivo para salvar a correlação e magnetizações geradas pela rede encontrada
 
-	string file_mag_corr_output = "../Results/Mag_Corr_ising/mag_corr_ising_" + text_name;
+	
 
 	ofstream mag_corr (file_mag_corr_output.c_str());
 
@@ -252,14 +297,14 @@ int main(int argc, char *argv[]){
 
 	//Salva arquivo com Jij e Correlação-------------------
     //Nome do arquivo alvo
-    string file_name_CorrJij = "../Results/CorrJij/CorrJij_" + text_name;
+    
 
     //Abrindo arquivo output
     ofstream CorrJij (file_name_CorrJij.c_str());
 
 	//Salvar arquivo com Jij e Pij
 	//Nome do arquivo alvo
-	string file_name_PJij = "../Results/PJij/PJij_" + text_name;
+
 
 	//Abrindo arquivo output
 	ofstream PJij (file_name_PJij.c_str());
@@ -277,13 +322,13 @@ int main(int argc, char *argv[]){
 //Salvar os dados separadamente
 
     //Arquivo para hi------------------
-    string file_name_hi = "../Results/SeparateData/hi/hi_" + text_name;
+    
 
     //abrir arquivo
     ofstream file_hi (file_name_hi.c_str());
 
     //Arquivo para mi -----------------
-    string file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name;
+    
 
     //abrir arquivo
     ofstream file_mi (file_name_mi.c_str());
@@ -301,25 +346,24 @@ int main(int argc, char *argv[]){
     //-----------------------------------------------------
 
     //Arquivo para Jij------------------
-    string file_name_Jij = "../Results/SeparateData/Jij/Jij_" + text_name;
+    
 
     //abrir arquivo
     ofstream file_Jij (file_name_Jij.c_str());
 
     //Arquivo para Cij -----------------
-    string file_name_Cij = "../Results/SeparateData/Cij-ising/Cij_ising_" + text_name;
 
     //abrir arquivo
     ofstream file_Cij (file_name_Cij.c_str());
 
 	//Arquivo para Pij
-	string file_name_Pij = "../Results/SeparateData/Pij-ising/Pij_ising_" + text_name;
+	
 
 	//abrir arquivo
 	ofstream file_Pij (file_name_Pij.c_str());
 
 	//Arquivo para sisj
-	string file_name_sisj = "../Results/SeparateData/sisj-ising/sisj_ising_" + text_name;
+	
 
 	//abrir arquivo
 	ofstream file_sisj (file_name_sisj.c_str());
@@ -347,13 +391,13 @@ int main(int argc, char *argv[]){
 	vector<vector<double>> ising_M_av_ss(n, vector<double>(n));
 
 	//Arquivo para Tijk
-	string file_name_Tijk = "../Results/SeparateData/Tijk-ising/Tijk_ising_" + text_name;
+	
 
 	//abrir arquivo
 	ofstream file_Tijk (file_name_Tijk.c_str());
 
 	//Arquivo para sisjsk
-	string file_name_sisjsk = "../Results/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name;
+	
 
 	//abrir arquivo
 	ofstream file_sisjsk (file_name_sisjsk.c_str());

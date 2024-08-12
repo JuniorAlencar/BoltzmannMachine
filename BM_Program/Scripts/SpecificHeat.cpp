@@ -13,6 +13,7 @@ int main(int argc, char *argv[]){
 
 
 	string text_input = argv[1];
+	bool use_exact = (std::string(argv[4]) == "true");
 
 	int n;
 
@@ -41,8 +42,25 @@ int main(int argc, char *argv[]){
 	}
 	
 	network.close();
+	string file_cap_linear_name;
+	string file_energia_name;
+	string file_mag_vs_T_name;
+	string file_susc_vs_T_name;
+// nome dos arquivos-------------------------------------------------
 	
-//-----------------------------------------------------------------------------
+	if(use_exact == true){
+		file_cap_linear_name = "../Results/CalorEspecifico/linear_specific_heat_" + text_input;
+		file_energia_name = "../Results/Energia/energia_" + text_input;
+		file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input;
+		file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input;
+	};
+
+	file_cap_linear_name = "../Results_Metropolis/CalorEspecifico/linear_specific_heat_" + text_input;
+	file_energia_name = "../Results_Metropolis/Energia/energia_" + text_input;
+	file_mag_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/mag_T_" + text_input;
+	file_susc_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/susc_T_" + text_input;	
+
+
 //Escala linear
 
 	//variaveis para MC
@@ -51,25 +69,22 @@ int main(int argc, char *argv[]){
 	int rept = 40;
 	int t_step = n*6000*relx/rept;
 
-	bool use_exact = false;
-	
-	string file_cap_linear_name = "../Results/CalorEspecifico/linear_specific_heat_" + text_input;
+	//bool use_exact = false;
 	
 	ofstream cap_li (file_cap_linear_name.c_str());
 
-	string file_energia_name = "../Results/Energia/energia_" + text_input;
-	
+
 	ofstream ene (file_energia_name.c_str());
 	
 	double E, E2, sp;
 
 	//Arquivo para salvar magnetização versus temperatura
-    string file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input;
+    
     
     ofstream magT (file_mag_vs_T_name.c_str());
 
     //Arquivo para salvar Susceptibility versus temperatura
-    string file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input;
+    
     
     ofstream susc (file_susc_vs_T_name.c_str());
 

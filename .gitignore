@@ -1,10 +1,17 @@
-Results/
 */Results/
-**/Results/
+
+Results_Metropolis/
+*/Results_Metropolis/
+**/Results_Metropolis/
+
 #BMCarmona/Results/
 
 BMProgramCarmona/build/
 BMProgramCarmona/bin/
 BMProgramCarmona/logs/
+
+
+*/Data/
+
 #BM_Program_Original/Results/Erro/erro_sampleN30.dat
 

@@ -579,5 +579,42 @@ turn_on_floating_exceptions yes_turn_on_floating_exceptions;
 #endif /* _MSC_VER */
 #endif /* _TURNONFPES */
 
+// here ->
+template<typename T>
+struct scientificNumberType
+{
+    explicit scientificNumberType(T number, int decimalPlaces) : number(number), decimalPlaces(decimalPlaces) {}
+
+    T number;
+    int decimalPlaces;
+};
+
+template<typename T>
+scientificNumberType<T> scientificNumber(T t, int decimalPlaces)
+{
+    return scientificNumberType<T>(t, decimalPlaces);
+}
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const scientificNumberType<T>& n)
+{
+    double numberDouble = n.number;
+
+    int eToThe = 0;
+    for(; numberDouble > 9; ++eToThe)
+    {
+        numberDouble /= 10;
+    }
+
+    // memorize old state
+    std::ios oldState(nullptr);
+    oldState.copyfmt(os);
+
+    os << std::fixed << std::setprecision(n.decimalPlaces) << numberDouble << "e" << eToThe;
+
+    // restore state
+    os.copyfmt(oldState);
+}
+
 #endif /* _NR3_H_ */
 

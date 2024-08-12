@@ -36,15 +36,18 @@ def extract_formatted_values_from_cpp():
 
     return results
 
-def erro_parms(parms,N_spins, save):
+def erro_parms(parms,N_spins, exact_solution, save):
     # Create folder to test_erro
     folder = f"./tests_erro/{parms}"
     if not os.path.exists(folder):
         os.makedirs(folder)
     
     min_values = extract_formatted_values_from_cpp()
-
-    df = pd.read_csv(f"../Results/Erro/erro_sampleN{N_spins}.dat",sep=' ')
+    if(exact_solution==True):
+        df = pd.read_csv(f"../Results/Erro/erro_sampleN{N_spins}.dat",sep=' ')
+    else:
+        df = pd.read_csv(f"../Results_Metropolis/Erro/erro_sampleN{N_spins}.dat",sep=' ')
+    
     x = df["inter"]
     plt.figure(figsize=(16,9))
     if parms=="J":
@@ -52,14 +55,14 @@ def erro_parms(parms,N_spins, save):
         if len(y)==1:
             return print(f'erro_{parms} Atinge mínimo com um MCH para Nspins = {N_spins}')
         else:
-            y_lim = np.ones(len(y))*9.1e-06
+            y_lim = np.ones(len(y))*9.1e-05
     
     elif parms=="h":
         y = df["erroh"]
         if len(y)==1:
             return print(f'erro_{parms} Atinge mínimo com um MCH para Nspins = {N_spins}')
         else:
-            y_lim = np.ones(len(y))*4.2e-06
+            y_lim = np.ones(len(y))*4.2e-05
     
     # Clear previous plot
     #print(float(min_values['min_erro_j']))
@@ -113,6 +116,7 @@ def erro_min(N_spins, value):
 if __name__ == "__main__":
     nspins = int(sys.argv[1])
     parms = str(sys.argv[2])
-    save = sys.argv[3].lower() == 'true'
+    exact_solution = sys.argv[3].lower() == 'true'
+    save = sys.argv[4].lower() == 'true'
     #erro_min(nspins,True)
-    erro_parms(parms, nspins, save)
+    erro_parms(parms, nspins, exact_solution, save)

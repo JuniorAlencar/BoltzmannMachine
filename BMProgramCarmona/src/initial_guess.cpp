@@ -7,8 +7,6 @@ void read_initial_guess(const string filename, Rede& bm){
     int nspins;
     string line;
 
-
-
 	ifstream fin(filename.c_str());
 
 	if (!fin) {
