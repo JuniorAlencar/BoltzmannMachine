@@ -36,7 +36,7 @@ def extract_formatted_values_from_cpp():
 
     return results
 
-def erro_parms(parms,N_spins, exact_solution, save):
+def erro_parms(parms, N_spins, exact_solution, save):
     # Create folder to test_erro
     folder = f"./tests_erro/{parms}"
     if not os.path.exists(folder):

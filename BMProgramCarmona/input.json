@@ -5,6 +5,7 @@
     "output_err": "./Results/err_sampleN20.txt",
     "output_data": "./Results/sampleN20.json",
     "use_exact": true,
+    
     "relax": {
         "iter_display": 100,
         "iter_max": 150000,
@@ -13,6 +14,7 @@
         "min_err_S": 4.2e-05,
         "min_err_SS": 9.1e-05
     },
+    
     "mc": {
         "n_rep": 40,
         "t_eq": 9000,

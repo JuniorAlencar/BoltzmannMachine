@@ -3,7 +3,7 @@
 # flags to run create folders with libboost
 g++ ProcessingData.cpp -o ProcessingData -lboost_filesystem -lboost_system -O3 
 g++ -O3 BMfinal.cpp -o BMfinal
-g++ -O3 SpecificHeat.cpp -o SpecificHeat
+g++ SpecificHeat.cpp -o SpecificHeat
 #g++ -O3 Magnetization_T.cpp -o Magnetization_T
 #g++ -O3 Matriz_Jij.cpp -o Matriz_Jij
 

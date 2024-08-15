@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
 
 
 	string text_input = argv[1];
-	bool use_exact = (std::string(argv[4]) == "true");
+	bool use_exact = (std::string(argv[2]) == "true");
 
 	int n;
 
@@ -23,8 +23,32 @@ int main(int argc, char *argv[]){
 //-----------------------------------------------------------------------------
 //Abrir arquivo da rede
 
-	string file_network_name = "../Results/Network/network_" + text_input;
+	string file_network_name;
+	string file_cap_linear_name;
+	string file_energia_name;
+	string file_mag_vs_T_name;
+	string file_susc_vs_T_name;
+// nome dos arquivos-------------------------------------------------
 	
+	if(use_exact == true){
+		// Network file to exact solutions
+		file_network_name = "../Results/Network/network_" + text_input;
+		file_cap_linear_name = "../Results/SpecificHeat/linear_specific_heat_" + text_input;
+		file_energia_name = "../Results/Energy/energy_" + text_input;
+		file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input;
+		file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input;
+	}
+	
+	else{
+	// Network file to metropolis algorithm
+	file_network_name = "../Results_Metropolis/Network/network_" + text_input;
+	file_cap_linear_name = "../Results_Metropolis/SpecificHeat/linear_specific_heat_" + text_input;
+	file_energia_name = "../Results_Metropolis/Energy/energia_" + text_input;
+	file_mag_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/mag_T_" + text_input;
+	file_susc_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/susc_T_" + text_input;
+	}
+	
+
 	ifstream network (file_network_name.c_str());
 	int number = n+1;
 	
@@ -42,24 +66,6 @@ int main(int argc, char *argv[]){
 	}
 	
 	network.close();
-	string file_cap_linear_name;
-	string file_energia_name;
-	string file_mag_vs_T_name;
-	string file_susc_vs_T_name;
-// nome dos arquivos-------------------------------------------------
-	
-	if(use_exact == true){
-		file_cap_linear_name = "../Results/CalorEspecifico/linear_specific_heat_" + text_input;
-		file_energia_name = "../Results/Energia/energia_" + text_input;
-		file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input;
-		file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input;
-	};
-
-	file_cap_linear_name = "../Results_Metropolis/CalorEspecifico/linear_specific_heat_" + text_input;
-	file_energia_name = "../Results_Metropolis/Energia/energia_" + text_input;
-	file_mag_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/mag_T_" + text_input;
-	file_susc_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/susc_T_" + text_input;	
-
 
 //Escala linear
 

@@ -58,6 +58,7 @@ void create_folders() {
     // Add more folders as required
     string correlation_folder = comparative_folder + "/correlation";
     string magnetization_folder = comparative_folder + "/magnetization";
+    string covariance_folder = comparative_folder + "/covariance";
     string sisj_folder = comparative_folder + "/sisj";
     string sisjsk_folder = comparative_folder + "/sisjsk";
     string triplet_folder = comparative_folder + "/triplet";
@@ -65,6 +66,7 @@ void create_folders() {
     string triplet_same_number_points_folder = comparative_folder + "/triplet_same_number_points";
 
     fs::create_directories(correlation_folder);
+    fs::create_directories(covariance_folder);
     fs::create_directories(magnetization_folder);
     fs::create_directories(sisj_folder);
     fs::create_directories(sisjsk_folder);
@@ -156,6 +158,7 @@ void create_folders() {
 
     // Add more folders as required
     string correlation_folder_metropolis = comparative_folder_metropolis + "/correlation";
+    string covariance_folder_metropolis = comparative_folder + "/covariance";
     string magnetization_folder_metropolis = comparative_folder_metropolis + "/magnetization";
     string sisj_folder_metropolis = comparative_folder_metropolis + "/sisj";
     string sisjsk_folder_metropolis = comparative_folder_metropolis + "/sisjsk";
@@ -164,6 +167,7 @@ void create_folders() {
     string triplet_same_number_points_folder_metropolis = comparative_folder_metropolis + "/triplet_same_number_points";
 
     fs::create_directories(correlation_folder_metropolis);
+    fs::create_directories(covariance_folder_metropolis);
     fs::create_directories(magnetization_folder_metropolis);
     fs::create_directories(sisj_folder_metropolis);
     fs::create_directories(sisjsk_folder_metropolis);

@@ -44,22 +44,38 @@ def MCH_convergencia(N_spins):
     return len(df["MCH"])
 
 
-def test_parms(variavel, N_spins, save):
+def test_parms(variavel, N_spins, exact, save):
     min_values = extract_formatted_values_from_cpp()
     MCH_conv = MCH_convergencia(N_spins)
+    if(exact==True):
+        title = "exact_solutions"
+        if variavel=="correlation":
+            df = pd.read_csv(f"../Results/Comparative/{variavel}/Pij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="covariance":
+            df = pd.read_csv(f"../Results/Comparative/{variavel}/Cij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="magnetization":
+            df = pd.read_csv(f"../Results/Comparative/{variavel}/mag_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="triplet":
+            df = pd.read_csv(f"../Results/Comparative/{variavel}/Tijk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="sisjsk":
+            df = pd.read_csv(f"../Results/Comparative/{variavel}/sisjsk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="sisj":
+            df = pd.read_csv(f"../Results/Comparative/{variavel}/sisj_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+    else:
+        title = "metropolis"
+        if variavel=="correlation":
+            df = pd.read_csv(f"../Results_Metropolis/Comparative/{variavel}/Pij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="covariance":
+            df = pd.read_csv(f"../Results_Metropolis/Comparative/{variavel}/Cij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="magnetization":
+            df = pd.read_csv(f"../Results_Metropolis/Comparative/{variavel}/mag_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="triplet":
+            df = pd.read_csv(f"../Results_Metropolis/Comparative/{variavel}/Tijk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="sisjsk":
+            df = pd.read_csv(f"../Results_Metropolis/Comparative/{variavel}/sisjsk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
+        elif variavel=="sisj":
+            df = pd.read_csv(f"../Results_Metropolis/Comparative/{variavel}/sisj_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
     
-    if variavel=="Correlação":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/Pij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="Covariancia":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/Cij_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="Magnetização":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/mag_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="Tripleto":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/Tijk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="sisjsk":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/sisjsk_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
-    elif variavel=="sisj":
-        df = pd.read_csv(f"../Results/Comparativo/{variavel}/sisj_exp_ising_sampleN{N_spins}.dat",sep=' ',header=None)
     df.columns = ['x','y']
     
     plt.plot(df['x'], df['y'],'o',ms=10,color='red', label='dado')
@@ -74,7 +90,7 @@ def test_parms(variavel, N_spins, save):
     #plt.text(x=)
     plt.grid(alpha=0.4)
     plt.tick_params(labeltop=True, labelright=True, labelsize=14, width=1.4, length=6.0)
-    plt.title(f"{variavel} com N = {N_spins}",fontsize=20)
+    plt.title(f"{variavel} com N = {N_spins} " + title,fontsize=20)
     
     plt.draw()
     xticks = plt.gca().get_xticks()
@@ -88,7 +104,7 @@ def test_parms(variavel, N_spins, save):
     plt.plot(straight, straight, color='k',label=r'$y = x$')
     
     if(save==True):
-        folder = f"./tests_comparativos/{variable}"
+        folder = f"./tests_comparatives/{variable}"
         if not os.path.exists(folder):
             os.makedirs(folder)
         
@@ -106,5 +122,6 @@ def test_parms(variavel, N_spins, save):
 if __name__ == "__main__":
     nspins = int(sys.argv[1])
     variable = str(sys.argv[2])
-    save = bool(sys.argv[3])
-    test_parms(variable, nspins, save)    
+    exact = bool(sys.argv[3])
+    save = bool(sys.argv[4])
+    test_parms(variable, nspins, exact ,save)    

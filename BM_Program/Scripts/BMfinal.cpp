@@ -83,7 +83,7 @@ int main(int argc, char *argv[]){
 		file_name_hi = "../Results/SeparateData/hi/hi_" + text_name;
 		file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name;
 	}
-	
+	else{
 	file_name_erros = "../Results_Metropolis/Erro/erro_" + text_name;
 	file_mag_corr_output = "../Results_Metropolis/Mag_Corr_ising/mag_corr_ising_" + text_name;
 	file_name_Jij = "../Results_Metropolis/SeparateData/Jij/Jij_" + text_name;
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]){
 	file_name_PJij = "../Results_Metropolis/PJij/PJij_" + text_name;
 	file_name_hi = "../Results_Metropolis/SeparateData/hi/hi_" + text_name;
 	file_name_mi = "../Results_Metropolis/SeparateData/mi-ising/mi_ising_" + text_name;
-
+	}
 	// nomes dos arquivos
 
 	//-----------------------------------------------------------------------------
@@ -221,7 +221,7 @@ int main(int argc, char *argv[]){
 		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
 		{
 			//cout  << text_name << " " << inter << " " << "err_J" << " " << left << setw(13) << erroJ <<  "err_h" << " " << left << setw(13) << erroh << '\n';
-			cout  << text_name << " " << inter << " " << "err_J" << " " << left << scientificNumber(erroJ, 3) <<  "err_h" << " " << left << scientificNumber(erroh,3) << '\n';
+			cout  << text_name << " " << inter << " " << "err_J" << " " << left << setw(13) << erroJ <<  "err_h" << " " << left << setw(13) << erroh << '\n';
 			//save_data (r, bm, av_s, av_ss, bm_av_s, bm_av_ss, pasta, inter);
 
 			//salvando dados

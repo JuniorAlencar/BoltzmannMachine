@@ -2,7 +2,6 @@
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
-#include <string>
 #include <vector>
 #include <boost/filesystem.hpp>
 
@@ -16,21 +15,13 @@
 #include "read_input_json.h"
 #include "read_json.h"
 #include "write_json.h"
+#include "create_folders.h"
 
 using namespace std;
 namespace fs = boost::filesystem;
 
-void create_folders(){
-    string results_folder = "./Results";
-    fs::create_directories(results_folder);
-    
-    string results_folder_metropolis = "./Results_Metropolis";
-    fs::create_directories(results_folder_metropolis);
-}
-
-
 int main(int argc, char *argv[]) {
-  // Create Folders
+  // Create Results Folders
   create_folders();
   
   spdlog::flush_every(std::chrono::seconds(10));
@@ -46,28 +37,36 @@ int main(int argc, char *argv[]) {
   
   double beta = 1.0;
   
+  // Matrix with all data (nspins X nrecords)
   vector<vector<int>> M;
-  int nspins, nrecords;
+  
+  // Number spins
+  int nspins;
+  // Number samples
+  int nrecords;
+  
   read_tidy_data(p.input_data, M, nrecords, nspins);
+  
   // Number of combinations in tuples (i,j) of system
   int nbonds = nspins * (nspins - 1) / 2;
-  // Number of combinations in triples (i,j, k) of system
+  // Number of combinations in triples (i, j, k) of system
   int ntriplets = nspins * (nspins - 1) * (nspins - 2) / 6;
   
-  // Carry (sigma_i)_exp for each spin i
+  // Carry first moment exp for each spin -> sigma_i_exp
   vector<double> av_s;
-  // Carry (sigma_i*sigma_j)_exp for each combinations spins (i, j)
+  // Carry second moment exp for each spin -> sigma_i*sigma_j_exp
   vector<double> av_ss;
-  // Carry (sigma_i*sigma_j*sigma_k)_exp for each combinations (i, j, k)
+  // Carry third moment exp for each spin _ sigma_i*sigma_j*sigma_k_exp
   vector<double> av_sss;
 
-  // carry <sigma_i>_ising 
+  // Carry first moment ising for each spin -> sigma_i_ising
   VecDoub bm_av_s(nspins, 0.0);
-  // Carry <sigma_i*sigma_j>_ising
+  // Carry second moment ising for each spin -> sigma_i*sigma_j_ising
   VecDoub bm_av_ss(nbonds, 0.0);
-  // carry <sigma_i*sigma_j*sigma_k>_ising
+  // Carry third moment ising for each spin -> sigma_i*sigma_j*sigma_k_ising
   VecDoub_IO bm_av_sss(ntriplets);
-
+  
+  // Compute first, second, third moments, Cij, Pij, Triplet (Tijk) exp
   compute_exp_means(M, nrecords, nspins, av_s, av_ss, av_sss);
   
   // Network starts from zero with nspins
@@ -77,7 +76,7 @@ int main(int argc, char *argv[]) {
     bm = read_json(p.input_init_guess);
   }
 
-  // variaveis para MC
+  // MC variables
   int t_eq = p.t_eq;
   int t_rep = 2 * nspins;
   int n_rep = p.n_rep;
@@ -88,8 +87,10 @@ int main(int argc, char *argv[]) {
   
   // Step to show results in display
   int iter_display = p.iter_display;
+  
   // Interation initial
   int iter = 1;
+  
   // Max number of interations
   int iter_max = p.iter_max;
 
@@ -107,8 +108,10 @@ int main(int argc, char *argv[]) {
   // erros.seekg(0, std::ios_base::end);
 
   double av_av_s = 0.0;
+  
   for (int i = 0; i < bm.n; ++i)
     av_av_s += av_s[i];
+  
   av_av_s = abs(av_av_s / bm.n);
 
   double av_av_ss = 0.0;
@@ -171,6 +174,7 @@ int main(int argc, char *argv[]) {
   // Fechar arquivos dos erros salvos
   cerr_f.close();
 
+
   if (p.use_exact) {
     exact_solution_triplet(bm, bm_av_s, bm_av_ss, bm_av_sss, beta);
   } else {
@@ -180,6 +184,6 @@ int main(int argc, char *argv[]) {
 
   write_json(p.output_data, bm, av_s, av_ss, av_sss, bm_av_s, bm_av_ss,
              bm_av_sss);
-
+  
   return 0;
 }

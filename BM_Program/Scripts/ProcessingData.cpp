@@ -49,14 +49,15 @@ int main (int argc, char *argv[]){
     	file_name_Tijk = "../Results/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input;
 		file_name_sisjsk = "../Results/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input;
 		file_name_mi = "../Results/SeparateData/mi-exp/mi_exp_" + file_name_input;
-	};
-	
+	}
+	else{
 	file_name_Cij = "../Results_Metropolis/SeparateData/Cij-exp/Cij_exp_" + file_name_input;
 	file_name_Pij = "../Results_Metropolis/SeparateData/Pij-exp/Pij_exp_" + file_name_input;
 	file_name_sisj = "../Results_Metropolis/SeparateData/sisj-exp/sisj_exp_" + file_name_input;
 	file_name_Tijk = "../Results_Metropolis/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input;
 	file_name_sisjsk = "../Results_Metropolis/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input;
 	file_name_mi = "../Results_Metropolis/SeparateData/mi-exp/mi_exp_" + file_name_input;
+	}
 	
 	// ---------------------
 	
@@ -159,7 +160,7 @@ int main (int argc, char *argv[]){
 	//Covariancia
 	vector<double> C(N*(N-1)/2, 0.0);
 	
-	//Corelação de Pearson
+	// Corelação de Pearson
 	vector<double> Pearson(n_duplet);
 
 	ind = 0;
