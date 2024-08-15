@@ -157,7 +157,7 @@ void compute_exp_means(const vector<vector<int>> &M,
   vector<double> Pij(npairs);
   
   // Calculate Pearson and Correlation exp
-  int ind = 0;
+  ind = 0;
 	
   for (int p = 0; p < ncols-1; p++)
 	{

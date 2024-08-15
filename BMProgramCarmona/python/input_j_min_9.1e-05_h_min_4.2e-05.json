@@ -1,0 +1,23 @@
+{ 
+"run_name":"sampleN20",
+"input_data":"./Data/sampleN20.dat",
+"input_init_guess":"./Results/sampleN20", 
+"output_err": "./Results/err_sampleN20_j_min_9.1e-05_h_min_4.2e-05.txt", 
+"output_data": "./Results/sampleN20_j_min_9.1e-05_h_min_4.2e-05.json", 
+"use_exact": true,
+
+"relax": {
+			"iter_display": 100, 
+			"iter_max": 150000, 
+			"eta_J": 0.05, 
+			"eta_h": 0.03, 
+			"min_err_S":4.2e-05,
+			"min_err_SS":9.1e-05
+				},
+
+"mc": {
+			"n_rep": 40,
+			"t_eq": 3000,
+			"t_meas": 120000
+			}
+}
