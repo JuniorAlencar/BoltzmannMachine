@@ -104,7 +104,8 @@ int main(int argc, char *argv[]) {
   // Arquivo para salvar os erros ao longo do tempo
 
   ofstream cerr_f(p.output_err.c_str());
-
+  
+  cerr_f << std::setprecision(13) << "iter" << " " << "err_J"  << " " << "err_h" << endl;
   // erros.seekg(0, std::ios_base::end);
 
   double av_av_s = 0.0;
