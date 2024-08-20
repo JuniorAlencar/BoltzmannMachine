@@ -13,13 +13,45 @@ int main(int argc, char *argv[]){
 
 
 	string text_input = argv[1];
-	bool use_exact = (std::string(argv[2]) == "true");
+	double min_erro_j	= std::stod(argv[2]);
+	double min_erro_h	= std::stod(argv[3]);
+	bool use_exact = (std::string(argv[4]) == "true");
+
+    if (argc < 5) {
+        std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <exact_solutions>" << std::endl;
+        return 1;
+    }
+
+    try {
+        double min_erro_j = std::stod(argv[2]);
+        double min_erro_h = std::stod(argv[3]);
+
+        std::cout << "min_erro_j: " << min_erro_j << std::endl;
+        std::cout << "min_erro_h: " << min_erro_h << std::endl;
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Argumento inválido: " << e.what() << std::endl;
+        return 1;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Valor fora do intervalo: " << e.what() << std::endl;
+        return 1;
+    }
+
 
 	int n;
 
 	int cont;
 	int cort = 100;
-	
+	// Convertendo os erros para string
+	std::ostringstream os_j;
+    os_j << std::scientific << std::setprecision(2) << min_erro_j;
+
+	std::ostringstream os_h;
+    os_h << std::scientific << std::setprecision(2) << min_erro_h;
+
+	std::string min_erro_j_str = os_j.str();
+	std::string min_erro_h_str = os_h.str();
+
+
 //-----------------------------------------------------------------------------
 //Abrir arquivo da rede
 
@@ -32,20 +64,20 @@ int main(int argc, char *argv[]){
 	
 	if(use_exact == true){
 		// Network file to exact solutions
-		file_network_name = "../Results/Network/network_" + text_input;
-		file_cap_linear_name = "../Results/SpecificHeat/linear_specific_heat_" + text_input;
-		file_energia_name = "../Results/Energy/energy_" + text_input;
-		file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input;
-		file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input;
+		file_network_name = "../Results/Network/network_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+		file_cap_linear_name = "../Results/SpecificHeat/linear_specific_heat_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+		file_energia_name = "../Results/Energy/energy_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+		file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+		file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
 	}
 	
 	else{
 	// Network file to metropolis algorithm
-	file_network_name = "../Results_Metropolis/Network/network_" + text_input;
-	file_cap_linear_name = "../Results_Metropolis/SpecificHeat/linear_specific_heat_" + text_input;
-	file_energia_name = "../Results_Metropolis/Energy/energia_" + text_input;
-	file_mag_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/mag_T_" + text_input;
-	file_susc_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/susc_T_" + text_input;
+	file_network_name = "../Results_Metropolis/Network/network_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_cap_linear_name = "../Results_Metropolis/SpecificHeat/linear_specific_heat_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_energia_name = "../Results_Metropolis/Energy/energia_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_mag_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/mag_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_susc_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/susc_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
 	}
 	
 

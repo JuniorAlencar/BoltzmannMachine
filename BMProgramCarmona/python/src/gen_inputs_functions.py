@@ -1,4 +1,5 @@
 import os
+import glob
 
 # sample data: filename sample without extesion sampleN20.dat -> sampleN20
 # h_min: minimum value h to MC converge
@@ -69,3 +70,35 @@ def gen_json_input(sample_data, h_min, j_min, exact_solutions=True ,eta_J=0.05, 
     for k in lst:
         x.write(k)
     x.close()
+
+def gen_shell_multithread():
+    filename = f"multithread_pc.sh"
+
+    a = "#!/bin/bash\n\n"
+
+    b = "# Define uma função que contêm o código para rodar em paralelo\n"
+
+    c = "run_code() {\n\t"
+    d = f"time ../bin/bmc ../inputs/$1\n"
+    e = "}\n"
+    f = "# Exportar a função usando o módulo Parallel\n"
+    g = "export -f run_code\n\n"
+
+    path_d = f"../inputs"
+    all_files = glob.glob(os.path.join(path_d,"*.json"))
+    list_of_arguments = [V[2] for V in os.walk(path_d)][0]
+    list_of_arguments = str(list_of_arguments)
+    list_of_arguments = list_of_arguments.replace(',', '')
+
+    h = f"arguments=(" 
+    i = list_of_arguments[1:-1] + ")\n"
+    j = "parallel run_code :::\t" +  """ "${arguments[@]}"  """ "\n\t"
+    list_for_loop = [a,b,c,d,e,g,h,i,j]
+    l = open("../Scripts/" + filename, "w") # argument w: write if don't exist file
+    for k in list_for_loop:
+        l.write(k)
+    l.close()
+
+def permission_run():
+    filename = f"../multithread_pc.sh"
+    os.system(f"chmod 700 ../Scripts/" + filename)

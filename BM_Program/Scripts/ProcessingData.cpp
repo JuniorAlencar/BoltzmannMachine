@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <string>
 #include <cmath>
+#include <iomanip>  // Necessário para std::setprecision
 #include "./include/create_folders.h"
 
 /******************************************************************************
@@ -27,13 +28,47 @@ int main (int argc, char *argv[]){
     }
 	
     //---------------------------------
-    //Configuração para receber os dados
+    //Configuração para receber os da#include <iomanip>  // Necessário para std::setprecisiondos
 	string file_name_input = argv[1];
-	bool use_exact = (std::string(argv[2]) == "true");
-    	
-	string file_input = "../Data/TidyData/" + file_name_input;
+	double min_erro_j	= std::stod(argv[2]);
+	double min_erro_h	= std::stod(argv[3]);
+	bool use_exact = (std::string(argv[4]) == "true");
+
+    if (argc < 5) {
+        std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <exact_solutions>" << std::endl;
+        return 1;
+    }
+
+    try {
+        double min_erro_j = std::stod(argv[2]);
+        double min_erro_h = std::stod(argv[3]);
+
+        std::cout << "min_erro_j: " << min_erro_j << std::endl;
+        std::cout << "min_erro_h: " << min_erro_h << std::endl;
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Argumento inválido: " << e.what() << std::endl;
+        return 1;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Valor fora do intervalo: " << e.what() << std::endl;
+        return 1;
+    }
+	// Converter to string mantendo notação cientifica
+	std::ostringstream os_j;
+    os_j << std::scientific << std::setprecision(2) << min_erro_j;
+
+	std::ostringstream os_h;
+    os_h << std::scientific << std::setprecision(2) << min_erro_h;
+
+	std::string min_erro_j_str = os_j.str();
+	std::string min_erro_h_str = os_h.str();
+
+	string file_input = "../Data/TidyData/" + file_name_input + ".dat";
     ifstream data_input (file_input.c_str());
     
+	// Mag_corr
+	string file_name_output;
+
+
 	// nome dos arquivos para salvar----------------------
 	string file_name_Cij;
 	string file_name_Pij;
@@ -43,25 +78,26 @@ int main (int argc, char *argv[]){
 	string file_name_mi;
 	
 	if(use_exact == true){
-		file_name_Cij = "../Results/SeparateData/Cij-exp/Cij_exp_" + file_name_input;
-		file_name_Pij = "../Results/SeparateData/Pij-exp/Pij_exp_" + file_name_input;
-		file_name_sisj = "../Results/SeparateData/sisj-exp/sisj_exp_" + file_name_input;
-    	file_name_Tijk = "../Results/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input;
-		file_name_sisjsk = "../Results/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input;
-		file_name_mi = "../Results/SeparateData/mi-exp/mi_exp_" + file_name_input;
+		file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_exact" +".dat";
+		file_name_Cij = "../Results/SeparateData/Cij-exp/Cij_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+		file_name_Pij = "../Results/SeparateData/Pij-exp/Pij_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+		file_name_sisj = "../Results/SeparateData/sisj-exp/sisj_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+    	file_name_Tijk = "../Results/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+		file_name_sisjsk = "../Results/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+		file_name_mi = "../Results/SeparateData/mi-exp/mi_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
 	}
 	else{
-	file_name_Cij = "../Results_Metropolis/SeparateData/Cij-exp/Cij_exp_" + file_name_input;
-	file_name_Pij = "../Results_Metropolis/SeparateData/Pij-exp/Pij_exp_" + file_name_input;
-	file_name_sisj = "../Results_Metropolis/SeparateData/sisj-exp/sisj_exp_" + file_name_input;
-	file_name_Tijk = "../Results_Metropolis/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input;
-	file_name_sisjsk = "../Results_Metropolis/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input;
-	file_name_mi = "../Results_Metropolis/SeparateData/mi-exp/mi_exp_" + file_name_input;
+	file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_metropolis" +".dat";
+	file_name_Cij = "../Results_Metropolis/SeparateData/Cij-exp/Cij_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_name_Pij = "../Results_Metropolis/SeparateData/Pij-exp/Pij_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_name_sisj = "../Results_Metropolis/SeparateData/sisj-exp/sisj_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_name_Tijk = "../Results_Metropolis/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_name_sisjsk = "../Results_Metropolis/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
+	file_name_mi = "../Results_Metropolis/SeparateData/mi-exp/mi_exp_" + file_name_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
 	}
 	
 	// ---------------------
 	
-	string file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input;
     string first_line;
     string a;
 

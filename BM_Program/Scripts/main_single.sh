@@ -21,7 +21,7 @@ h_min_erro=$3
 use_exact=$4
 
 # Check if the input file exists
-if [ ! -f "../Data/TidyData/$filename" ]; then
+if [ ! -f "../Data/TidyData/$filename.dat" ]; then
     echo "Error: File '$filename' not found."
     exit 1
 fi
@@ -38,52 +38,52 @@ if ! [[ $h_min_erro =~ $re_float ]]; then
     exit 1
 fi
 
-echo "Processando arquivo "$filename" ..."
+echo "Processando arquivo "$filename.dat" ..."
 
 # Generate comparative and separate folders with files inside
 #bash ./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" &
-./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" "$use_exact"&
+./Part1_single.sh "$filename.dat" "$j_min_erro" "$h_min_erro" "$use_exact"&
 
 
-count_processes() {
-    local process_name=$1
-    ps aux | grep "./$process_name" | grep -v "grep" | wc -l
-}
+# count_processes() {
+#     local process_name=$1
+#     ps aux | grep "./$process_name" | grep -v "grep" | wc -l
+# }
 
-# Count the running processes initially
-cP=$(count_processes "ProcessingData")
-cB=$(count_processes "BMfinal")
-cS=$(count_processes "SpecificHeat")
-#cM=$( ps aux | grep "./Magnetization_T" | wc -l )
-#cT=$( ps aux | grep "./Matriz_Jij" | wc -l )
+# # Count the running processes initially
+# cP=$(count_processes "ProcessingData")
+# cB=$(count_processes "BMfinal")
+# cS=$(count_processes "SpecificHeat")
+# #cM=$( ps aux | grep "./Magnetization_T" | wc -l )
+# #cT=$( ps aux | grep "./Matriz_Jij" | wc -l )
 
-#c=$((cP+cB+cS+cM+CT))
-c=$((cP+cB+cS))
+# #c=$((cP+cB+cS+cM+CT))
+# c=$((cP+cB+cS))
 
-# Loop while the total number of processes is greater than or equal to 17
-while [ $c -ge 17 ]; do
-    cP=$(count_processes "ProcessingData")
-    cB=$(count_processes "BMfinal")
-    cS=$(count_processes "SpecificHeat")
-    # cM=$(count_processes "Magnetization_T")
-    # cT=$(count_processes "Matriz_Jij")
+# # Loop while the total number of processes is greater than or equal to 17
+# while [ $c -ge 17 ]; do
+#     cP=$(count_processes "ProcessingData")
+#     cB=$(count_processes "BMfinal")
+#     cS=$(count_processes "SpecificHeat")
+#     # cM=$(count_processes "Magnetization_T")
+#     # cT=$(count_processes "Matriz_Jij")
 
-    # Total running processes
-    # c=$((cP + cB + cS + cM + cT))
-    c=$((cP + cB + cS))
+#     # Total running processes
+#     # c=$((cP + cB + cS + cM + cT))
+#     c=$((cP + cB + cS))
 
-    sleep 5
-done
+#     sleep 5
+# done
 
-# Run the scripts with the three arguments
-# bash ./ProcessingData $filename &
-# bash ./BMfinal "$filename" "$j_min_erro" "$h_min_erro" "$test" &
-# bash ./SpecificHeat "$filename" &
-./ProcessingData $filename "$use_exact" &
-./BMfinal "$filename" "$j_min_erro" "$h_min_erro" "$use_exact" &
-./SpecificHeat "$filename" "$use_exact" &
-# bash ./Magnetization_T "$filename" "$j_min_erro" "$h_min_erro" &
-# bash ./Matriz_Jij "$filename" "$j_min_erro" "$h_min_erro" &
+# # Run the scripts with the three arguments
+# # bash ./ProcessingData $filename &
+# # bash ./BMfinal "$filename" "$j_min_erro" "$h_min_erro" "$test" &
+# # bash ./SpecificHeat "$filename" &
+# ./ProcessingData "$filename.dat" "$j_min_erro" "$h_min_erro" "$use_exact" &
+# ./BMfinal "$filename.dat" "$j_min_erro" "$h_min_erro" "$use_exact" &
+# ./SpecificHeat "$filename.dat" "$j_min_erro" "$h_min_erro" "$use_exact" &
+# # bash ./Magnetization_T "$filename" "$j_min_erro" "$h_min_erro" &
+# # bash ./Matriz_Jij "$filename" "$j_min_erro" "$h_min_erro" &
 
 
 

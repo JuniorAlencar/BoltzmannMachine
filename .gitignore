@@ -1,8 +1,9 @@
-*/Results/
+#*/Results/
+#*/Results_Metropolis
 
-Results_Metropolis/
-*/Results_Metropolis/
-**/Results_Metropolis/
+#Results_Metropolis/
+#*/Results_Metropolis/
+#**/Results_Metropolis/
 
 #BMCarmona/Results/
 
@@ -10,6 +11,7 @@ BMProgramCarmona/build/
 BMProgramCarmona/bin/
 BMProgramCarmona/logs/
 BMProgramCarmona/inputs/
+BMProgramCarmona/Scripts/multithread_pc.sh
 
 
 */Data/
