@@ -21,6 +21,7 @@ using namespace std;
 namespace fs = boost::filesystem;
 
 int main(int argc, char *argv[]) {
+  
   // Create Results Folders
   create_folders();
   

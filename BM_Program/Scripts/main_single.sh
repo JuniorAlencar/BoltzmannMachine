@@ -42,7 +42,7 @@ echo "Processando arquivo "$filename.dat" ..."
 
 # Generate comparative and separate folders with files inside
 #bash ./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" &
-./Part1_single.sh "$filename.dat" "$j_min_erro" "$h_min_erro" "$use_exact"&
+./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" "$use_exact"&
 
 
 # count_processes() {

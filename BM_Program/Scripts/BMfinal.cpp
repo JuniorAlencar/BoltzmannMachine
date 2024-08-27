@@ -83,18 +83,18 @@ int main(int argc, char *argv[]){
 		file_network_name = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
 		file_rede_output = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
 		
-		file_name_erros = "../Results/Erro/erro_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_mag_corr_output = "../Results/Mag_Corr_ising/mag_corr_ising_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_erros = "../Results/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_mag_corr_output = "../Results/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
 		file_name_Jij = "../Results/SeparateData/Jij/Jij_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Cij = "../Results/SeparateData/Cij-ising/Cij_ising_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Pij = "../Results/SeparateData/Pij-ising/Pij_ising_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_sisj = "../Results/SeparateData/sisj-ising/sisj_ising_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Tijk = "../Results/SeparateData/Tijk-ising/Tijk_ising_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_sisjsk = "../Results/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_CorrJij = "../Results/CorrJij/CorrJij_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_PJij = "../Results/PJij/PJij_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_hi = "../Results/SeparateData/hi/hi_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_Cij = "../Results/SeparateData/Cij-ising/Cij_ising_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_Pij = "../Results/SeparateData/Pij-ising/Pij_ising_"  + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_sisj = "../Results/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_Tijk = "../Results/SeparateData/Tijk-ising/Tijk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_sisjsk = "../Results/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_CorrJij = "../Results/CorrJij/CorrJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_PJij = "../Results/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_hi = "../Results/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
 	}
 	else{
 		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_metropolis" + ".dat";
@@ -184,7 +184,7 @@ int main(int argc, char *argv[]){
 	double dJ, dh;
 	int cort = 1000;
 	int inter = 1;//= inter_ini;
-	int inter_max = 150000;
+	int inter_max = 300000;
 	
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
