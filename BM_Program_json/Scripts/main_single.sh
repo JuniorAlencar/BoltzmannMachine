@@ -3,6 +3,8 @@
 # Check if the correct number of arguments is provided
 # File_name j_min_erro h_min_erro
 
+echo "Arguments: $1 $2 $3 $4 $5 $6"
+
 if [ $# -ne 6 ]; then
     echo "Usage: $0 <nome_do_arquivo> <j_min_erro> <h_min_erro> <multi_teq> <multi_relx> <use_exact>"
     exit 1

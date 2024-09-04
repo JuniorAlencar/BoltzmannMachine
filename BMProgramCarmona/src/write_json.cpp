@@ -65,7 +65,7 @@ void write_json(const std::string &filename,
     // First moment ising (magnetization)
     j["S_ising"] = bmavs;
     // Second moment Ising
-    j["SS_ising"] = bmavss;
+    j["SS_ising"] = bmavss; 
     // Third momento ising
     j["SSS_ising"] = bmavsss;
 

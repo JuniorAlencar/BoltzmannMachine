@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
         double min_erro_h = std::stod(argv[3]);
 		int multiply_teq 	= std::stoi(argv[4]);
 		int multiply_relx 	= std::stoi(argv[5]);
-		
+
         cout << "min_erro_j: " << min_erro_j << endl;
         cout << "min_erro_h: " << min_erro_h << endl;
 		cout << "multi_teq: " << multiply_teq << endl;
@@ -41,7 +41,8 @@ int main(int argc, char *argv[]){
         cerr << "Valor fora do intervalo: " << e.what() << endl;
         return 1;
     }
-	
+
+
 	int n;
 
 	int cont;
@@ -49,7 +50,7 @@ int main(int argc, char *argv[]){
 	// Convertendo os erros para string
 	ostringstream os_j;
     os_j << scientific << setprecision(2) << min_erro_j;
-	
+
 	ostringstream os_h;
     os_h << scientific << setprecision(2) << min_erro_h;
 
@@ -63,7 +64,7 @@ int main(int argc, char *argv[]){
 	string min_erro_h_str = os_h.str();
 	string multi_teq_str = os_teq.str();
 	string multi_relx_str = os_relx.str();
-	
+
 //-----------------------------------------------------------------------------
 //Abrir arquivo da rede
 
@@ -96,14 +97,13 @@ int main(int argc, char *argv[]){
 	ifstream network (file_network_name.c_str());
 	int number = n+1;
 	
-	network >> n;
+	network >> number;
 	
 	Rede r(n, 0, 0, 0, 0, 0);
 	
 	for(int i = 0; i < r.nbonds; i++)
 	{
 		network >> r.J[i];
-		
 				
 		if (i < n)
 			network >> r.h[i];
@@ -111,6 +111,7 @@ int main(int argc, char *argv[]){
 	}
 	
 	network.close();
+
 //Escala linear
 
 	//variaveis para MC
@@ -118,6 +119,7 @@ int main(int argc, char *argv[]){
 	int relx = n*multiply_relx;
 	int rept = 40;
 	int t_step = n*6000*relx/rept;
+
 	//bool use_exact = false;
 	
 	ofstream cap_li (file_cap_linear_name.c_str());

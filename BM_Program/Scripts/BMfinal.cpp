@@ -10,7 +10,6 @@
 #include "./include/forwardmethod.h"
 #include "./include/InverseMethod.h"
 #include "./include/LUdcmp.h"
-//#include "./include/create_folders.h"
 
 using namespace std;
 
@@ -29,38 +28,53 @@ int main(int argc, char *argv[]){
 	string text_name	= argv[1];
 	double min_erro_j	= std::stod(argv[2]);
 	double min_erro_h	= std::stod(argv[3]);
-	bool use_exact = (std::string(argv[4]) == "true");
+	int multiply_teq 	= std::stoi(argv[4]);
+	int multiply_relx 	= std::stoi(argv[5]);
+	bool use_exact = (std::string(argv[6]) == "true");
 	
-    if (argc < 5) {
-        std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <exact_solutions>" << std::endl;
+    if (argc < 7) {
+        std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <exact_solutions>" << std::endl;
         return 1;
     }
 
     try {
         double min_erro_j = std::stod(argv[2]);
         double min_erro_h = std::stod(argv[3]);
+		int multiply_teq 	= std::stoi(argv[4]);
+		int multiply_relx 	= std::stoi(argv[5]);
 
-        std::cout << "min_erro_j: " << min_erro_j << std::endl;
-        std::cout << "min_erro_h: " << min_erro_h << std::endl;
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Argumento inválido: " << e.what() << std::endl;
+        cout << "min_erro_j: " << min_erro_j << endl;
+        cout << "min_erro_h: " << min_erro_h << endl;
+		cout << "multi_teq: " << multiply_teq << endl;
+		cout << "multi_relx: " << multiply_relx << endl;
+    } catch (const invalid_argument& e) {
+        cerr << "Argumento inválido: " << e.what() << endl;
         return 1;
-    } catch (const std::out_of_range& e) {
-        std::cerr << "Valor fora do intervalo: " << e.what() << std::endl;
+    } catch (const out_of_range& e) {
+        cerr << "Valor fora do intervalo: " << e.what() << endl;
         return 1;
     }
 	
 	// Converter para string
-	std::ostringstream os_j;
-    os_j << std::scientific << std::setprecision(2) << min_erro_j;
+	ostringstream os_j;
+    os_j << scientific << setprecision(2) << min_erro_j;
 
-	std::ostringstream os_h;
-    os_h << std::scientific << std::setprecision(2) << min_erro_h;
-
-	std::string min_erro_j_str = os_j.str();
-	std::string min_erro_h_str = os_h.str();
+	ostringstream os_h;
+    os_h << scientific << setprecision(2) << min_erro_h;
 	
-	// If true -> exact_solutions, else -> Metropolis
+	ostringstream os_teq;
+	os_teq << multiply_teq;
+
+	ostringstream os_relx;
+	os_relx << multiply_relx;
+	
+	string min_erro_j_str = os_j.str();
+	string min_erro_h_str = os_h.str();
+	string multi_teq_str = os_teq.str();
+	string multi_relx_str = os_relx.str();
+	
+
+	// If true -> exact_solutions, else -> Metropolis--------------------
 	string file_name_erros;
 	string file_mag_corr_output;
 	string file_name_Jij;
@@ -79,40 +93,40 @@ int main(int argc, char *argv[]){
 	string file_rede_output;
 	
 	if(use_exact == true){
-		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_exact" + ".dat";
-		file_network_name = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
-		file_rede_output = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + "_exact.dat";
+		file_network_name = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_rede_output = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 		
-		file_name_erros = "../Results/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_mag_corr_output = "../Results/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Jij = "../Results/SeparateData/Jij/Jij_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Cij = "../Results/SeparateData/Cij-ising/Cij_ising_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Pij = "../Results/SeparateData/Pij-ising/Pij_ising_"  + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_sisj = "../Results/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Tijk = "../Results/SeparateData/Tijk-ising/Tijk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_sisjsk = "../Results/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_CorrJij = "../Results/CorrJij/CorrJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_PJij = "../Results/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_hi = "../Results/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_erros = "../Results/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_mag_corr_output = "../Results/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_Jij = "../Results/SeparateData/Jij/Jij_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_Cij = "../Results/SeparateData/Cij-ising/Cij_ising_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_Pij = "../Results/SeparateData/Pij-ising/Pij_ising_"  + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_sisj = "../Results/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_Tijk = "../Results/SeparateData/Tijk-ising/Tijk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_sisjsk = "../Results/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_CorrJij = "../Results/CorrJij/CorrJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_PJij = "../Results/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_hi = "../Results/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	}
 	else{
-		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_metropolis" + ".dat";
-		file_network_name = "../Results_Metropolis/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + ".dat";
-		file_rede_output = "../Results_Metropolis/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_"+ multi_teq_str + "_mrelx_" + multi_relx_str + "_metropolis.dat";
+		file_network_name = "../Results_Metropolis/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_rede_output = "../Results_Metropolis/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 		
-		file_name_erros = "../Results_Metropolis/Erro/erro_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_mag_corr_output = "../Results_Metropolis/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Jij = "../Results_Metropolis/SeparateData/Jij/Jij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Cij = "../Results_Metropolis/SeparateData/Cij-ising/Cij_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Pij = "../Results_Metropolis/SeparateData/Pij-ising/Pij_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_sisj = "../Results_Metropolis/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_Tijk = "../Results_Metropolis/SeparateData/Tijk-ising/Tijk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_sisjsk = "../Results_Metropolis/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_CorrJij = "../Results_Metropolis/CorrJij/CorrJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_PJij = "../Results_Metropolis/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_hi = "../Results_Metropolis/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
-		file_name_mi = "../Results_Metropolis/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str +".dat";
+		file_name_erros = "../Results_Metropolis/Erro/erro_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_mag_corr_output = "../Results_Metropolis/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_Jij = "../Results_Metropolis/SeparateData/Jij/Jij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_Cij = "../Results_Metropolis/SeparateData/Cij-ising/Cij_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_Pij = "../Results_Metropolis/SeparateData/Pij-ising/Pij_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_sisj = "../Results_Metropolis/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_Tijk = "../Results_Metropolis/SeparateData/Tijk-ising/Tijk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_sisjsk = "../Results_Metropolis/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_CorrJij = "../Results_Metropolis/CorrJij/CorrJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_PJij = "../Results_Metropolis/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_hi = "../Results_Metropolis/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+		file_name_mi = "../Results_Metropolis/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	}
 	// nomes dos arquivos
 
@@ -120,6 +134,8 @@ int main(int argc, char *argv[]){
 	//Ler o arquivo com as correlações e magnetizações de um certo arquivo
 
 	//create_folders();
+	
+	cout << "BMfinal ..." << endl;
 	
 	ifstream rede (file_rede_input.c_str());
 	
@@ -175,8 +191,8 @@ int main(int argc, char *argv[]){
 	VecDoub bm_av_s(n, 0.0), bm_av_ss(n*(n-1)/2, 0.0);
 
 	//variaveis para MC
-	int t_eq = n*300;
-	int relx = 2*n;
+	int t_eq = n*multiply_teq; // 300
+	int relx = n*multiply_relx; // 2
 	int rept = 40;
 	int t_step = n*6000*relx/rept;
 	
@@ -192,7 +208,8 @@ int main(int argc, char *argv[]){
 	//Arquivo para salvar os erros ao longo do tempo
 	
 	ofstream erros (file_name_erros.c_str());
-	
+	cout << t_eq << endl;
+	cout << relx << endl;
 	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
 	
 	while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
@@ -237,12 +254,9 @@ int main(int argc, char *argv[]){
 		
 		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
 		{
-			//cout  << text_name << " " << inter << " " << "err_J" << " " << left << setw(13) << erroJ <<  "err_h" << " " << left << setw(13) << erroh << '\n';
-			cout  << text_name << " " << inter << " " << "err_J" << " " << left << setw(13) << erroJ <<  "err_h" << " " << left << setw(13) << erroh << '\n';
-			//save_data (r, bm, av_s, av_ss, bm_av_s, bm_av_ss, pasta, inter);
-
-			//salvando dados
-			//SalvarDados(bm, bm_av_s, bm_av_ss, text_name);
+			std::cout << text_name << " " << inter << " "
+              << "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
+              << "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
 		}			
 
 		inter++;

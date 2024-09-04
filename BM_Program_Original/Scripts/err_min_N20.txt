@@ -1,7 +1,0 @@
-all_method
-min_erro_j = [9.1e-06, 8.9e-06, 8.7e-06, 8.5e-06, 8.3e-06, 8.1e-06, 7.9e-06]
-min_erro_h = [4.2e-06, 4.0e-06, 3.8e-06, 3.6e-06, 3.4e-06, 3.2e-06, 3.0e-06]
-
-MC_method
-multi_t_eq = [25, 75, 150, 300, 600];
-where t_eq = x*n, with x in multi_t_eq

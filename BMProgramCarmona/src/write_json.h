@@ -13,6 +13,7 @@ void write_json(const std::string &filename,
                 const VecDoub &bm_av_s, // first moment ising
                 const VecDoub &bm_av_ss, // second moment ising
                 const VecDoub_IO &bm_av_sss); // third moment ising
+
 // void write_properties(const std::string &filename,
 //                        const Rede &bm
 // );
