@@ -9,8 +9,8 @@ if [ $# -ne 6 ]; then
 fi
 
 filename=$1
-j_min_erro=$2
-h_min_erro=$3
+j_min=$2
+h_min=$3
 multi_teq=$4
 multi_relx=$5
 use_exact=$6
@@ -23,17 +23,19 @@ fi
 
 # Check if arguments 2 and 3 are valid floats
 re_float='^[+-]?([0-9]*[.])?[0-9]+([eE][+-]?[0-9]+)?$'
-if ! [[ $j_min_erro =~ $re_float ]]; then
-    echo "Error: '$j_min_erro' is not a valid float number."
+if ! [[ $j_min =~ $re_float ]]; then
+    echo "Error: '$j_min' is not a valid float number."
     exit 1
 fi
 
-if ! [[ $h_min_erro =~ $re_float ]]; then
-    echo "Error: '$h_min_erro' is not a valid float number."
+if ! [[ $h_min =~ $re_float ]]; then
+    echo "Error: '$h_min' is not a valid float number."
     exit 1
 fi
 
 echo "Processando arquivo "$filename.dat" ..."
 
 # Generate comparative and separate folders with files inside
-./Part1_single.sh "$filename" "$j_min_erro" "$h_min_erro" "$multi_teq" "$multi_relx" "$use_exact" &
+./ProcessingData $filename $j_min $h_min $multi_teq $multi_relx $use_exact &
+./BMfinal $filename $j_min $h_min $multi_teq $multi_relx $use_exact &
+./SpecificHeat $filename $j_min $h_min $multi_teq $multi_relx $use_exact &

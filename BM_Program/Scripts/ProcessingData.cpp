@@ -13,6 +13,24 @@
  
 ******************************************************************************/
 
+#include <stdexcept>
+
+bool is_number(const std::string& s) {
+    for (char const &c : s) {
+        if (std::isdigit(c) == 0) return false;
+    }
+    return true;
+}
+
+int safe_stoi(const std::string& str) {
+    if (is_number(str)) {
+        return std::stoi(str);
+    } else {
+        throw std::invalid_argument("String não é um número válido: " + str);
+    }
+}
+
+
 using namespace std;
 
 int main (int argc, char *argv[]){	
@@ -35,8 +53,8 @@ int main (int argc, char *argv[]){
         double min_erro_h = std::stod(argv[3]);
 		int multiply_teq 	= std::stoi(argv[4]);
 		int multiply_relx 	= std::stoi(argv[5]);
-
-        cout << "min_erro_j: " << min_erro_j << endl;
+			
+		cout << "min_erro_j: " << min_erro_j << endl;
         cout << "min_erro_h: " << min_erro_h << endl;
 		cout << "multi_teq: " << multiply_teq << endl;
 		cout << "multi_relx: " << multiply_relx << endl;

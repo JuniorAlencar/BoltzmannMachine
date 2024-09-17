@@ -64,7 +64,7 @@ def minimum_values2(file):
     return j_min_match, h_min_match, t_eq, relx
 
 
-# # Função para carregar dados do file TXT
+# Função para carregar dados do file DAT
 def load_data(file):
     df = pd.read_csv(file, sep = ' ')
     mcs_values = df['inter'].tolist()
