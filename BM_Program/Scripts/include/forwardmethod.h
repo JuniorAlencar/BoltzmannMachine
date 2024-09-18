@@ -1,6 +1,15 @@
 #ifndef FORWARDMETHOD_H
 #define FORWARDMETHOD_H
 
+#include <random>
+// Gera um número aleatório entre 0 e 1
+double random_double() {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_real_distribution<> dis(0.0, 1.0);
+    return dis(gen);
+}
+
 //CALCULA A ENERGIA TOTAL DO ESTADO ATUAL----------------------------------------------------------
 double Energy (Rede &r)
 {
@@ -1279,19 +1288,6 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

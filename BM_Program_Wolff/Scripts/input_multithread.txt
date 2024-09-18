@@ -1,0 +1,21 @@
+sampleCarmona 6.06e-04 3.96e-04 250 9 false
+sampleCarmona 9.14e-04 8.87e-04 250 5 false
+sampleCarmona 8.10e-04 7.76e-04 250 3 false
+sampleCarmona 7.27e-04 7.50e-04 250 5 false
+sampleCarmona 7.72e-04 6.24e-04 250 9 false
+sampleCarmona 9.41e-04 8.54e-04 250 3 false
+sampleCarmona 7.39e-04 5.98e-04 250 7 false
+sampleCarmona 1.37e-03 1.17e-03 250 1 false
+sampleCarmona 1.01e-03 7.83e-04 250 3 false
+sampleCarmona 1.29e-03 1.22e-03 250 1 false
+sampleCarmona 1.06e-03 9.48e-04 250 3 false
+sampleCarmona 6.42e-04 5.40e-04 250 7 false
+sampleCarmona 7.64e-04 5.71e-04 250 9 false
+sampleCarmona 7.86e-04 7.39e-04 250 5 false
+sampleCarmona 6.72e-04 6.21e-04 250 7 false
+sampleCarmona 1.50e-03 1.57e-03 250 1 false
+sampleCarmona 1.21e-03 1.37e-03 250 1 false
+sampleCarmona 7.92e-04 6.57e-04 250 5 false
+sampleCarmona 9.12e-04 6.39e-04 250 5 false
+sampleCarmona 1.23e-03 1.55e-03 250 1 false
+

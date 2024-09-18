@@ -1,5 +1,0 @@
-sampleCarmona 1.17e-03 1.08e-03 300 2 false
-sampleCarmona 1.05e-03 1.12e-03 300 2 false
-sampleCarmona 1.04e-03 1.05e-03 300 2 false
-sampleCarmona 1.07e-03 9.20e-04 300 2 false
-sampleCarmona 1.02e-03 8.36e-04 300 2 false
