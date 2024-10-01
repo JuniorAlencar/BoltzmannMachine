@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include "./include/create_folders.h"
 #include "network.h"
 
 using json = nlohmann::json;
@@ -60,8 +61,6 @@ void write_json_properties( const string &filename,                 // Sample na
     // If method = true, return 'exact', else return 'metropolis'
     string Method = method ? "exact" : "metropolis";
     
-    string Results_folder = method ? "../Results/" : "../Results_Metropolis/";
-    
     json j;
     j["sample"] = filename;
     j["n_spins"] = n;
@@ -95,8 +94,12 @@ void write_json_properties( const string &filename,                 // Sample na
     j["Pij_ising"] = Pij_ising;
     j["Cij_ising"] = C_ij_ising;
     j["Tijk_ising"] = Tijk_ising;
-
-    std::string full_filename = Results_folder + filename;
+    
+    // Return repository to properties
+    int type = 1;
+    
+    std::string full = create_folders(filename, teq/n, relx/n, method, type);
+    std::string full_filename = full + "/" + filename + ".json";
     
     std::ofstream file;
     file.open(full_filename);

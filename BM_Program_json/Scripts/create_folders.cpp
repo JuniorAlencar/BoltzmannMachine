@@ -8,8 +8,9 @@ int main (int argc, char *argv[]){
 	    int multiply_teq 	= std::stoi(argv[2]);
 	    int multiply_relx 	= std::stoi(argv[3]);
         bool use_exact = (std::string(argv[4]) == "true");
+        // Just create folders
         int type = 0;
-		create_folders(text_name, multiply_teq, multiply_relx, use_exact, type);
+		std::cout << create_folders(text_name, multiply_teq, multiply_relx, use_exact, type) << std::endl;
 		cout << "Folders created successfully!" << endl;
     } catch (const fs::filesystem_error& ex) {
         cerr << ex.what() << endl;

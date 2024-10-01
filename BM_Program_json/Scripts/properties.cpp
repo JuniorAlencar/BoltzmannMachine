@@ -131,4 +131,103 @@
     // Close file
     data_input.close();
     
+    //===>>> CALCULATE ALL PROPERTIES EXPERIMENTAL <<<===
+    
+    // Number of combinations in product (xi*xj*xk)
+    int n_triplet = N*(N-1)*(N-2)/6;
+	// Number of combinations in product (xi*xj)
+    int n_duplet  = N*(N-1)/2;
+    // First, second and third moment
+    vector<double> s(N, 0.0), ss(n_duplet, 0.0), sss(n_triplet, 0.0);  
+    // Auxiliary matrix to calculate the triplet and third moment
+    vector<vector<double>> M_ss(N, vector<double>(N));
+    
+    // First moment (magnetization)
+	for (int p = 0; p < N; p++)
+	{
+		for(int w = 0; w < m; w++)
+		{
+			s[p] += M[w][p];
+		}
+		
+		s[p] /= m;
+	}
+	
+	// Second moment
+	int ind = 0;
+	for (int p = 0; p < N-1; p++)
+	{
+		for(int pp = p+1; pp < N; pp++)
+		{		
+			for (int w = 0; w < m; w++)
+			{
+				ss[ind] += M[w][p]*M[w][pp];
+			}
+		
+			ss[ind] /= m;
+
+			M_ss[p][pp] = ss[ind];
+			M_ss[pp][p] = M_ss[p][pp];
+		
+			ind++;
+		}
+	}
+    // Third moment
+	ind = 0;
+	for (int i = 0; i < N-2; i++)
+	{
+		for (int j = i+1; j < N-1; j++)
+		{
+			for (int k = j+1; k < N; k++)
+			{
+				for (int s = 0; s < m; s++)
+				{
+					sss[ind] += M[s][i]*M[s][j]*M[s][k];
+				}
+				
+				sss[ind] /= m;
+				ind++;
+			}
+		}
+	}
+    
+    // Triplet
+	vector<double> Triplet(n_triplet, 0.0);
+	
+	ind = 0;
+	for (int i = 0; i < N-2; i++)
+	{
+		for (int j = i+1; j < N-1; j++)
+		{
+			for (int k = j+1; k < N; k++)
+			{
+				Triplet[ind] = sss[ind] - s[i]*M_ss[j][k] - s[j]*M_ss[i][k] 
+								- s[k]*M_ss[i][j] + 2*s[i]*s[j]*s[k];
+				
+								
+				ind++;
+			}
+		}
+	}
+    // Covariance experimental (Cij)
+	vector<double> C(N*(N-1)/2, 0.0);
+	
+	// Correlation experimental (Pij)
+	vector<double> Pearson(n_duplet);
+
+    	ind = 0;
+	for (int p = 0; p < N-1; p++)
+	{
+		for (int pp = p+1; pp < N; pp++)
+		{
+			C[ind] = ss[ind] - s[p]*s[pp];
+
+			Pearson[ind] = C[ind]/sqrt((1 - pow(s[p], 2))*(1 - pow(s[pp], 2)));
+			
+			ind++;
+		}
+	}
+    
+    //===>>> CALCULATE ALL PROPERTIES ISING <<<===
+
  }

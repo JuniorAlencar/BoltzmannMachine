@@ -13,24 +13,6 @@
  
 ******************************************************************************/
 
-#include <stdexcept>
-
-bool is_number(const std::string& s) {
-    for (char const &c : s) {
-        if (std::isdigit(c) == 0) return false;
-    }
-    return true;
-}
-
-int safe_stoi(const std::string& str) {
-    if (is_number(str)) {
-        return std::stoi(str);
-    } else {
-        throw std::invalid_argument("String não é um número válido: " + str);
-    }
-}
-
-
 using namespace std;
 
 int main (int argc, char *argv[]){	
