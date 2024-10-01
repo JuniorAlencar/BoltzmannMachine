@@ -5,7 +5,7 @@
 
 # Create folders to Results if don't exist
 if [ ! -d "../Results" ] || [ ! -d "../Results_Metropolis" ]; then
-	./CreateFolders
+	./CreateFolders 
 fi
 
 # Run in parallel with arguments in input_multithread.txt
