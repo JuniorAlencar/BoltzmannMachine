@@ -16,8 +16,8 @@ using namespace std;
 void write_json_properties( const string &filename,                 // Sample name
                             const Rede &bm,                         // Network
                             // MC parameters
-                            const int &relx,                        // Parameter to MC
-                            const int &teq,                         // Parameter to MC
+                            const int &multi_relx,                        // Parameter to MC
+                            const int &multi_teq,                         // Parameter to MC
                             const double &jmin,                     // Parameter to MC
                             const double &hmin,                     // Parameter to MC
                             const bool &method,                     // if True ->exact, else ->metropolis
@@ -66,8 +66,8 @@ void write_json_properties( const string &filename,                 // Sample na
     j["n_spins"] = n;
     // Monte Carlo parameters -----------------
     j["MC"] = json::object();  // Initialize "MC" as an empty object
-    j["MC"]["relx"] = relx;
-    j["MC"]["teq"] = teq;
+    j["MC"]["relx"] = multi_relx*n;
+    j["MC"]["teq"] = multi_teq*n;
     j["MC"]["jmin"] = jmin;
     j["MC"]["hmin"] = hmin;
     
@@ -86,7 +86,7 @@ void write_json_properties( const string &filename,                 // Sample na
     j["Tijk_exp"] = Tijk_exp;
 
     // Ising means -----------------------------
-        // First, second and third moment
+    // First, second and third moment
     j["S_ising"] = bmavs;
     j["SS_ising"] = bmavss;
     j["SSS_ising"] = av_sss;
@@ -98,7 +98,7 @@ void write_json_properties( const string &filename,                 // Sample na
     // Return repository to properties
     int type = 1;
     
-    std::string full = create_folders(filename, teq/n, relx/n, method, type);
+    std::string full = create_folders(filename, multi_teq, multi_relx, method, type);
     std::string full_filename = full + "/" + filename + ".json";
     
     std::ofstream file;

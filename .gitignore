@@ -9,7 +9,12 @@ BMProgramCarmona/logs/
 BMProgramCarmona/inputs/
 BMProgramCarmona/Scripts/multithread_pc.sh
 
+# Ignore bins from cpp linux and windows keeping shell scripts
+*.[!c][!p][!p]
+*.exe
+!*.sh
 
+# Ignore data folder
 */Data/
 
 #BM_Program_Original/Results/Erro/erro_sampleN30.dat

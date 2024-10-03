@@ -132,7 +132,7 @@
     data_input.close();
     
     //===>>> CALCULATE ALL PROPERTIES EXPERIMENTAL <<<===
-    
+    cout << "start experimental means calculate..." << endl;
     // Number of combinations in product (xi*xj*xk)
     int n_triplet = N*(N-1)*(N-2)/6;
 	// Number of combinations in product (xi*xj)
@@ -227,7 +227,38 @@
 			ind++;
 		}
 	}
+    cout << "all experimental means calculated" << endl;
     
-    //===>>> CALCULATE ALL PROPERTIES ISING <<<===
+	//===>>> CALCULATE ALL PROPERTIES ISING <<<===
+	cout << "start ising means..." << endl;
+
+	// Gaussian Parameters
+	int n;
+	double mean = 1;
+	double sigma = 0.25;
+	double k = 10;
+	int type;
+	int H;
+	
+	string file_rede_input;
+	
+	ifstream rede (file_rede_input.c_str());
+	
+	rede >> n;
+	
+	VecDoub av_s(n, 0.0), av_ss(n*(n-1)/2, 0.0), C(n*(n-1)/2, 0.0);
+	
+	//Rede r(tamanho, media, desvio, k, type = 0(random) 1(tree), H = 0(no field) 1(ConstField) -1(ConstField) 2(RandField))
+	Rede r(n, mean, sigma, k, 0, 1);	
+	
+	for (int i = 0; i < r.nbonds; i++)
+	{
+		rede >> av_ss[i] >> C[i];
+		
+		if (i < r.n)
+			rede >> av_s[i];	
+		 
+	}
+
 
  }
