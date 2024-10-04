@@ -13,6 +13,43 @@ using json = nlohmann::json;
 
 using namespace std;
 
+
+// Struct to save all properties experimental
+struct exp_means{
+    const std::vector<double> &av_s;        // First moment exp
+    const std::vector<double> &av_ss;       // Second moment exp
+    const std::vector<double> &av_sss;      // Third moment exp
+    const std::vector<double> &Cij_exp;     // Covariance exp
+    const std::vector<double> &Pij_exp;     // Correlation exp
+    const std::vector<double> &Tijk_exp;    // Triplet exp
+};
+
+// Function to save exp_means values
+json create_json_exp(const exp_means &data, const string &filename) {
+    json j;
+    j["S_exp"] = data.av_s;
+    j["SS_exp"] = data.av_ss;
+    j["SSS_exp"] = data.av_sss;
+    j["Pij_exp"] = data.Pij_exp;
+    j["Cij_exp"] = data.Cij_exp;
+    j["Tijk_exp"] = data.Tijk_exp;
+    // save files exp
+    string full_filename = "../Results/" + filename + "_exp.json"; 
+    string full_filename_metro = "../Results_metropolis/" + filename + "_exp.json"; 
+    
+    std::ofstream file;
+    file.open(full_filename);
+    file << j.dump(4);
+    file.close();
+
+    std::ofstream file_metro;
+    file_metro.open(full_filename_metro);
+    file_metro << j.dump(4);
+    file_metro.close();
+    
+    return j;
+}
+
 void write_json_properties( const string &filename,                 // Sample name
                             const Rede &bm,                         // Network
                             // MC parameters
@@ -73,13 +110,21 @@ void write_json_properties( const string &filename,                 // Sample na
     
     // Method used -----------------
     j["method"] = Method;
-    
-    // Experimental means -----------------------------
-    
     // First, second and third moment
+
     j["S_exp"] = av_s;
+
     j["SS_exp"] = av_ss;
+
     j["SSS_exp"] = av_sss;
+
+    // Correlation, covariance and triplet
+
+    j["Pij_exp"] = Pij_exp;
+
+    j["Cij_exp"] = Cij_exp;
+
+    j["Tijk_exp"] = Tijk_exp;
     // Correlation, covariance and triplet
     j["Pij_exp"] = Pij_exp;
     j["Cij_exp"] = Cij_exp;

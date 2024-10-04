@@ -242,6 +242,8 @@
 	
 	string file_rede_input;
 	
+	string file_rede_input = use_exact ? "exact" : "metropolis";
+
 	ifstream rede (file_rede_input.c_str());
 	
 	rede >> n;
