@@ -5,17 +5,22 @@
 #include <algorithm>
 #include <string>
 #include <cmath>
-#include <iomanip>  // Necessário para setprecision
+#include <iomanip>
 #include <ctime>
 #include <sstream>
 #include <fstream>
 #include <fmt/core.h>
 #include "./include/nr3.h"
 #include "./include/network.h"
+#include "./include/LUdcmp.h"
 #include "./include/forwardmethod.h"
 #include "./include/InverseMethod.h"
-#include "./include/LUdcmp.h"
 #include "./include/write_json.h"
+#include "./include/read_json.h"
+#include <filesystem>
+
+using namespace std;
+using json = nlohmann::json;
 
 
  int main(int argc, char *argv[]){
@@ -132,135 +137,174 @@
     data_input.close();
     
     //===>>> CALCULATE ALL PROPERTIES EXPERIMENTAL <<<===
-    cout << "start experimental means calculate..." << endl;
-    // Number of combinations in product (xi*xj*xk)
+	// Number of combinations in product (xi*xj*xk)
     int n_triplet = N*(N-1)*(N-2)/6;
 	// Number of combinations in product (xi*xj)
     int n_duplet  = N*(N-1)/2;
-    // First, second and third moment
-    vector<double> s(N, 0.0), ss(n_duplet, 0.0), sss(n_triplet, 0.0);  
-    // Auxiliary matrix to calculate the triplet and third moment
-    vector<vector<double>> M_ss(N, vector<double>(N));
+	
+	// Check if file exp exist
+	string file_means = use_exact ? "../Results/" + text_name + "_exp.json" : "../Results_Metropolis/" + text_name + "_exp.json";
+	
+	// load struct with means exp values
+	exp_means my_means;
+	// json struct with means to append with ising means
+	json json_means_exp;
+	
+	// If exist, just open it
+	if (filesystem::exists(file_means)) {
+        cout << "file exist, opening..." << endl;
+		// 
+		pair<exp_means, json> result = load_json_exp(file_means);
+		
+		// Acessando a struct exp_means
+    	my_means = result.first;
     
-    // First moment (magnetization)
-	for (int p = 0; p < N; p++)
-	{
-		for(int w = 0; w < m; w++)
-		{
-			s[p] += M[w][p];
-		}
-		
-		s[p] /= m;
-	}
+    	// Acessando o objeto JSON
+    	json_means_exp = result.second;
+    } 
 	
-	// Second moment
-	int ind = 0;
-	for (int p = 0; p < N-1; p++)
-	{
-		for(int pp = p+1; pp < N; pp++)
-		{		
-			for (int w = 0; w < m; w++)
-			{
-				ss[ind] += M[w][p]*M[w][pp];
-			}
+	// Else, calculate and create it
+	else {
+        cout << "file means don't exist, calculate..." << endl;
+		// First, second and third moment
+		vector<double> s(N, 0.0), ss(n_duplet, 0.0), sss(n_triplet, 0.0);  
+		// Auxiliary matrix to calculate the triplet and third moment
+		vector<vector<double>> M_ss(N, vector<double>(N));
 		
-			ss[ind] /= m;
-
-			M_ss[p][pp] = ss[ind];
-			M_ss[pp][p] = M_ss[p][pp];
-		
-			ind++;
-		}
-	}
-    // Third moment
-	ind = 0;
-	for (int i = 0; i < N-2; i++)
-	{
-		for (int j = i+1; j < N-1; j++)
+		// First moment (magnetization)
+		for (int p = 0; p < N; p++)
 		{
-			for (int k = j+1; k < N; k++)
+			for(int w = 0; w < m; w++)
 			{
-				for (int s = 0; s < m; s++)
-				{
-					sss[ind] += M[s][i]*M[s][j]*M[s][k];
-				}
-				
-				sss[ind] /= m;
-				ind++;
+				s[p] += M[w][p];
 			}
-		}
-	}
-    
-    // Triplet
-	vector<double> Triplet(n_triplet, 0.0);
-	
-	ind = 0;
-	for (int i = 0; i < N-2; i++)
-	{
-		for (int j = i+1; j < N-1; j++)
-		{
-			for (int k = j+1; k < N; k++)
-			{
-				Triplet[ind] = sss[ind] - s[i]*M_ss[j][k] - s[j]*M_ss[i][k] 
-								- s[k]*M_ss[i][j] + 2*s[i]*s[j]*s[k];
-				
-								
-				ind++;
-			}
-		}
-	}
-    // Covariance experimental (Cij)
-	vector<double> C(N*(N-1)/2, 0.0);
-	
-	// Correlation experimental (Pij)
-	vector<double> Pearson(n_duplet);
-
-    	ind = 0;
-	for (int p = 0; p < N-1; p++)
-	{
-		for (int pp = p+1; pp < N; pp++)
-		{
-			C[ind] = ss[ind] - s[p]*s[pp];
-
-			Pearson[ind] = C[ind]/sqrt((1 - pow(s[p], 2))*(1 - pow(s[pp], 2)));
 			
-			ind++;
+			s[p] /= m;
 		}
-	}
-    cout << "all experimental means calculated" << endl;
-    
-	//===>>> CALCULATE ALL PROPERTIES ISING <<<===
-	cout << "start ising means..." << endl;
 
-	// Gaussian Parameters
-	int n;
-	double mean = 1;
-	double sigma = 0.25;
-	double k = 10;
-	int type;
-	int H;
-	
-	string file_rede_input;
-	
-	string file_rede_input = use_exact ? "exact" : "metropolis";
+		// Second moment
+		int ind = 0;
+		for (int p = 0; p < N-1; p++)
+		{
+			for(int pp = p+1; pp < N; pp++)
+			{		
+				for (int w = 0; w < m; w++)
+				{
+					ss[ind] += M[w][p]*M[w][pp];
+				}
+			
+				ss[ind] /= m;
 
-	ifstream rede (file_rede_input.c_str());
-	
-	rede >> n;
-	
-	VecDoub av_s(n, 0.0), av_ss(n*(n-1)/2, 0.0), C(n*(n-1)/2, 0.0);
-	
-	//Rede r(tamanho, media, desvio, k, type = 0(random) 1(tree), H = 0(no field) 1(ConstField) -1(ConstField) 2(RandField))
-	Rede r(n, mean, sigma, k, 0, 1);	
-	
-	for (int i = 0; i < r.nbonds; i++)
-	{
-		rede >> av_ss[i] >> C[i];
+				M_ss[p][pp] = ss[ind];
+				M_ss[pp][p] = M_ss[p][pp];
+			
+				ind++;
+			}
+		}
+		// Third moment
+		ind = 0;
+		for (int i = 0; i < N-2; i++)
+		{
+			for (int j = i+1; j < N-1; j++)
+			{
+				for (int k = j+1; k < N; k++)
+				{
+					for (int s = 0; s < m; s++)
+					{
+						sss[ind] += M[s][i]*M[s][j]*M[s][k];
+					}
+					
+					sss[ind] /= m;
+					ind++;
+				}
+			}
+		}
+
+		// Triplet
+		vector<double> Triplet(n_triplet, 0.0);
 		
-		if (i < r.n)
-			rede >> av_s[i];	
+		ind = 0;
+		for (int i = 0; i < N-2; i++)
+		{
+			for (int j = i+1; j < N-1; j++)
+			{
+				for (int k = j+1; k < N; k++)
+				{
+					Triplet[ind] = sss[ind] - s[i]*M_ss[j][k] - s[j]*M_ss[i][k] 
+									- s[k]*M_ss[i][j] + 2*s[i]*s[j]*s[k];
+					
+									
+					ind++;
+				}
+			}
+		}
+
+		// Covariance experimental (Cij)
+		vector<double> C(N*(N-1)/2, 0.0);
+		
+		// Correlation experimental (Pij)
+		vector<double> Pearson(n_duplet);
+
+			ind = 0;
+		for (int p = 0; p < N-1; p++)
+		{
+			for (int pp = p+1; pp < N; pp++)
+			{
+				C[ind] = ss[ind] - s[p]*s[pp];
+
+				Pearson[ind] = C[ind]/sqrt((1 - pow(s[p], 2))*(1 - pow(s[pp], 2)));
+				
+				ind++;
+			}
+		}
+		
+		// Update struct exp_means with values
+		my_means.av_s = s;
+		my_means.av_ss = ss;
+		my_means.av_sss = sss;
+		my_means.Cij_exp = C;
+		my_means.Pij_exp = Pearson;
+		my_means.Tijk_exp = Triplet;
+		
+		// Json saved and created
+		json_means_exp = create_json_exp(my_means, text_name);
+		
+		cout << "json " << endl;
+    }
+	
+    
+    
+    
+	// //===>>> CALCULATE ALL PROPERTIES ISING <<<===
+	// cout << "start ising means..." << endl;
+
+	// // Gaussian Parameters
+	// int n;
+	// double mean = 1;
+	// double sigma = 0.25;
+	// double k = 10;
+	// int type;
+	// int H;
+	
+	// string file_rede_input = use_exact ? "exact" : "metropolis";
+
+	// ifstream rede (file_rede_input.c_str());
+	
+	// rede >> n;
+	
+	// VecDoub av_s(n, 0.0), av_ss(n*(n-1)/2, 0.0), C(n*(n-1)/2, 0.0);
+	
+	// //Rede r(tamanho, media, desvio, k, type = 0(random) 1(tree), H = 0(no field) 1(ConstField) -1(ConstField) 2(RandField))
+	// Rede r(n, mean, sigma, k, 0, 1);	
+	
+	// for (int i = 0; i < r.nbonds; i++)
+	// {
+	// 	rede >> av_ss[i] >> C[i];
+		
+	// 	if (i < r.n)
+	// 		rede >> av_s[i];	
 		 
-	}
+	// }
 
 
  }

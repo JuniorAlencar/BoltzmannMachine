@@ -1,3 +1,5 @@
+#ifndef CREATE_FOLDERS_H
+#define CREATE_FOLDERS_H
 #include <iostream>
 #include <ctime>
 #include <string>
@@ -85,4 +87,4 @@ std::string create_folders(const string &text_name,const int &multiply_teq, cons
         return specific_heat_folder;
     else
         return "enter with type value accept (int type <= 4)";
-}
+#endif // CREATE_FOLDERS_H

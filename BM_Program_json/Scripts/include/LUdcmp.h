@@ -49,7 +49,7 @@ LUdcmp::LUdcmp(MatDoub_I &M) : n(M.nrows()), lu(M), aref(M), indx(n)     //Const
 			if ((temp=abs(lu[i][j])) > big)
 				big = temp;
 		if (big == 0)
-			throw ("Matriz Singular");
+			throw std::runtime_error("Matriz Singular");
 		vv[i] = 1.0/big;
 	}
 	

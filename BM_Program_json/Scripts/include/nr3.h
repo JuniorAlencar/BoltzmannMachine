@@ -66,7 +66,7 @@ inline void SWAP(T &a, T &b)
 
 #ifndef _USENRERRORCLASS_
 #define throw(message) \
-{printf("ERROR: %s\n     in file %s at line %d\n", message,__FILE__,__LINE__); throw(1);}
+{std::cerr << "ERROR: concurrency lock error" << "\n     in file " << __FILE__ << " at line " << __LINE__ << std::endl; std::terminate();}
 #else
 struct NRerror {
 	char *message;

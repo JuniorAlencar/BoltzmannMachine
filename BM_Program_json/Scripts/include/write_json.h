@@ -1,28 +1,18 @@
 #ifndef WRITE_JSON_H
 #define WRITE_JSON_H
 
-
-#include "nr3.h"
 #include <vector>
 #include <iostream>
-#include <nlohmann/json.hpp>
-#include "./include/create_folders.h"
+#include <fstream> // Para manipulação de arquivos
+#include <nlohmann/json.hpp> // Inclua a biblioteca JSON antes das outras
+#include "exp_means.h"
+#include "nr3.h"
+#include "create_folders.h"
 #include "network.h"
 
 using json = nlohmann::json;
 
 using namespace std;
-
-
-// Struct to save all properties experimental
-struct exp_means{
-    const std::vector<double> &av_s;        // First moment exp
-    const std::vector<double> &av_ss;       // Second moment exp
-    const std::vector<double> &av_sss;      // Third moment exp
-    const std::vector<double> &Cij_exp;     // Covariance exp
-    const std::vector<double> &Pij_exp;     // Correlation exp
-    const std::vector<double> &Tijk_exp;    // Triplet exp
-};
 
 // Function to save exp_means values
 json create_json_exp(const exp_means &data, const string &filename) {
@@ -48,7 +38,7 @@ json create_json_exp(const exp_means &data, const string &filename) {
     file_metro.close();
     
     return j;
-}
+};
 
 void write_json_properties( const string &filename,                 // Sample name
                             const Rede &bm,                         // Network
@@ -143,13 +133,13 @@ void write_json_properties( const string &filename,                 // Sample na
     // Return repository to properties
     int type = 1;
     
-    std::string full = create_folders(filename, multi_teq, multi_relx, method, type);
-    std::string full_filename = full + "/" + filename + ".json";
+    string full = create_folders(filename, multi_teq, multi_relx, method, type);
+    string full_filename = full + "/" + filename + ".json";
     
     std::ofstream file;
     file.open(full_filename);
     file << j.dump(4);
     file.close();
-}
+};
 
 #endif // WRITE_JSON_H
