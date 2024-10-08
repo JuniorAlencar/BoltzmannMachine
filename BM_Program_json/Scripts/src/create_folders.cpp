@@ -67,6 +67,8 @@
         return network_folder;
     else if(type == 4)
         return specific_heat_folder;
+    else if(type == 5)
+        return Results_folder;
     else
-        return "enter with type value accept (int type <= 4)";
+        return "enter with type value accept (int type <= 5)";
 }

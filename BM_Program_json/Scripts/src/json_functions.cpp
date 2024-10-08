@@ -1,60 +1,15 @@
-#ifndef WRITE_JSON_HPP
-#define WRITE_JSON_HPP
+#include "json_functions.hpp"
 
-#include <vector>
-#include <iostream>
-#include <fstream> // Para manipulação de arquivos
-#include <nlohmann/json.hpp> // Inclua a biblioteca JSON antes das outras
-#include "exp_means.h"
-#include "nr3.h"
-#include "create_folders.h"
-#include "network.h"
-
-using json = nlohmann::json;
-
-using namespace std;
-
-// Function to save exp_means values
-json create_json_exp(const exp_means &data, const string &filename) {
-    json j;
-    j["S_exp"] = data.av_s;
-    j["SS_exp"] = data.av_ss;
-    j["SSS_exp"] = data.av_sss;
-    j["Pij_exp"] = data.Pij_exp;
-    j["Cij_exp"] = data.Cij_exp;
-    j["Tijk_exp"] = data.Tijk_exp;
-    // save files exp
-    string full_filename = "../Results/" + filename + "_exp.json"; 
-    string full_filename_metro = "../Results_metropolis/" + filename + "_exp.json"; 
-    
-    std::ofstream file;
-    file.open(full_filename);
-    file << j.dump(4);
-    file.close();
-
-    std::ofstream file_metro;
-    file_metro.open(full_filename_metro);
-    file_metro << j.dump(4);
-    file_metro.close();
-    
-    return j;
-};
-
-void write_json_properties( const string &filename,                 // Sample name
+void js_funct::write_json_properties( const string &filename,                 // Sample name
                             const Rede &bm,                         // Network
                             // MC parameters
                             const int &multi_relx,                        // Parameter to MC
                             const int &multi_teq,                         // Parameter to MC
                             const double &jmin,                     // Parameter to MC
                             const double &hmin,                     // Parameter to MC
-                            const bool &method,                     // if True ->exact, else ->metropolis
+                            const string &method,                   // exact or metropolis
                             // Exp properties
-                            const std::vector<double> &av_s,        // First moment exp
-                            const std::vector<double> &av_ss,       // Second moment exp
-                            const std::vector<double> &av_sss,      // Third moment exp
-                            const std::vector<double> &Cij_exp,     // Covariance exp
-                            const std::vector<double> &Pij_exp,     // Correlation exp
-                            const std::vector<double> &Tijk_exp,    // Triplet exp
+                            const exp_means &data_exp,
                             // Ising properties
                             const VecDoub &bm_av_s,                 // First moment Ising
                             const VecDoub &bm_av_ss,                // Second moment Ising
@@ -85,8 +40,6 @@ void write_json_properties( const string &filename,                 // Sample na
             aux ++;
         }
     }
-    // If method = true, return 'exact', else return 'metropolis'
-    string Method = method ? "exact" : "metropolis";
     
     json j;
     j["sample"] = filename;
@@ -99,32 +52,28 @@ void write_json_properties( const string &filename,                 // Sample na
     j["MC"]["hmin"] = hmin;
     
     // Method used -----------------
-    j["method"] = Method;
+    j["method"] = method;
     // First, second and third moment
 
-    j["S_exp"] = av_s;
+    j["S_exp"] = data_exp.av_s;
 
-    j["SS_exp"] = av_ss;
+    j["SS_exp"] = data_exp.av_ss;
 
-    j["SSS_exp"] = av_sss;
+    j["SSS_exp"] = data_exp.av_sss;
 
     // Correlation, covariance and triplet
 
-    j["Pij_exp"] = Pij_exp;
+    j["Pij_exp"] = data_exp.Pij_exp;
 
-    j["Cij_exp"] = Cij_exp;
+    j["Cij_exp"] = data_exp.Cij_exp;
 
-    j["Tijk_exp"] = Tijk_exp;
-    // Correlation, covariance and triplet
-    j["Pij_exp"] = Pij_exp;
-    j["Cij_exp"] = Cij_exp;
-    j["Tijk_exp"] = Tijk_exp;
+    j["Tijk_exp"] = data_exp.Tijk_exp;
 
     // Ising means -----------------------------
     // First, second and third moment
     j["S_ising"] = bmavs;
     j["SS_ising"] = bmavss;
-    j["SSS_ising"] = av_sss;
+    j["SSS_ising"] = bm_av_sss;
     // Correlation, covariance and triplet
     j["Pij_ising"] = Pij_ising;
     j["Cij_ising"] = C_ij_ising;
@@ -142,4 +91,52 @@ void write_json_properties( const string &filename,                 // Sample na
     file.close();
 };
 
-#endif // !WRITE_JSON_HPP
+// Function to save exp_means values
+void js_funct::create_json_exp(const exp_means &data, const string &filename){
+    json j;
+    j["S_exp"] = data.av_s;
+    j["SS_exp"] = data.av_ss;
+    j["SSS_exp"] = data.av_sss;
+    j["Pij_exp"] = data.Pij_exp;
+    j["Cij_exp"] = data.Cij_exp;
+    j["Tijk_exp"] = data.Tijk_exp;
+    // save files exp
+    string full_filename = "../Results/" + filename + "_exp.json"; 
+    
+    std::ofstream file;
+    file.open(full_filename);
+    file << j.dump(4);
+    file.close();
+};
+
+exp_means js_funct::load_json_exp(const std::string &filename){
+    // Path to file results
+    std::string full_filename = "../Results/" + filename + "_exp.json";
+
+    // Abrindo o arquivo
+    std::ifstream file(full_filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("Não foi possível abrir o arquivo: " + full_filename);
+    }
+
+    // Carregando o conteúdo do arquivo em um objeto JSON
+    json j;
+    file >> j;
+
+    // Criando a struct exp_means e atribuindo os valores do JSON
+    exp_means data;
+    data.av_s = j["S_exp"].get<std::vector<double>>();
+    data.av_ss = j["SS_exp"].get<std::vector<double>>();
+    data.av_sss = j["SSS_exp"].get<std::vector<double>>();
+    data.Pij_exp = j["Pij_exp"].get<std::vector<double>>();
+    data.Cij_exp = j["Cij_exp"].get<std::vector<double>>();
+    data.Tijk_exp = j["Tijk_exp"].get<std::vector<double>>();
+
+    // Fechando o arquivo
+    file.close();
+
+    // Retornando a struct exp_means e o próprio JSON
+    return data;
+    };
+
+//class json_functions{}

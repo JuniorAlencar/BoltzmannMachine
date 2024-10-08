@@ -2,21 +2,12 @@
 #define EXP_MEANS_HPP
 
 #include <vector>
+#include "json_functions.hpp"
 #include "create_folders.cpp"
-#include "read_json.hpp"
-#include "write_json.hpp"
+
 
 using json = nlohmann::json;
 using namespace std;
-
-struct exp_means {
-    std::vector<double> av_s;
-    std::vector<double> av_ss;
-    std::vector<double> av_sss;
-    std::vector<double> Cij_exp;
-    std::vector<double> Pij_exp;
-    std::vector<double> Tijk_exp;
-};
 
 class exp_mean_calculate{
     private:
@@ -24,7 +15,7 @@ class exp_mean_calculate{
         string filename;
     
     public:
-        pair<exp_means, json> exp_calculate(string &filename, bool &use_exact);
+        exp_means exp_calculate(const string &filename);
 };
 
 

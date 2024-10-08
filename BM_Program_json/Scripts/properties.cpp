@@ -137,10 +137,7 @@ using json = nlohmann::json;
     data_input.close();
     
     //===>>> CALCULATE ALL PROPERTIES EXPERIMENTAL <<<===
-	// Number of combinations in product (xi*xj*xk)
-    int n_triplet = N*(N-1)*(N-2)/6;
-	// Number of combinations in product (xi*xj)
-    int n_duplet  = N*(N-1)/2;
+
 	
 	// Check if file exp exist
 	string file_means = use_exact ? "../Results/" + text_name + "_exp.json" : "../Results_Metropolis/" + text_name + "_exp.json";
