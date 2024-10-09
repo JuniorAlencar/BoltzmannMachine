@@ -3,10 +3,6 @@
 
 #include "json_functions.hpp"
 
-
-using json = nlohmann::json;
-using namespace std;
-
 class exp_mean_calculate{
     private:
         bool use_exact;             // method exact/metropolis

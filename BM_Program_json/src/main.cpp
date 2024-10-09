@@ -51,7 +51,9 @@ int main(int argc, char *argv[]){
         return 1;
     }
     c_folders cf;
-    cf.create_folders(filename, multiply_teq, multiply_relx, method, 0);
+    int tp = 0;
+    string ep;
+    ep = cf.create_folders(filename, multiply_teq, multiply_relx, method, tp);
 
     exp_mean_calculate exp_funcs;
     // If file experimental means exist, open it. 
