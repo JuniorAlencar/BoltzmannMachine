@@ -1,5 +1,6 @@
 #ifndef CREATE_FOLDERS_HPP
 #define CREATE_FOLDERS_HPP
+
 #include <iostream>
 #include <ctime>
 #include <string>
@@ -19,6 +20,10 @@ namespace fs = boost::filesystem;
 // type=2 returns errors folder
 // type=3 returns network folder
 // type=4 returns specific heat folder
-std::string create_folders(const string &text_name,const int &multiply_teq, const int &multiply_relx, const string &method, const int &type);
+
+class c_folders{
+    public:
+        std::string create_folders(const string &text_name, const int &multiply_teq, const int &multiply_relx, const string &method, const int &type);
+};
 
 #endif // CREATE_FOLDERS_HPP

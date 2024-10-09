@@ -1,4 +1,4 @@
-#ifndef INVERSEDMETHOD_H
+#ifndef INVERSEMETHOD_H
 #define INVERSEMETHOD_H
 
 #include "./LUdcmp.h"

@@ -1,12 +1,12 @@
 #ifndef WRITE_JSON_HPP
 #define WRITE_JSON_HPP
 
+#include "create_folders.hpp"
 #include <vector>
 #include <iostream>
 #include <fstream> // Para manipulação de arquivos
 #include <nlohmann/json.hpp> // Inclua a biblioteca JSON antes das outras
 #include "nr3.h"
-#include "create_folders.hpp"
 #include "network.h"
 
 using json = nlohmann::json;
@@ -26,7 +26,8 @@ class js_funct{
     public:
         void create_json_exp(const exp_means &data, const string &filename);
         void write_json_properties( const string &filename,                 // Sample name
-                            const Rede &bm,                         // Network
+                            const int &nspins,
+                            const int &n_duplet,                         // Network
                             // MC parameters
                             const int &multi_relx,                        // Parameter to MC
                             const int &multi_teq,                         // Parameter to MC

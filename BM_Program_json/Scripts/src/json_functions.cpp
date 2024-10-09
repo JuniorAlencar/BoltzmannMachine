@@ -1,7 +1,8 @@
 #include "json_functions.hpp"
 
 void js_funct::write_json_properties( const string &filename,                 // Sample name
-                            const Rede &bm,                         // Network
+                            const int &nspins,
+                            const int &n_duplet,                         // Network
                             // MC parameters
                             const int &multi_relx,                        // Parameter to MC
                             const int &multi_teq,                         // Parameter to MC
@@ -9,7 +10,7 @@ void js_funct::write_json_properties( const string &filename,                 //
                             const double &hmin,                     // Parameter to MC
                             const string &method,                   // exact or metropolis
                             // Exp properties
-                            const exp_means &data_exp,
+                            const exp_means &data_exp,              //experimental means
                             // Ising properties
                             const VecDoub &bm_av_s,                 // First moment Ising
                             const VecDoub &bm_av_ss,                // Second moment Ising
@@ -19,23 +20,21 @@ void js_funct::write_json_properties( const string &filename,                 //
                             const std::vector<double> &Tijk_ising   // Triplet Ising
                             ){
     // ==> The json library accepts vector<double> in arguments <==
-    int n=bm.n;
-    int npairs=bm.nbonds;
     // Converter bm_av_s and bm_av_ss from VecDoub to vector<double>
-    vector<double> bmavs(n,0), bmavss(npairs,0);
+    vector<double> bmavs(nspins,0), bmavss(n_duplet,0);
     // Converter Cij_ising from VecDoub to vector<double>
-    vector<double> C_ij_ising(npairs,0);
+    vector<double> C_ij_ising(n_duplet,0);
     
     // Converting VecDoub type vectors to vector<double>-----------------
-    for(int i = 0; i < n; ++i)
+    for(int i = 0; i < nspins; ++i)
         bmavs[i] = bm_av_s[i];
     
-    for(int i = 0; i<npairs; ++i)
+    for(int i = 0; i<n_duplet; ++i)
         bmavss[i] = bm_av_ss[i];
     
     int aux = 0;
-    for(int i = 0; i < n-1; ++i ){
-        for(int j = i+1; j < n; ++j){
+    for(int i = 0; i < nspins-1; ++i ){
+        for(int j = i+1; j < nspins; ++j){
             C_ij_ising[aux] = bmavss[aux] - bmavs[i]*bmavs[j];
             aux ++;
         }
@@ -43,11 +42,11 @@ void js_funct::write_json_properties( const string &filename,                 //
     
     json j;
     j["sample"] = filename;
-    j["n_spins"] = n;
+    j["n_spins"] = nspins;
     // Monte Carlo parameters -----------------
     j["MC"] = json::object();  // Initialize "MC" as an empty object
-    j["MC"]["relx"] = multi_relx*n;
-    j["MC"]["teq"] = multi_teq*n;
+    j["MC"]["relx"] = multi_relx*nspins;
+    j["MC"]["teq"] = multi_teq*nspins;
     j["MC"]["jmin"] = jmin;
     j["MC"]["hmin"] = hmin;
     
@@ -81,8 +80,8 @@ void js_funct::write_json_properties( const string &filename,                 //
     
     // Return repository to properties
     int type = 1;
-    
-    string full = create_folders(filename, multi_teq, multi_relx, method, type);
+    c_folders rnd;
+    string full = rnd.create_folders(filename, multi_teq, multi_relx, method, type);
     string full_filename = full + "/" + filename + ".json";
     
     std::ofstream file;
@@ -140,3 +139,11 @@ exp_means js_funct::load_json_exp(const std::string &filename){
     };
 
 //class json_functions{}
+void Rede::neighbours() {
+    // Implementação genérica para criar a lista de vizinhos
+    int a;
+    for (int i = 0; i < n; ++i) {
+        a = 3;
+        // Exemplo básico de lógica para calcular os vizinhos de cada nó
+    }
+}

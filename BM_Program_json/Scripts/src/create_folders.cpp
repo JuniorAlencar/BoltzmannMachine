@@ -1,8 +1,8 @@
 #include "create_folders.hpp"
 
- std::string create_folders(const string &text_name, const int &multiply_teq, const int &multiply_relx, const string &method, const int &type){
+ std::string c_folders::create_folders(const string &text_name, const int &multiply_teq, const int &multiply_relx, const string &method, const int &type){
     // Count number of spins in sample ---------------------------------
-    string file_input = "../Data/TidyData/" + text_name + ".dat";
+    string file_input = "../../Data/TidyData/" + text_name + ".dat";
     ifstream data_input (file_input.c_str());
     string first_line;
     string a;
@@ -44,9 +44,7 @@
     string network_folder = relx_folder + "/network";
     string errors_folder = relx_folder + "/errors";
 
-    // Create Data folders
-    string Mag_Corr_folder = "../Data/Mag_Corr";
-    fs::create_directories(Mag_Corr_folder);
+    
     // if type = 0, just create folders and return nothing
     if(type == 0){
          // Create folders

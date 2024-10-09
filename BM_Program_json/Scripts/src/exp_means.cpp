@@ -184,7 +184,29 @@ exp_means exp_mean_calculate::exp_calculate(const string &filename){
 		
 		// Json saved and created
 		rnd.create_json_exp(my_means, filename);
+		
+		string file_name_output = "../Results/" + filename + "_mag_corr.dat";
+		
+		ofstream mag_corr (file_name_output.c_str());
+	
+		mag_corr << N << endl;
+	
+		for (int i = 0; i < N*(N-1)/2; i++)
+		{
+			mag_corr << " " << ss[i] << " " << C[i];
+			
+			if (i < N)
+				mag_corr << " " << s[i];
+				
+			mag_corr << endl;
+		}
+
+		mag_corr.close();
+
+
     }
     
     return my_means;
-}
+};
+
+    
