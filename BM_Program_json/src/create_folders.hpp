@@ -9,10 +9,10 @@
 #include <fstream>
 #include <iomanip>
 #include <fmt/core.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 using namespace std;
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 // variable type is an auxiliary variable, where
 // type=0 returns nothing,

@@ -202,7 +202,6 @@ void NRvector<T>::resize(int newn)
 	}
 }
 
-
 template <class T>
 void NRvector<T>::assign(int newn, const T& a)
 {
@@ -310,7 +309,6 @@ NRmatrix<T> & NRmatrix<T>::operator=(const NRmatrix<T> &rhs)
 	return *this;
 }
 
-
 template <class T>
 inline T* NRmatrix<T>::operator[](const int i)	//subscripting: pointer to row i
 {
@@ -408,7 +406,6 @@ public:
 	inline int dim3() const;
 	~NRMat3d();
 };
-
 
 template <class T>
 NRMat3d<T>::NRMat3d(): nn(0), mm(0), kk(0), v(NULL) {}

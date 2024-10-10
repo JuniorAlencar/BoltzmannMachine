@@ -1,6 +1,8 @@
 #ifndef FORWARDMETHOD_H
 #define FORWARDMETHOD_H
 
+#include "network.h"
+
 //CALCULA A ENERGIA TOTAL DO ESTADO ATUAL----------------------------------------------------------
 double Energy (Rede &r)
 {
