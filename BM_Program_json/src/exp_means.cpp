@@ -1,4 +1,4 @@
-#include "exp_means.hpp"
+#include "exp_means.h"
 
 exp_means exp_mean_calculate::exp_calculate(const string &filename) {
     cout << "running exp_means" << endl;
@@ -14,14 +14,20 @@ exp_means exp_mean_calculate::exp_calculate(const string &filename) {
     // Imprimir o caminho antes de verificar sua existência
     std::cout << "Verificando existência do arquivo: " << file_means << std::endl;
 
-    fs::path file_path(file_means);
+    fs::path file_path;
+    
+    if (!file_means.empty()) {
+        file_path = fs::absolute(file_means);  // Ensure the path is valid and absolute
+    } else {
+        throw std::runtime_error("O caminho do arquivo está vazio.");
+    }
 
     // Remover verificação de root path, apenas verificar se o caminho não está vazio
     if (file_means.empty()) {
         std::cerr << "Erro: Caminho inválido ou corrompido." << std::endl;
         return my_means;  // Retorna uma estrutura vazia
     }
-
+    
     // Capturar qualquer exceção ao verificar a existência do arquivo
     try {
         if (fs::exists(file_path)) {

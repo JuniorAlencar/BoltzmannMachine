@@ -1,22 +1,15 @@
-#include <iostream>
 #include <fstream>
-#include <vector>
 #include <cstdlib>
-#include <algorithm>
-#include <string>
 #include <cmath>
 #include <iomanip>
 #include <ctime>
-#include <sstream>
 #include <fstream>
-#include <fmt/core.h>
 #include "nr3.h"
 #include "network.h"
 #include "LUdcmp.h"
 #include "forwardmethod.h"
 #include "InverseMethod.h"
-#include "json_functions.hpp"
-#include "exp_means.hpp"
+#include "exp_means.h"
 
 
 int main(int argc, char *argv[]){
@@ -55,11 +48,11 @@ int main(int argc, char *argv[]){
     string ep;
     ep = cf.create_folders(filename, multiply_teq, multiply_relx, method, tp);
 
-    exp_mean_calculate exp_funcs;
+    exp_mean_calculate emc;
     // If file experimental means exist, open it. 
     // Else, create it and allocate in experimental means
     exp_means experimental_means;
-    experimental_means = exp_funcs.exp_calculate(filename);
+    experimental_means = emc.exp_calculate(filename);
     
 
 	// Gaussian Parameters

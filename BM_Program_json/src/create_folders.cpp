@@ -1,4 +1,4 @@
-#include "create_folders.hpp"
+#include "create_folders.h"
 
 std::string c_folders::create_folders(const string &text_name, const int &multiply_teq, const int &multiply_relx, const string &method, const int &type) {
     // Contar número de spins no arquivo de amostra

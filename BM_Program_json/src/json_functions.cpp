@@ -1,4 +1,4 @@
-#include "json_functions.hpp"
+#include "json_functions.h"
 
 void js_funct::write_json_properties( const string &filename,                 // Sample name
                             const int &nspins,
@@ -108,14 +108,11 @@ void js_funct::create_json_exp(const exp_means &data, const string &filename){
     file.close();
 };
 
-exp_means js_funct::load_json_exp(const std::string &filename){
-    // Path to file results
-    std::string full_filename = "../Results/" + filename + "_exp.json";
-
+exp_means js_funct::load_json_exp(const std::string &filename){    
     // Abrindo o arquivo
-    std::ifstream file(full_filename);
+    std::ifstream file(filename);
     if (!file.is_open()) {
-        throw std::runtime_error("Não foi possível abrir o arquivo: " + full_filename);
+        throw std::runtime_error("Não foi possível abrir o arquivo: " + filename);
     }
 
     // Carregando o conteúdo do arquivo em um objeto JSON

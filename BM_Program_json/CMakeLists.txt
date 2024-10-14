@@ -6,7 +6,7 @@ project(MeuProjeto VERSION 1.0)
 set(CMAKE_CXX_COMPILER "g++")
 
 # Set the C++ 14 standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
@@ -23,7 +23,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # Adicionar arquivos fonte (excluindo main.cpp)
-file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.hpp" "src/*.h")
+file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.h")
 list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 
 # Adicionar o executável para a aplicação principal
@@ -76,3 +76,4 @@ endforeach()
 
 # Habilitar testes
 enable_testing()
+add_definitions(-DBOOST_NO_AUTO_PTR)
