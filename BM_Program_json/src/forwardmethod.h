@@ -7,8 +7,7 @@
 double Energy (Rede &r)
 {
 	double E = 0;
-	int k = 0;
-
+// int k = 0;
 	for (int i = 0; i < r.nbonds; i++)
 	{
 		if (i < r.n)
@@ -61,10 +60,10 @@ void exact_solution (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const double 
 
 	double Z = 0,E0, E_aux, P = 0;
 	int state = 0;
-	int ind_ss;
-	
+int ind_ss = 0;
+// Removed duplicate definition of ind_ss
 	VecInt min(r.n, -1.0), max(r.n, -1.0), n_invert(r.n, -1.0);
-	int f, alt = 0, b = 1, k, t = 0;
+	int f, alt = 0, b = 1, k; // t variable commented out
 
 	Z = state = alt = f = 0;
 
@@ -78,12 +77,15 @@ void exact_solution (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const double 
 	for (int j = 0; j < r.n; j++)
 		av_s[j] += r.s[j]*P;
 
+// Removed duplicate definition of ind_ss
 	ind_ss = 0;
 	for (int j = 0; j < r.n; j++)
 	{
 		for (int l = j; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -126,12 +128,15 @@ void exact_solution (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const double 
 			for (int j = 0; j < r.n; j++)
 				av_s[j] += r.s[j]*P;
 
+int ind_ss = 0;
 			ind_ss = 0;
 			for (int j = 0; j < r.n; j++)
 			{
 				for (int l = j; l < r.n; l++)
 				{
+// Removed duplicate definition of ind_ss
 					av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 					ind_ss++;
 				}
 			}
@@ -197,14 +202,16 @@ void exact_solution (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const double 
 		av_s[j] += r.s[j]*P;
 		av_s[j] /= Z;
 	}
-
 	ind_ss = 0;
 	for (int j = 0; j < r.n; j++)
 	{
 		for (int l = j; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] /= Z;
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -218,10 +225,10 @@ void exact_solution_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const doub
 
 	double Z = 0,E0, E_aux, P = 0;
 	int state = 0;
-	int ind_ss;
-	
+	int ind_ss = 0;
+	// Removed duplicate definition of ind_ss
 	VecInt min(r.n, -1.0), max(r.n, -1.0), n_invert(r.n, -1.0);
-	int f, alt = 0, b = 1, k, t = 0;
+	int f, alt = 0, b = 1, k; // t variable commented out
 
 	Z = state = alt = f = 0;
 
@@ -235,12 +242,15 @@ void exact_solution_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const doub
 	for (int j = 0; j < r.n; j++)
 		av_s[j] += r.s[j]*P;
 
+// Removed duplicate definition of ind_ss
 	ind_ss = 0;
 	for (int j = 0; j < r.n-1; j++)
 	{
 		for (int l = j+1; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -283,12 +293,15 @@ void exact_solution_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const doub
 			for (int j = 0; j < r.n; j++)
 				av_s[j] += r.s[j]*P;
 
+		int ind_ss = 0;
 			ind_ss = 0;
 			for (int j = 0; j < r.n-1; j++)
 			{
 				for (int l = j+1; l < r.n; l++)
 				{
+// Removed duplicate definition of ind_ss
 					av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 					ind_ss++;
 				}
 			}
@@ -360,8 +373,11 @@ void exact_solution_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const doub
 	{
 		for (int l = j+1; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] /= Z;
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -376,10 +392,10 @@ void exact_solution_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, Doub &E,
 
 	double Z = 0, E0, E_aux, P = 0;
 	int state = 0;
-	int ind_ss;
-	
+	int ind_ss = 0;
+	// Removed duplicate definition of ind_ss
 	VecInt min(r.n, -1.0), max(r.n, -1.0), n_invert(r.n, -1.0);
-	int f, alt = 0, b = 1, k, t = 0;
+	int f, alt = 0, b = 1, k; // t variable commented out
 
 	Z = state = alt = f = 0;
 
@@ -397,12 +413,15 @@ void exact_solution_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, Doub &E,
 	for (int j = 0; j < r.n; j++)
 		av_s[j] += r.s[j]*P;
 
+// Removed duplicate definition of ind_ss
 	ind_ss = 0;
 	for (int j = 0; j < r.n; j++)
 	{
 		for (int l = j; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -449,12 +468,15 @@ void exact_solution_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, Doub &E,
 			for (int j = 0; j < r.n; j++)
 				av_s[j] += r.s[j]*P;
 
+int ind_ss = 0;
 			ind_ss = 0;
 			for (int j = 0; j < r.n; j++)
 			{
 				for (int l = j; l < r.n; l++)
 				{
+// Removed duplicate definition of ind_ss
 					av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 					ind_ss++;
 				}
 			}
@@ -523,15 +545,17 @@ void exact_solution_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, Doub &E,
 	{
 		av_s[j] += r.s[j]*P;
 		av_s[j] /= Z;
-	}
-
+	};
 	ind_ss = 0;
 	for (int j = 0; j < r.n; j++)
 	{
 		for (int l = j; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] /= Z;
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -549,6 +573,7 @@ void metropolis (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, c
 	double p;
 	double dE;
 	int ind_ss = 0;
+// Removed duplicate definition of ind_ss
 	
 	
 	for (int j = 0; j < rept; j++)
@@ -561,12 +586,15 @@ void metropolis (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, c
 				for (int jj = 0; jj < r.n; jj++)
 					av_s[jj] += r.s[jj];
 
+// Removed duplicate definition of ind_ss
 				ind_ss = 0;
 				for (int jj = 0; jj < r.n; jj++)
 				{
 					for (int l = jj; l < r.n; l++)
 					{
+// Removed duplicate definition of ind_ss
 						av_ss[ind_ss] += r.s[jj]*r.s[l];
+// Removed duplicate definition of ind_ss
 						ind_ss++;
 					}
 				}
@@ -595,12 +623,15 @@ void metropolis (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, c
 	for (int jj = 0; jj < r.n; jj++)
 		av_s[jj] /= (rept*t_step/relx);
 
+
 	ind_ss = 0;
 	for (int jj = 0; jj < r.n; jj++)
 	{
 		for (int l = jj; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] /= (rept*t_step/relx);
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -615,6 +646,7 @@ void metropolis_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq
 	double p;
 	double dE;
 	int ind_ss = 0;
+// Removed duplicate definition of ind_ss
 	
 	
 	for (int j = 0; j < rept; j++)
@@ -627,12 +659,15 @@ void metropolis_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq
 				for (int jj = 0; jj < r.n; jj++)
 					av_s[jj] += r.s[jj];
 
+// Removed duplicate definition of ind_ss
 				ind_ss = 0;
 				for (int jj = 0; jj < r.n-1; jj++)
 				{
 					for (int l = jj+1; l < r.n; l++)
 					{
+// Removed duplicate definition of ind_ss
 						av_ss[ind_ss] += r.s[jj]*r.s[l];
+// Removed duplicate definition of ind_ss
 						ind_ss++;
 					}
 				}
@@ -661,12 +696,15 @@ void metropolis_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq
 	for (int jj = 0; jj < r.n; jj++)
 		av_s[jj] /= (rept*t_step/relx);
 
+
 	ind_ss = 0;
 	for (int jj = 0; jj < r.n-1; jj++)
 	{
 		for (int l = jj+1; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] /= (rept*t_step/relx);
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -681,6 +719,7 @@ void metropolis_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_
 	double dE;
 	double E0;
 	int ind_ss = 0;
+// Removed duplicate definition of ind_ss
 	
 	E0 = Energy(r);
 	
@@ -694,12 +733,15 @@ void metropolis_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_
 				for (int jj = 0; jj < r.n; jj++)
 					av_s[jj] += r.s[jj];
 
+// Removed duplicate definition of ind_ss
 				ind_ss = 0;
 				for (int jj = 0; jj < r.n; jj++)
 				{
 					for (int l = jj; l < r.n; l++)
 					{
+// Removed duplicate definition of ind_ss
 						av_ss[ind_ss] += r.s[jj]*r.s[l];
+// Removed duplicate definition of ind_ss
 						ind_ss++;
 					}
 				}
@@ -733,12 +775,15 @@ void metropolis_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_
 	for (int jj = 0; jj < r.n; jj++)
 		av_s[jj] /= (rept*t_step/relx);
 
+
 	ind_ss = 0;
 	for (int jj = 0; jj < r.n; jj++)
 	{
 		for (int l = jj; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] /= (rept*t_step/relx);
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
@@ -758,10 +803,10 @@ void exact_solution_cap (Rede &r, Doub &E, Doub &E2, const double beta)
 
 	double Z = 0, E0, E_aux, P = 0;
 	int state = 0;
-	int ind_ss;
-	
+int ind_ss = 0;
+// Removed duplicate definition of ind_ss
 	VecInt min(r.n, -1.0), max(r.n, -1.0), n_invert(r.n, -1.0);
-	int f, alt = 0, b = 1, k, t = 0;
+	int f, alt = 0, b = 1, k; // t variable commented out
 
 	Z = state = alt = f = 0;
 
@@ -1000,6 +1045,7 @@ void metropolis_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vector<do
 	double p;
 	double dE;
 	int ind_ss = 0;
+// Removed duplicate definition of ind_ss
 	
 	
 	for (int j = 0; j < rept; j++)
@@ -1012,16 +1058,20 @@ void metropolis_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vector<do
 				for (int jj = 0; jj < r.n; jj++)
 					av_s[jj] += r.s[jj];
 
+// Removed duplicate definition of ind_ss
 				ind_ss = 0;
 				for (int jj = 0; jj < r.n-1; jj++)
 				{
 					for (int l = jj+1; l < r.n; l++)
 					{
+// Removed duplicate definition of ind_ss
 						av_ss[ind_ss] += r.s[jj]*r.s[l];
+// Removed duplicate definition of ind_ss
 						ind_ss++;
 					}
 				}
 
+int ind_ss = 0;
 				ind_ss = 0;
 				for (int l = 0; l < r.n-2; l++)
 				{
@@ -1029,7 +1079,9 @@ void metropolis_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vector<do
 					{
 						for (int p = m+1; p < r.n; p++)
 						{
+// Removed duplicate definition of ind_ss
 							av_sss[ind_ss] += r.s[l]*r.s[m]*r.s[p];
+// Removed duplicate definition of ind_ss
 							ind_ss++;
 						}
 					}
@@ -1064,11 +1116,14 @@ void metropolis_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vector<do
 	{
 		for (int l = jj+1; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] /= (rept*t_step/relx);
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
 
+	
 	ind_ss = 0;
 	for (int l = 0; l < r.n-2; l++)
 	{
@@ -1076,7 +1131,9 @@ void metropolis_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vector<do
 		{
 			for (int p = m+1; p < r.n; p++)
 			{
+// Removed duplicate definition of ind_ss
 				av_sss[ind_ss] /= (rept*t_step/relx);
+// Removed duplicate definition of ind_ss
 				ind_ss++;
 			}
 		}
@@ -1091,10 +1148,10 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 
 	double Z = 0,E0, E_aux, P = 0;
 	int state = 0;
-	int ind_ss;
-	
+int ind_ss = 0;
+// Removed duplicate definition of ind_ss
 	VecInt min(r.n, -1.0), max(r.n, -1.0), n_invert(r.n, -1.0);
-	int f, alt = 0, b = 1, k, t = 0;
+	int f, alt = 0, b = 1, k; // t variable commented out
 
 	Z = state = alt = f = 0;
 
@@ -1108,16 +1165,20 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 	for (int j = 0; j < r.n; j++)
 		av_s[j] += r.s[j]*P;
 
+// Removed duplicate definition of ind_ss
 	ind_ss = 0;
 	for (int j = 0; j < r.n-1; j++)
 	{
 		for (int l = j+1; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 
 		}
 	}
+
 
 	ind_ss = 0;
 	for (int j = 0; j < r.n-2; j++)
@@ -1126,7 +1187,9 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 		{
 			for (int k = l+1; k < r.n; k++)
 			{  
+// Removed duplicate definition of ind_ss
 				av_sss[ind_ss] += r.s[j]*r.s[l]*r.s[k]*P;
+// Removed duplicate definition of ind_ss
 				ind_ss++;
 			}
 		}
@@ -1170,16 +1233,20 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 			for (int j = 0; j < r.n; j++)
 				av_s[j] += r.s[j]*P;
 
+int ind_ss = 0;
 			ind_ss = 0;
 			for (int j = 0; j < r.n-1; j++)
 			{
 				for (int l = j+1; l < r.n; l++)
 				{
+// Removed duplicate definition of ind_ss
 					av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 					ind_ss++;
 				}
 			}
 			
+
 			ind_ss = 0;
 			for (int j = 0; j < r.n-2; j++)
 			{
@@ -1187,7 +1254,9 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 				{
 					for (int k = l+1; k < r.n; k++)
 					{  
+// Removed duplicate definition of ind_ss
 						av_sss[ind_ss] += r.s[j]*r.s[l]*r.s[k]*P;
+// Removed duplicate definition of ind_ss
 						ind_ss++;
 					}
 				}
@@ -1255,17 +1324,22 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 		av_s[j] /= Z;
 	}
 
+
 	ind_ss = 0;
 	for (int j = 0; j < r.n-1; j++)
 	{
 		for (int l = j+1; l < r.n; l++)
 		{
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] += r.s[j]*r.s[l]*P;
+// Removed duplicate definition of ind_ss
 			av_ss[ind_ss] /= Z;
+// Removed duplicate definition of ind_ss
 			ind_ss++;
 		}
 	}
 	
+
 	ind_ss = 0;
 	for (int j = 0; j < r.n-2; j++)
 	{
@@ -1273,8 +1347,11 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 		{
 			for (int k = l+1; k < r.n; k++)
 			{  
+// Removed duplicate definition of ind_ss
 				av_sss[ind_ss] += r.s[j]*r.s[l]*r.s[k]*P;
+// Removed duplicate definition of ind_ss
 				av_sss[ind_ss] /= Z;
+// Removed duplicate definition of ind_ss
 				ind_ss++;
 			}
 		}

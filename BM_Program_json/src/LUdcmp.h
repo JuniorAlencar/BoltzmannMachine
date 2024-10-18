@@ -1,10 +1,13 @@
 #ifndef LUDCMP_H
 #define LUDCMP_H
 
+#include "nr3.h"
+
 struct LUdcmp
 {
 	Int n;
 	MatDoub lu;
+	MatDoub_I &aref;
 	VecInt indx;
 	Doub d;
 	LUdcmp(MatDoub_I &M);
@@ -13,7 +16,7 @@ struct LUdcmp
 	void inverse(MatDoub_O &ainv);
 	Doub det();
 	void mprove(VecDoub_I &b, VecDoub_IO &x);
-	MatDoub_I &aref;
+	
 	
 	void show();
 };
@@ -49,7 +52,7 @@ LUdcmp::LUdcmp(MatDoub_I &M) : n(M.nrows()), lu(M), aref(M), indx(n)     //Const
 			if ((temp=abs(lu[i][j])) > big)
 				big = temp;
 		if (big == 0)
-			throw std::runtime_error("Matriz Singular");
+			throw ("Matriz Singular");
 		vv[i] = 1.0/big;
 	}
 	

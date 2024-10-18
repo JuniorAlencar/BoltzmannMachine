@@ -38,7 +38,6 @@ class js_funct{
                             const VecDoub &bm_av_s,                 // First moment Ising
                             const VecDoub &bm_av_ss,                // Second moment Ising
                             const std::vector<double> &bm_av_sss,   // Third moment Ising
-                            const VecDoub &Cij_ising,               // Covariance Ising
                             const std::vector<double> &Pij_ising,   // Correlation Ising
                             const std::vector<double> &Tijk_ising   // Triplet Ising
                             );

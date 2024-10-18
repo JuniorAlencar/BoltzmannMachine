@@ -15,7 +15,6 @@ void js_funct::write_json_properties( const string &filename,                 //
                             const VecDoub &bm_av_s,                 // First moment Ising
                             const VecDoub &bm_av_ss,                // Second moment Ising
                             const std::vector<double> &bm_av_sss,   // Third moment Ising
-                            const VecDoub &Cij_ising,               // Covariance Ising
                             const std::vector<double> &Pij_ising,   // Correlation Ising
                             const std::vector<double> &Tijk_ising   // Triplet Ising
                             ){
@@ -134,13 +133,3 @@ exp_means js_funct::load_json_exp(const std::string &filename){
     // Retornando a struct exp_means e o próprio JSON
     return data;
     };
-
-//class json_functions{}
-void Rede::neighbours() {
-    // Implementação genérica para criar a lista de vizinhos
-    int a;
-    for (int i = 0; i < n; ++i) {
-        a = 3;
-        // Exemplo básico de lógica para calcular os vizinhos de cada nó
-    }
-}

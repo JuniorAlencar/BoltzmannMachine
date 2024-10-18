@@ -11,4 +11,6 @@ int main(){
 	    int tp = 0;
 	    string ep;
 	    ep = cf.create_folders(filename, multiply_teq, multiply_relx, method, tp);
+	cout << min_erro_h << endl;
+	cout << min_erro_j << endl;
 }
