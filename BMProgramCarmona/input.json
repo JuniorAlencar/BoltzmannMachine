@@ -1,0 +1,23 @@
+{
+    "run_name": "sampleN20",
+    "input_data": "../Data/sampleN20.dat",
+    "input_init_guess": "../Results_Metropolis/sampleN20_j_min_7.05e-04_h_min_5.80e-04_t_eq_3000",
+    "output_err": "../Results_Metropolis/err_sampleN20_j_min_7.05e-04_h_min_5.80e-04_t_eq_3000.txt",
+    "output_data": "../Results_Metropolis/sampleN20_j_min_7.05e-04_h_min_5.80e-04_t_eq_3000.json",
+    "use_exact": false,
+    
+    "relax": {
+        "iter_display": 100,
+        "iter_max": 150000,
+        "eta_J": 0.05,
+        "eta_h": 0.03,
+        "min_err_S": 5.80e-04,
+        "min_err_SS": 7.05e-04
+    },
+    
+    "mc": {
+        "n_rep": 40,
+        "t_eq": 9000,
+        "t_meas": 270000
+    }
+}
