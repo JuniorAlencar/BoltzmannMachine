@@ -1,2 +1,0 @@
-# BoltzmannMachine
-Boltzmann Machine code
