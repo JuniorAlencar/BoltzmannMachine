@@ -22,8 +22,8 @@ struct exp_means {
 
 class js_funct{
     public:
-        void create_json_exp(const exp_means &data, const string &filename);
-        void write_json_properties( const string &filename,                 // Sample name
+        void create_json_exp(const exp_means &data, const string &file_means);
+        void write_json_properties(const string &filename,                 // Sample name
                             const int &nspins,
                             const int &n_duplet,                         // Network
                             // MC parameters
@@ -41,7 +41,7 @@ class js_funct{
                             const std::vector<double> &Pij_ising,   // Correlation Ising
                             const std::vector<double> &Tijk_ising   // Triplet Ising
                             );
-        exp_means load_json_exp(const std::string &filename);
+        exp_means load_json_exp(const std::string &file_means);
 };
 
 #endif // !WRITE_JSON_H

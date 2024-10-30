@@ -1,12 +1,24 @@
 #include "exp_means.h"
 
-exp_means exp_mean_calculate::exp_calculate(const string &filename) {
+exp_means exp_mean_calculate::exp_calculate(const string &sample_input) {
     cout << "running exp_means" << endl;
 	// Add flag class to use all functions defined
     js_funct rnd;
+    
+    // Using std::filesystem for path manipulation
+    std::filesystem::path filePath(sample_input);
+    
+    // Remove the file extension
+    std::filesystem::path withoutExtension = filePath.stem(); // Gets the filename without extension
+    
+    // Get the parent directory and combine with the file name without the extension
+    std::filesystem::path resultPath = filePath.parent_path() / withoutExtension;
 
+    // Convert the resulting path to a string
+    std::string result = resultPath.string();
+    
     // Check if file exp exists
-    string file_means = "../Results/" + filename + "_exp.json";
+    string file_means = result + ".json";
 
     // load struct with means exp values
     exp_means my_means;
@@ -36,9 +48,10 @@ exp_means exp_mean_calculate::exp_calculate(const string &filename) {
             my_means = rnd.load_json_exp(file_means);
         } else {
             cout << "Arquivo experimental não existe, calculando..." << endl;
-
-            string file_input = "../Data/TidyData/" + filename + ".dat";
-            ifstream data_input(file_input.c_str());
+            
+            string file_input = filePath.stem().string();
+            
+            ifstream data_input(sample_input.c_str());
 
             if (!data_input.is_open()) {
                 cerr << "Erro ao abrir o arquivo: " << file_input << endl;
@@ -146,10 +159,12 @@ exp_means exp_mean_calculate::exp_calculate(const string &filename) {
             my_means.Cij_exp = C;
             my_means.Pij_exp = Pearson;
             my_means.Tijk_exp = Triplet;
-
-            rnd.create_json_exp(my_means, filename);
-
-            string file_name_output = "../Results/" + filename + "_mag_corr.dat";
+            
+            // Save experimental means in .json
+            rnd.create_json_exp(my_means, file_means);
+            
+            // save mag_corr in .dat
+            string file_name_output = result + "_mag_corr.dat";
             ofstream mag_corr(file_name_output.c_str());
             mag_corr << N << endl;
 

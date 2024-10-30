@@ -90,7 +90,7 @@ void js_funct::write_json_properties( const string &filename,                 //
 };
 
 // Function to save exp_means values
-void js_funct::create_json_exp(const exp_means &data, const string &filename){
+void js_funct::create_json_exp(const exp_means &data, const string &file_means){
     json j;
     j["S_exp"] = data.av_s;
     j["SS_exp"] = data.av_ss;
@@ -98,20 +98,18 @@ void js_funct::create_json_exp(const exp_means &data, const string &filename){
     j["Pij_exp"] = data.Pij_exp;
     j["Cij_exp"] = data.Cij_exp;
     j["Tijk_exp"] = data.Tijk_exp;
-    // save files exp
-    string full_filename = "../Results/" + filename + "_exp.json"; 
     
     std::ofstream file;
-    file.open(full_filename);
+    file.open(file_means);
     file << j.dump(4);
     file.close();
 };
 
-exp_means js_funct::load_json_exp(const std::string &filename){    
+exp_means js_funct::load_json_exp(const std::string &file_means){    
     // Abrindo o arquivo
-    std::ifstream file(filename);
+    std::ifstream file(file_means);
     if (!file.is_open()) {
-        throw std::runtime_error("Não foi possível abrir o arquivo: " + filename);
+        throw std::runtime_error("Não foi possível abrir o arquivo: " + file_means);
     }
 
     // Carregando o conteúdo do arquivo em um objeto JSON

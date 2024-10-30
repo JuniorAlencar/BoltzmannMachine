@@ -21,6 +21,9 @@ if __name__ == "__main__":
     
     # binning all data
     binning_data()
+
+    # Calculate all experimental means from samples
+    calculate_all_means()
     
     
         
