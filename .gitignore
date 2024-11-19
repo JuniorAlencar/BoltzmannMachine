@@ -9,6 +9,8 @@ BMProgramCarmona/logs/
 BMProgramCarmona/inputs/
 BMProgramCarmona/Scripts/multithread_pc.sh
 
+BM_Program_json/jupyter/concatenated_data.json
+
 # Ignore bins from cpp linux and windows keeping shell scripts
 *.[!c][!p][!p]
 *.exe
