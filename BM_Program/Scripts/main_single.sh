@@ -37,6 +37,43 @@ echo "Processando arquivo "$filename.dat" ..."
 
 # Generate comparative and separate folders with files inside
 ./CreateFolders &
-./ProcessingData $filename $j_min $h_min $multi_teq $multi_relx $use_exact &
+./ProcessingData $filename $use_exact &
 ./BMfinal $filename $j_min $h_min $multi_teq $multi_relx $use_exact &
-./SpecificHeat $filename $j_min $h_min $multi_teq $multi_relx $use_exact &
+
+# pause for 5 seconds
+sleep 5
+
+# create files to comparative properties
+
+if [ "$use_exact" = "true" ]; then
+    path_in='../Results/SeparateData/'
+    path_out='../Results/Comparative/'
+else
+    path_in='../Results_Metropolis/SeparateData/'
+    path_out='../Results_Metropolis/Comparative/'
+fi
+
+# Magnetization (first moment, si)
+paste $path_in'mi-exp/mi_exp_'$1'.dat' $path_in'mi-ising/mi_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'Magnetização/mag_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
+
+# Pearson's correlation
+paste $path_in'Pij-exp/Pij_exp_'$1'.dat' $path_in'Pij-ising/Pij_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'Correlação/Pij_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
+
+# Covariance
+paste $path_in'Cij-exp/Cij_exp_'$1'.dat' $path_in'Cij-ising/Cij_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'Covariancia/Cij_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
+
+# Second moment (sisj)
+paste $path_in'sisj-exp/sisj_exp_'$1'.dat' $path_in'sisj-ising/sisj_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'sisj/sisj_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
+
+# Triplet
+paste $path_in'Tijk-exp/Tijk_exp_'$1'.dat' $path_in'Tijk-ising/Tijk_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'Tripleto/Tijk_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
+
+# Third momento (sisjsk)
+paste $path_in'sisjsk-exp/sisjsk_exp_'$1'.dat' $path_in'sisjsk-ising/sisjsk_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'sisjsk/sisjsk_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
+
+
+#./SpecificHeat $filename $j_min $h_min $multi_teq $multi_relx $use_exact &
+
+
+
+

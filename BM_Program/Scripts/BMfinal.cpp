@@ -222,7 +222,7 @@ int main(int argc, char *argv[]){
 		eta_h = 2*pow(inter, -0.4);
 
 		
-		if (use_exact == false)
+		if (n > 25 && use_exact == false)
 		{
 			metropolis_bm (bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
 		}
