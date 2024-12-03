@@ -21,7 +21,7 @@ int main (int argc, char *argv[]){
     //---------------------------------
     //Configuração para receber os da#include <iomanip>  // Necessário para std::setprecisiondos
 	string file_name_input = argv[1];
-	bool use_exact = (std::string(argv[6]) == "true");
+	bool use_exact = (std::string(argv[2]) == "true");
 
     if (argc < 3) {
         std::cerr << "Uso: " << argv[0] << " <filename>  <exact_solutions>" << std::endl;
@@ -52,14 +52,15 @@ int main (int argc, char *argv[]){
 		file_name_sisjsk = "../Results/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
 		file_name_mi = "../Results/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
 	}
+	
 	else{
-	file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + "_metropolis.dat";
-	file_name_Cij = "../Results_Metropolis/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
-	file_name_Pij = "../Results_Metropolis/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
-	file_name_sisj = "../Results_Metropolis/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
-	file_name_Tijk = "../Results_Metropolis/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
-	file_name_sisjsk = "../Results_Metropolis/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
-	file_name_mi = "../Results_Metropolis/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
+		file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + "_metropolis.dat";
+		file_name_Cij = "../Results_Metropolis/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
+		file_name_Pij = "../Results_Metropolis/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
+		file_name_sisj = "../Results_Metropolis/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
+		file_name_Tijk = "../Results_Metropolis/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
+		file_name_sisjsk = "../Results_Metropolis/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
+		file_name_mi = "../Results_Metropolis/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
 	}
 	
 	// ---------------------

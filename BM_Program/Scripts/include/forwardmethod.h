@@ -214,8 +214,7 @@ void exact_solution (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const double 
 			av_ss[ind_ss] /= Z;
 			ind_ss++;
 		}
-	}
-	
+	}	
 }
 
 //EXACT SOLUTION-----------------------------------------------------------------------------------
@@ -372,7 +371,6 @@ void exact_solution_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const doub
 			ind_ss++;
 		}
 	}
-	
 }
 
 
@@ -677,7 +675,6 @@ void metropolis_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq
 			ind_ss++;
 		}
 	}
-
 }
 
 //METROPOLIS COMPLETO------------------------------------------------------------------------------

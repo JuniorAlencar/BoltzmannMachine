@@ -93,7 +93,7 @@ int main(int argc, char *argv[]){
 	string file_rede_output;
 	
 	if(use_exact == true){
-		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + "_exact.dat";
+		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_exact.dat";
 		file_network_name = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 		file_rede_output = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 		
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]){
 		file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	}
 	else{
-		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_"+ multi_teq_str + "_mrelx_" + multi_relx_str + "_metropolis.dat";
+		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_metropolis.dat";
 		file_network_name = "../Results_Metropolis/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 		file_rede_output = "../Results_Metropolis/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 		
