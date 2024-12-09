@@ -2,13 +2,13 @@
 #define FORWARDMETHOD_H
 
 #include "network.h"
-#include <vector>
+//#include <vector>
 #include <algorithm>
 #include <random>
 #include <queue>
-#include <cmath>
+//#include <cmath>
 #include <cstdlib>
-#include <iostream>
+//#include <iostream>
 #include <unordered_map>
 #include <climits>
 #include <fstream>

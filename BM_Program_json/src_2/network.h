@@ -1,54 +1,31 @@
-#include "network.h"
+#ifndef NETWORK_H
+#define NETWORK_H
 
-//Contrutor 
-// Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double HH) : no(2), s(m, 1.0), n(m), mean(mmean), sigma(ssigma), k(kk), type(tp), H(HH), nbonds(n*(n-1)/2), J(nbonds, 0.0), h(m, 0.0), nb(n*(n-1)), s_nb(n*(n-1)) {
+#include "nr3.h"
 
-// 	if (type == 0)
-// 		create_bonds_random();
-// 	else if (type == 1)
-// 		create_bonds_tree();
+//Classe para criação de uma rede aleatoria. Deve-se entrar com o tamano da rede n, valor medio da distribuição mean, desvio da distribuição sigma e a constante k para a probabilidade de haver ligação
+class Rede
+{
+	public:
+		int n, nbonds;
+		double mean, sigma; 
+		double k;
+		VecInt no, s, nb, s_nb;
+		VecDoub J;
+		VecDoub h;
 		
-// 	neighbours();
-	
-// 	double p;
-	
-// 	for (int i = 0; i < n; i++)
-// 	{
-// 		p = (double) rand()/RAND_MAX;
+		int type;
+		double H;
 		
-// 		if (p < 0.5)
-// 			s[i] = -s[i];
-			
-// 	}
-	
-// 	if (H == 0)
-// 	{
-// 		for (int i = 0; i < n; i++)
-// 			h[i] = 0;
-// 	}	
-// 	else if (H == 1)
-// 	{
-// 		for (int i = 0; i < n; i++)
-// 			h[i] = (double) rand()/RAND_MAX;
-// 	}
-// 	else if (H == -1)
-// 	{
-// 		for (int i = 0; i < n; i++)
-// 			h[i] = -(double) rand()/RAND_MAX;
-// 	}
-// 	else
-// 	{
-// 		for (int i = 0; i < n; i++)
-// 		{
-// 			p = (double) rand()/RAND_MAX;
-		
-// 			if (p < 0.5)
-// 				h[i] = -(double) rand()/RAND_MAX;
-// 			else
-// 				h[i] = (double) rand()/RAND_MAX;
-// 		}
-// 	}	
-// }
+		Rede(int m, double mmean, double ssigma, double kk, int tp, double HH);
+		void create_bonds_random (void);
+		void create_bonds_tree (void);
+		void neighbours(void);
+		double gaussian (void);
+		void node (int bond);
+
+};
+
 Rede::Rede(int m, double mmean, double ssigma, double kk, int tp, double HH)
     : n(m),
       nbonds(m * (m - 1) / 2),
@@ -178,7 +155,7 @@ void Rede::create_bonds_tree ()
 
 
 //Função que gera valores de acordo com uma ditribuição gaussiana
-double Rede::gaussian ()
+double Rede::gaussian()
 {
 
   double ymin = mean - 4.*sigma;
@@ -229,3 +206,5 @@ void Rede::node (int bond)
 	no[1] = bond - (limit - n + step - 1) + spot;
 	
 };
+
+#endif 

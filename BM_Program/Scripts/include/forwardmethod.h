@@ -1,7 +1,19 @@
 #ifndef FORWARDMETHOD_H
 #define FORWARDMETHOD_H
 
+#include <vector>
 #include <random>
+#include <queue>
+#include <cmath>
+#include <iostream>
+#include <unordered_map>
+#include <fstream>
+#include <algorithm>
+#include <cstdlib>
+#include <climits>
+
+using namespace std;
+
 // Gera um número aleatório entre 0 e 1
 double random_double() {
     static std::random_device rd;
@@ -1286,6 +1298,458 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 	
 }
 
+void swendsen_wang(
+    Rede &r, double beta,
+    const int t_eq, const int t_step, const int relx, const int rept,
+    VecDoub_IO &av_s, VecDoub_IO &av_ss
+) {
+    vector<bool> visited(r.n, false);
+    vector<int> cluster_label(r.n, -1);
+    vector<vector<int>> clusters;
+    int cluster_id = 0;
+
+    // Initialize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
+    for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
+
+    for (int rep = 0; rep < rept; ++rep) {
+        // Equilibration
+        for (int t = 0; t < t_eq; ++t) {
+            clusters.clear();
+            fill(visited.begin(), visited.end(), false);
+
+            // Cluster formation
+            for (int i = 0; i < r.n; ++i) {
+                if (!visited[i]) {
+                    queue<int> q;
+                    q.push(i);
+                    visited[i] = true;
+                    cluster_label[i] = cluster_id;
+                    vector<int> cluster;
+
+                    while (!q.empty()) {
+                        int v = q.front();
+                        q.pop();
+                        cluster.push_back(v);
+
+                        for (int bond = 0; bond < r.nbonds; ++bond) {
+                            int neighbor = r.nb[bond]; // Neighbor node
+                            if (!visited[neighbor] && r.s[v] == r.s[neighbor]) {
+                                double p = 1 - exp(-beta * r.J[bond]); // Bond probability
+                                if ((double)rand() / RAND_MAX < p) {
+                                    visited[neighbor] = true;
+                                    cluster_label[neighbor] = cluster_id;
+                                    q.push(neighbor);
+                                }
+                            }
+                        }
+                    }
+                    clusters.push_back(cluster);
+                    cluster_id++;
+                }
+            }
+
+            // Cluster flipping
+            for (const auto &cluster : clusters) {
+                if ((double)rand() / RAND_MAX < 0.5) {
+                    for (int spin : cluster) {
+                        r.s[spin] *= -1; // Flip all spins in the cluster
+                    }
+                }
+            }
+        }
+
+        // Sampling
+        for (int t = 0; t < t_step; ++t) {
+            if (t % relx == 0) {
+                // Update averages
+                for (int i = 0; i < r.n; ++i) av_s[i] += r.s[i];
+
+                int ind_ss = 0;
+                for (int i = 0; i < r.n - 1; ++i) {
+                    for (int j = i + 1; j < r.n; ++j) {
+                        av_ss[ind_ss++] += r.s[i] * r.s[j];
+                    }
+                }
+            }
+        }
+    }
+
+    // Normalize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] /= (rept * t_step / relx);
+
+    int ind_ss = 0;
+    for (int i = 0; i < r.n - 1; ++i) {
+        for (int j = i + 1; j < r.n; ++j) {
+            av_ss[ind_ss++] /= (rept * t_step / relx);
+        }
+    }
+}
+
+
+void wang_landau(
+    Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss,
+    const int t_eq, const int t_step, const int relx, const int rept,
+    double f_init = 2.0, double f_min = 1e-8
+) {
+    unordered_map<int, double> g; // Logarithm of density of states
+    unordered_map<int, int> H;   // Histogram of visited energies
+    double f = f_init;           // Modification factor
+
+    // Initialize density of states and histogram
+    for (int E = -2 * r.n; E <= 2 * r.n; E += 4) {
+        g[E] = 0.0;
+        H[E] = 0;
+    }
+
+    // Initialize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
+    for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
+
+    int E = 0; // Initial energy of the system
+    for (int bond = 0; bond < r.nbonds; ++bond) {
+        E += -r.J[bond] * r.s[r.no[bond * 2]] * r.s[r.no[bond * 2 + 1]];
+    }
+
+    while (f > f_min) {
+        for (int t = 0; t < t_step; ++t) {
+            // Randomly select a spin to flip
+            int s_flip = rand() % r.n;
+
+            // Calculate energy change
+            double dE = 2 * r.s[s_flip] * r.h[s_flip];
+            for (int bond = 0; bond < r.nbonds; ++bond) {
+                if (r.no[bond * 2] == s_flip || r.no[bond * 2 + 1] == s_flip) {
+                    dE += 2 * r.J[bond] * r.s[s_flip] * r.s[r.no[bond * 2] == s_flip ? r.no[bond * 2 + 1] : r.no[bond * 2]];
+                }
+            }
+
+            // Wang-Landau acceptance rule
+            if ((double)rand() / RAND_MAX < exp(g[E] - g[E + dE])) {
+                r.s[s_flip] *= -1; // Accept move
+                E += dE;           // Update energy
+            }
+
+            // Update density of states and histogram
+            g[E] += log(f);
+            H[E]++;
+        }
+
+        // Check histogram flatness
+        int minH = INT_MAX, maxH = INT_MIN;
+        for (const auto &entry : H) {
+            if (entry.second > 0) { // Only consider visited energies
+                minH = min(minH, entry.second);
+                maxH = max(maxH, entry.second);
+            }
+        }
+
+        if (minH > 0.8 * maxH) {
+            f = sqrt(f); // Reduce modification factor
+            for (auto &entry : H) entry.second = 0; // Reset histogram
+        }
+    }
+
+    // Sampling
+    for (int rep = 0; rep < rept; ++rep) {
+        for (int t = 0; t < t_eq + t_step; ++t) {
+            if (t >= t_eq && t % relx == 0) {
+                // Update averages
+                for (int i = 0; i < r.n; ++i) av_s[i] += r.s[i];
+
+                int ind_ss = 0;
+                for (int i = 0; i < r.n - 1; ++i) {
+                    for (int j = i + 1; j < r.n; ++j) {
+                        av_ss[ind_ss++] += r.s[i] * r.s[j];
+                    }
+                }
+            }
+
+            // Perform spin flip during sampling
+            int s_flip = rand() % r.n;
+            double dE = 2 * r.s[s_flip] * r.h[s_flip];
+            for (int bond = 0; bond < r.nbonds; ++bond) {
+                if (r.no[bond * 2] == s_flip || r.no[bond * 2 + 1] == s_flip) {
+                    dE += 2 * r.J[bond] * r.s[s_flip] * r.s[r.no[bond * 2] == s_flip ? r.no[bond * 2 + 1] : r.no[bond * 2]];
+                }
+            }
+
+            if ((double)rand() / RAND_MAX < exp(g[E] - g[E + dE])) {
+                r.s[s_flip] *= -1;
+                E += dE;
+            }
+        }
+    }
+
+    // Normalize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] /= (rept * t_step / relx);
+
+    int ind_ss = 0;
+    for (int i = 0; i < r.n - 1; ++i) {
+        for (int j = i + 1; j < r.n; ++j) {
+            av_ss[ind_ss++] /= (rept * t_step / relx);
+        }
+    }
+}
+
+void parallel_tempering(
+    vector<Rede> &replicas, VecDoub_IO &av_s, VecDoub_IO &av_ss,
+    const int t_eq, const int t_step, const int relx, const int rept
+) {
+    // Initialize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
+    for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
+
+    for (int rep = 0; rep < rept; ++rep) {
+        // Equilibration phase
+        for (int step = 0; step < t_eq; ++step) {
+            for (auto &replica : replicas) {
+                // Perform Metropolis updates
+                int s_flip = rand() % replica.n;
+                double dE = 2 * replica.s[s_flip] * replica.h[s_flip];
+                for (int bond = 0; bond < replica.nbonds; ++bond) {
+                    if (replica.no[bond * 2] == s_flip || replica.no[bond * 2 + 1] == s_flip) {
+                        dE += 2 * replica.J[bond] * replica.s[s_flip] * 
+                              replica.s[replica.no[bond * 2] == s_flip ? replica.no[bond * 2 + 1] : replica.no[bond * 2]];
+                    }
+                }
+
+                if (dE <= 0 || (double)rand() / RAND_MAX < exp(-replica.k * dE)) {
+                    replica.s[s_flip] *= -1;
+                }
+            }
+        }
+
+        // Sampling phase
+        for (int step = 0; step < t_step; ++step) {
+            if (step % relx == 0) {
+                for (auto &replica : replicas) {
+                    // Update single spin averages
+                    for (int i = 0; i < replica.n; ++i) av_s[i] += replica.s[i];
+
+                    // Update pairwise spin averages
+                    int ind_ss = 0;
+                    for (int i = 0; i < replica.n - 1; ++i) {
+                        for (int j = i + 1; j < replica.n; ++j) {
+                            av_ss[ind_ss++] += replica.s[i] * replica.s[j];
+                        }
+                    }
+                }
+            }
+
+            // Attempt exchanges between adjacent replicas
+            for (size_t i = 0; i < replicas.size() - 1; ++i) {
+                double dBeta = replicas[i + 1].k - replicas[i].k;
+                double dE = replicas[i + 1].H - replicas[i].H;
+
+                if ((double)rand() / RAND_MAX < exp(dBeta * dE)) {
+                    // Swap configurations
+                    swap(replicas[i].s, replicas[i + 1].s);
+                    swap(replicas[i].H, replicas[i + 1].H);
+                }
+            }
+        }
+    }
+
+    // Normalize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] /= (rept * t_step / relx);
+
+    int ind_ss = 0;
+    for (int i = 0; i < av_ss.size(); ++i) av_ss[ind_ss++] /= (rept * t_step / relx);
+}
+
+void swendsen_wang(
+    Rede &r, double beta,
+    const int t_eq, const int t_step, const int relx, const int rept,
+    VecDoub_IO &av_s, VecDoub_IO &av_ss
+) {
+    vector<bool> visited(r.n, false);
+    vector<int> cluster_label(r.n, -1);
+    vector<vector<int>> clusters;
+    int cluster_id = 0;
+
+    // Initialize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
+    for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
+
+    for (int rep = 0; rep < rept; ++rep) {
+        // Equilibration
+        for (int t = 0; t < t_eq; ++t) {
+            clusters.clear();
+            fill(visited.begin(), visited.end(), false);
+
+            // Cluster formation
+            for (int i = 0; i < r.n; ++i) {
+                if (!visited[i]) {
+                    queue<int> q;
+                    q.push(i);
+                    visited[i] = true;
+                    cluster_label[i] = cluster_id;
+                    vector<int> cluster;
+
+                    while (!q.empty()) {
+                        int v = q.front();
+                        q.pop();
+                        cluster.push_back(v);
+
+                        for (int bond = 0; bond < r.nbonds; ++bond) {
+                            int neighbor = r.nb[bond]; // Neighbor node
+                            if (!visited[neighbor] && r.s[v] == r.s[neighbor]) {
+                                double p = 1 - exp(-beta * r.J[bond]); // Bond probability
+                                if ((double)rand() / RAND_MAX < p) {
+                                    visited[neighbor] = true;
+                                    cluster_label[neighbor] = cluster_id;
+                                    q.push(neighbor);
+                                }
+                            }
+                        }
+                    }
+                    clusters.push_back(cluster);
+                    cluster_id++;
+                }
+            }
+
+            // Cluster flipping
+            for (const auto &cluster : clusters) {
+                if ((double)rand() / RAND_MAX < 0.5) {
+                    for (int spin : cluster) {
+                        r.s[spin] *= -1; // Flip all spins in the cluster
+                    }
+                }
+            }
+        }
+
+        // Sampling
+        for (int t = 0; t < t_step; ++t) {
+            if (t % relx == 0) {
+                // Update averages
+                for (int i = 0; i < r.n; ++i) av_s[i] += r.s[i];
+
+                int ind_ss = 0;
+                for (int i = 0; i < r.n - 1; ++i) {
+                    for (int j = i + 1; j < r.n; ++j) {
+                        av_ss[ind_ss++] += r.s[i] * r.s[j];
+                    }
+                }
+            }
+        }
+    }
+
+    // Normalize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] /= (rept * t_step / relx);
+
+    int ind_ss = 0;
+    for (int i = 0; i < r.n - 1; ++i) {
+        for (int j = i + 1; j < r.n; ++j) {
+            av_ss[ind_ss++] /= (rept * t_step / relx);
+        }
+    }
+}
+
+void wang_landau(
+    Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss,
+    const int t_eq, const int t_step, const int relx, const int rept,
+    double f_init = 2.0, double f_min = 1e-8
+) {
+    unordered_map<int, double> g; // Logarithm of density of states
+    unordered_map<int, int> H;   // Histogram of visited energies
+    double f = f_init;           // Modification factor
+
+    // Initialize density of states and histogram
+    for (int E = -2 * r.n; E <= 2 * r.n; E += 4) {
+        g[E] = 0.0;
+        H[E] = 0;
+    }
+
+    // Initialize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
+    for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
+
+    int E = 0; // Initial energy of the system
+    for (int bond = 0; bond < r.nbonds; ++bond) {
+        E += -r.J[bond] * r.s[r.no[bond * 2]] * r.s[r.no[bond * 2 + 1]];
+    }
+
+    while (f > f_min) {
+        for (int t = 0; t < t_step; ++t) {
+            // Randomly select a spin to flip
+            int s_flip = rand() % r.n;
+
+            // Calculate energy change
+            double dE = 2 * r.s[s_flip] * r.h[s_flip];
+            for (int bond = 0; bond < r.nbonds; ++bond) {
+                if (r.no[bond * 2] == s_flip || r.no[bond * 2 + 1] == s_flip) {
+                    dE += 2 * r.J[bond] * r.s[s_flip] * r.s[r.no[bond * 2] == s_flip ? r.no[bond * 2 + 1] : r.no[bond * 2]];
+                }
+            }
+
+            // Wang-Landau acceptance rule
+            if ((double)rand() / RAND_MAX < exp(g[E] - g[E + dE])) {
+                r.s[s_flip] *= -1; // Accept move
+                E += dE;           // Update energy
+            }
+
+            // Update density of states and histogram
+            g[E] += log(f);
+            H[E]++;
+        }
+
+        // Check histogram flatness
+        int minH = INT_MAX, maxH = INT_MIN;
+        for (const auto &entry : H) {
+            if (entry.second > 0) { // Only consider visited energies
+                minH = min(minH, entry.second);
+                maxH = max(maxH, entry.second);
+            }
+        }
+
+        if (minH > 0.8 * maxH) {
+            f = sqrt(f); // Reduce modification factor
+            for (auto &entry : H) entry.second = 0; // Reset histogram
+        }
+    }
+
+    // Sampling
+    for (int rep = 0; rep < rept; ++rep) {
+        for (int t = 0; t < t_eq + t_step; ++t) {
+            if (t >= t_eq && t % relx == 0) {
+                // Update averages
+                for (int i = 0; i < r.n; ++i) av_s[i] += r.s[i];
+
+                int ind_ss = 0;
+                for (int i = 0; i < r.n - 1; ++i) {
+                    for (int j = i + 1; j < r.n; ++j) {
+                        av_ss[ind_ss++] += r.s[i] * r.s[j];
+                    }
+                }
+            }
+
+            // Perform spin flip during sampling
+            int s_flip = rand() % r.n;
+            double dE = 2 * r.s[s_flip] * r.h[s_flip];
+            for (int bond = 0; bond < r.nbonds; ++bond) {
+                if (r.no[bond * 2] == s_flip || r.no[bond * 2 + 1] == s_flip) {
+                    dE += 2 * r.J[bond] * r.s[s_flip] * r.s[r.no[bond * 2] == s_flip ? r.no[bond * 2 + 1] : r.no[bond * 2]];
+                }
+            }
+
+            if ((double)rand() / RAND_MAX < exp(g[E] - g[E + dE])) {
+                r.s[s_flip] *= -1;
+                E += dE;
+            }
+        }
+    }
+
+    // Normalize averages
+    for (int i = 0; i < av_s.size(); ++i) av_s[i] /= (rept * t_step / relx);
+
+    int ind_ss = 0;
+    for (int i = 0; i < r.n - 1; ++i) {
+        for (int j = i + 1; j < r.n; ++j) {
+            av_ss[ind_ss++] /= (rept * t_step / relx);
+        }
+    }
+}
 
 
 

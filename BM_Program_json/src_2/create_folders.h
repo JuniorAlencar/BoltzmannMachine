@@ -1,4 +1,32 @@
-#include "create_folders.h"
+#ifndef CREATE_FOLDERS_H
+#define CREATE_FOLDERS_H
+
+#include <string>
+#include <iostream>
+#include <ctime>
+#include <sstream>
+#include <vector>
+#include <fstream>
+#include <iomanip>
+#include <fmt/core.h>
+#include <filesystem>
+#include <algorithm>
+
+namespace fs = std::filesystem;
+
+using namespace std;
+
+// variable type is an auxiliary variable, where
+// type=0 returns nothing,
+// type=1 returns properties folder
+// type=2 returns errors folder
+// type=3 returns network folder
+// type=4 returns specific heat folder
+
+class c_folders{
+    public:
+        inline std::string create_folders(const string &text_name, const int &multiply_teq, const int &multiply_relx, const string &method, const int &type);
+};
 
 std::string c_folders::create_folders(const string &text_name, const int &multiply_teq, const int &multiply_relx, const string &method, const int &type) {
     // Contar número de spins no arquivo de amostra
@@ -93,4 +121,5 @@ std::string c_folders::create_folders(const string &text_name, const int &multip
 
     // if type is 0, return empty string
     return "";
-}
+
+#endif // CREATE_FOLDERS_H
