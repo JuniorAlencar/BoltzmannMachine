@@ -30,7 +30,8 @@ int main(int argc, char *argv[]){
 	double min_erro_h	= std::stod(argv[3]);
 	int multiply_teq 	= std::stoi(argv[4]);
 	int multiply_relx 	= std::stoi(argv[5]);
-	bool use_exact = (std::string(argv[6]) == "true");
+	string method = argv[6];
+	//bool use_exact = (std::string(argv[6]) == "true");
 	
     if (argc < 7) {
         std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <exact_solutions>" << std::endl;
@@ -92,7 +93,8 @@ int main(int argc, char *argv[]){
 	string file_network_name;
 	string file_rede_output;
 	
-	if(use_exact == true){
+	
+	if(method == "exact"){
 		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_exact.dat";
 		file_network_name = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 		file_rede_output = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
@@ -189,7 +191,7 @@ int main(int argc, char *argv[]){
 	//rede para ser atualizada
 	//Rede bm(n, mean, sigma, k, 0, 1);
 
-	VecDoub bm_av_s(n, 0.0), bm_av_ss(n*(n-1)/2, 0.0);
+	VecDoub_IO bm_av_s(n, 0.0), bm_av_ss(n*(n-1)/2, 0.0);
 
 	//variaveis para MC
 	int t_eq = n*multiply_teq; // 300
@@ -221,16 +223,19 @@ int main(int argc, char *argv[]){
 		eta_J = pow(inter, -0.4);
 		eta_h = 2*pow(inter, -0.4);
 
-		
-		if (n > 25 && use_exact == false)
-		{
-			metropolis_bm (bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
-		}
-		else
-		{
+		if(method == "metropolis")
+			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
+		if(method == "swendsen_wang")
+			swendsen_wang(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
+		if(method == "exact" && n < 25) 
 			exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
-		}		
-
+		if(method == "wang_landau"){
+			double f_init = 2.0;
+			double f_min = 1e-8;
+			wang_landau(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, f_init, f_min);
+		}
+		if(method == "parallel_tempering")
+			double a = 2;
 		for (int i = 0; i < bm.nbonds; i++)
 		{
 			if (i < bm.n)

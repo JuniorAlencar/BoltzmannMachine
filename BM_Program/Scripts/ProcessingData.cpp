@@ -21,7 +21,7 @@ int main (int argc, char *argv[]){
     //---------------------------------
     //Configuração para receber os da#include <iomanip>  // Necessário para std::setprecisiondos
 	string file_name_input = argv[1];
-	bool use_exact = (std::string(argv[2]) == "true");
+	string method = argv[2];
 
     if (argc < 3) {
         std::cerr << "Uso: " << argv[0] << " <filename>  <exact_solutions>" << std::endl;
@@ -43,7 +43,7 @@ int main (int argc, char *argv[]){
 	string file_name_sisjsk;
 	string file_name_mi;
 	
-	if(use_exact == true){
+	if(method == "exact"){
 		file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + "_exact.dat";
 		file_name_Cij = "../Results/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
 		file_name_Pij = "../Results/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";

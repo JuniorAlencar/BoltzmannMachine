@@ -1299,10 +1299,9 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 }
 
 void swendsen_wang(
-    Rede &r, double beta,
-    const int t_eq, const int t_step, const int relx, const int rept,
-    VecDoub_IO &av_s, VecDoub_IO &av_ss
-) {
+    Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step, const int relx, const int rept
+    ,const double beta)
+	{
     vector<bool> visited(r.n, false);
     vector<int> cluster_label(r.n, -1);
     vector<vector<int>> clusters;
