@@ -9,7 +9,7 @@
 using namespace std;
 namespace fs = boost::filesystem;
 
-void create_folders() {
+void create_folders(string method) {
     // Folders exact_solutions-----------------------------------------
     
     // Set folder names using std::string
@@ -114,7 +114,7 @@ void create_folders() {
     // Folders metropolis_solutions-----------------------------------------
 
     // Set folder names using std::string
-    string results_folder_metropolis = "../Results_Metropolis";
+    string results_folder_metropolis = "../Results_" + method;
     string specificHeat_folder_metropolis = results_folder_metropolis + "/SpecificHeat";
     string comparative_folder_metropolis = results_folder_metropolis + "/Comparative";
     string CorrJij_folder_metropolis = results_folder_metropolis + "/CorrJij";

@@ -118,8 +118,9 @@ std::string c_folders::create_folders(const string &text_name, const int &multip
         std::cerr << "Erro ao criar pastas em: " << ex.path1() << " -> " << ex.what() << std::endl;
         return "";
     }
-
     // if type is 0, return empty string
     return "";
+}
+    
 
 #endif // CREATE_FOLDERS_H
