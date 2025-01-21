@@ -6,6 +6,9 @@ import pandas as pd
 import re
 import numpy as np
 import matplotlib as mpl
+from matplotlib.animation import FuncAnimation
+import time
+
 mpl.rcParams['axes.linewidth'] = 1.4 #set the value globally
 
 # Função para selecionar o file .dat
@@ -102,7 +105,6 @@ def plotting_graph(mcs, erro, ylabel, ymin, label, label_min_err):
     
     plt.show()
 
-
 def plotting_graph2(mcs, erro, ylabel, ymin, label, label_min_err, t_eq, relx):
     plt.figure(figsize=(16, 9))
     plt.plot(mcs, erro, color='k')
@@ -169,3 +171,63 @@ def plotting_graphs(mcs, erroJ, erroh, file):
         f'erro_min_h_data = {min(erroh):.2e}'
     )
     print(f'data_min_h = {min(erroh):.2e},data_min_j = {min(erroJ):.2e}')
+
+
+# Function to load the data
+def load_data_interactive(file):
+    try:
+        df = pd.read_csv(file, sep=r'\s+', dtype={'inter': int, 'erroJ': float, 'erroh': float})
+        return df['inter'], df['erroJ'], df['erroh']
+    except Exception as e:
+        print(f"Error reading file: {e}")
+        return [], [], []
+    
+# Function to update the plots
+def update_plot(file_path):
+    # Load the data
+    inter, erroJ, erroh = load_data_interactive(file_path)
+    
+    # Initialize the first plot (ErroJ)
+    fig1, ax1 = plt.subplots(figsize=(16, 9))
+    ax1.set_title('ErroJ over Time', fontsize=22)
+    ax1.set_xlabel('MCS', fontsize=18)
+    ax1.set_ylabel('ErroJ (log scale)', fontsize=18)
+    ax1.set_yscale('log')
+    line1, = ax1.plot([], [], color='blue', label='ErroJ')
+    ax1.legend(fontsize=14)
+
+    # Initialize the second plot (Erroh)
+    fig2, ax2 = plt.subplots(figsize=(16, 9))
+    ax2.set_title('Erroh over Time', fontsize=22)
+    ax2.set_xlabel('MCS', fontsize=18)
+    ax2.set_ylabel('Erroh (log scale)', fontsize=18)
+    ax2.set_yscale('log')
+
+    line2, = ax2.plot([], [], color='red', label='Erroh')
+    ax2.legend(fontsize=14)
+
+    # Real-time plotting loop
+    print("Press Ctrl+C to stop the real-time plot.")
+    try:
+        while True:
+            if os.path.exists(file_path):
+                inter, erroJ, erroh = load_data_interactive(file_path)
+                if len(inter) > 0:
+                    # Update ErroJ plot
+                    line1.set_data(inter, erroJ)
+                    ax1.set_xlim(0, max(inter))
+                    ax1.set_ylim(min(erroJ) * 0.9, max(erroJ) * 1.1)
+                    fig1.canvas.draw_idle()
+
+                    # Update Erroh plot
+                    line2.set_data(inter, erroh)
+                    ax2.set_xlim(0, max(inter))
+                    ax2.set_ylim(min(erroh) * 0.9, max(erroh) * 1.1)
+                    fig2.canvas.draw_idle()
+
+                plt.pause(1)  # Pause for a moment to refresh the plots
+            time.sleep(1)  # Check for updates every second
+    except KeyboardInterrupt:
+        print("Real-time plot stopped.")
+        plt.close(fig1)
+        plt.close(fig2)

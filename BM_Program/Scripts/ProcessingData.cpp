@@ -43,26 +43,13 @@ int main (int argc, char *argv[]){
 	string file_name_sisjsk;
 	string file_name_mi;
 	
-	if(method == "exact"){
-		file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + "_exact.dat";
-		file_name_Cij = "../Results/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
-		file_name_Pij = "../Results/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
-		file_name_sisj = "../Results/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
-    	file_name_Tijk = "../Results/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
-		file_name_sisjsk = "../Results/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
-		file_name_mi = "../Results/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
-	}
-	
-	if(method != "exact"){
-		file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + "_" + method + ".dat";
-		file_name_Cij = "../Results_" + method + "/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
-		file_name_Pij = "../Results_"+ method + "/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
-		file_name_sisj = "../Results_" + method + "/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
-		file_name_Tijk = "../Results_" +  method + "/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
-		file_name_sisjsk = "../Results_" + method + "/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
-		file_name_mi = "../Results_" + method + "/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
-	}
-	
+	file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + ".dat";
+	file_name_Cij = "../Results_" + method + "/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
+	file_name_Pij = "../Results_" + method + "/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
+	file_name_sisj = "../Results_" + method + "/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
+	file_name_Tijk = "../Results_" + method + "/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
+	file_name_sisjsk = "../Results_" + method + "/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
+	file_name_mi = "../Results_" + method + "/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";		
 	// ---------------------
 	
     string first_line;

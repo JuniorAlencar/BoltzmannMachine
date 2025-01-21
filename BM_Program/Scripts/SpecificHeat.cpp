@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 	double min_erro_h	= std::stod(argv[3]);
 	int multiply_teq 	= std::stoi(argv[4]);
 	int multiply_relx 	= std::stoi(argv[5]);
-	bool use_exact = (std::string(argv[6]) == "true");
+	string method = argv[6];
 
     if (argc < 7) {
         std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <exact_solutions>" << std::endl;
@@ -72,27 +72,14 @@ int main(int argc, char *argv[]){
 	string file_energia_name;
 	string file_mag_vs_T_name;
 	string file_susc_vs_T_name;
-// nome dos arquivos-------------------------------------------------
-	
-	if(use_exact == true){
-		// Network file to exact solutions
-		file_network_name = "../Results/Network/network_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_cap_linear_name = "../Results/SpecificHeat/linear_specific_heat_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_energia_name = "../Results/Energy/energy_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_mag_vs_T_name = "../Results/Magnetization_vs_T/mag_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_susc_vs_T_name = "../Results/Magnetization_vs_T/susc_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	}
-	
-	else{
-	// Network file to metropolis algorithm
-	file_network_name = "../Results_Metropolis/Network/network_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	file_cap_linear_name = "../Results_Metropolis/SpecificHeat/linear_specific_heat_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	file_energia_name = "../Results_Metropolis/Energy/energia_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	file_mag_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/mag_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	file_susc_vs_T_name = "../Results_Metropolis/Magnetization_vs_T/susc_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	}
-	
 
+	// nome dos arquivos-------------------------------------------------
+	file_network_name = "../Results_" + method + "/Network/network_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_cap_linear_name = "../Results_" +  method + "/SpecificHeat/linear_specific_heat_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_energia_name = "../Results_" + method + "/Energy/energy_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_mag_vs_T_name = "../Results_" + method + "/Magnetization_vs_T/mag_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_susc_vs_T_name = "../Results_" + method + "/Magnetization_vs_T/susc_T_" + text_input + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";	
+	
 	ifstream network (file_network_name.c_str());
 	int number = n+1;
 	

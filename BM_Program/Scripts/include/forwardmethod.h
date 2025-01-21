@@ -1308,8 +1308,8 @@ void swendsen_wang(
     int cluster_id = 0;
 
     // Initialize averages
-    for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
-    for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
+    //for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
+    //for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
 
     for (int rep = 0; rep < rept; ++rep) {
         // Equilibration
@@ -1375,7 +1375,8 @@ void swendsen_wang(
     }
 
     // Normalize averages
-    for (int i = 0; i < av_s.size(); ++i) av_s[i] /= (rept * t_step / relx);
+    for (int i = 0; i < av_s.size(); ++i) 
+		av_s[i] /= (rept * t_step / relx);
 
     int ind_ss = 0;
     for (int i = 0; i < r.n - 1; ++i) {
@@ -1390,8 +1391,8 @@ void parallel_tempering(
     const int t_eq, const int t_step, const int relx, const int rept
 ) {
     // Initialize averages
-    for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
-    for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
+    //for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
+    //for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
 
     for (int rep = 0; rep < rept; ++rep) {
         // Equilibration phase
@@ -1445,10 +1446,12 @@ void parallel_tempering(
     }
 
     // Normalize averages
-    for (int i = 0; i < av_s.size(); ++i) av_s[i] /= (rept * t_step / relx);
+    for (int i = 0; i < av_s.size(); ++i) 
+		av_s[i] /= (rept * t_step / relx);
 
     int ind_ss = 0;
-    for (int i = 0; i < av_ss.size(); ++i) av_ss[ind_ss++] /= (rept * t_step / relx);
+    for (int i = 0; i < av_ss.size(); ++i) 
+		av_ss[ind_ss++] /= (rept * t_step / relx);
 }
 
 void wang_landau(
@@ -1467,8 +1470,8 @@ void wang_landau(
     }
 
     // Initialize averages
-    for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
-    for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
+    //for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
+    //for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
 
     int E = 0; // Initial energy of the system
     for (int bond = 0; bond < r.nbonds; ++bond) {
@@ -1546,7 +1549,8 @@ void wang_landau(
     }
 
     // Normalize averages
-    for (int i = 0; i < av_s.size(); ++i) av_s[i] /= (rept * t_step / relx);
+    for (int i = 0; i < av_s.size(); ++i) 
+		av_s[i] /= (rept * t_step / relx);
 
     int ind_ss = 0;
     for (int i = 0; i < r.n - 1; ++i) {
@@ -1555,7 +1559,6 @@ void wang_landau(
         }
     }
 }
-
 
 
 #endif

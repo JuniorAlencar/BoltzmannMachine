@@ -93,45 +93,23 @@ int main(int argc, char *argv[]){
 	string file_network_name;
 	string file_rede_output;
 	
+	file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + ".dat";
+	file_network_name = "../Results_" + method +  "/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_rede_output = "../Results_" + method +  "/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";	
 	
-	if(method == "exact"){
-		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_exact.dat";
-		file_network_name = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_rede_output = "../Results/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		
-		file_name_erros = "../Results/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_mag_corr_output = "../Results/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_Jij = "../Results/SeparateData/Jij/Jij_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_Cij = "../Results/SeparateData/Cij-ising/Cij_ising_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_Pij = "../Results/SeparateData/Pij-ising/Pij_ising_"  + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_sisj = "../Results/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_Tijk = "../Results/SeparateData/Tijk-ising/Tijk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_sisjsk = "../Results/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_CorrJij = "../Results/CorrJij/CorrJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_PJij = "../Results/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_hi = "../Results/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_mi = "../Results/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	}
-	if(method != "exact"){
-		file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + "_" + method + ".dat";
-		file_network_name = "../Results_Metropolis/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_rede_output = "../Results_Metropolis/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		
-		file_name_erros = "../Results_" + method + "/Erro/erro_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_mag_corr_output = "../Results_" + method + "/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_Jij = "../Results_" + method + "/SeparateData/Jij/Jij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_Cij = "../Results_" + method + "/SeparateData/Cij-ising/Cij_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_Pij = "../Results_" + method + "/SeparateData/Pij-ising/Pij_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_sisj = "../Results_" + method + "/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_Tijk = "../Results_" + method + "/SeparateData/Tijk-ising/Tijk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_sisjsk = "../Results_" + method + "/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_CorrJij = "../Results_" + method + "/CorrJij/CorrJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_PJij = "../Results_" + method + "/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_hi = "../Results_" + method + "/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-		file_name_mi = "../Results_" + method + "/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	}
-	// nomes dos arquivos
-
+	// files name
+	file_name_erros = "../Results_" + method +  "/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_mag_corr_output = "../Results_" + method +  "/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_Jij = "../Results_" + method +  "/SeparateData/Jij/Jij_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_Cij = "../Results_" + method +  "/SeparateData/Cij-ising/Cij_ising_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_Pij = "../Results_" + method +  "/SeparateData/Pij-ising/Pij_ising_"  + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_sisj = "../Results_" + method +  "/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_Tijk = "../Results_" + method +  "/SeparateData/Tijk-ising/Tijk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_sisjsk = "../Results_" + method +  "/SeparateData/sisjsk-ising/sisjsk_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_CorrJij = "../Results_" + method +  "/CorrJij/CorrJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_PJij = "../Results_" + method +  "/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_hi = "../Results_" + method +  "/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_mi = "../Results_" + method +  "/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	//-----------------------------------------------------------------------------
 	//Ler o arquivo com as correlações e magnetizações de um certo arquivo
 
@@ -225,17 +203,36 @@ int main(int argc, char *argv[]){
 
 		if(method == "metropolis")
 			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
+		
 		if(method == "swendsen_wang")
 			swendsen_wang(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
+		
 		if(method == "exact" && n < 25) 
 			exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
+		
 		if(method == "wang_landau"){
 			double f_init = 2.0;
 			double f_min = 1e-8;
 			wang_landau(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, f_init, f_min);
 		}
-		if(method == "parallel_tempering")
-			double a = 2;
+
+		if(method == "parallel_tempering"){
+			// Temperatures for each replicas (beta = 1/T)
+			std::vector<double> temperatures = {1.0, 0.8, 0.6, 0.4, 0.2};
+
+			// Vector of replicates
+			std::vector<Rede> replicas;
+
+			// Start each replica in differents temperatures 
+			for (double T : temperatures) {
+				double beta = 1.0 / T;
+				Rede r(n, mean, sigma, beta, type, H);
+				r.create_bonds_random();
+				replicas.push_back(r);
+    		}
+			parallel_tempering(replicas, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept);
+		
+		}
 		for (int i = 0; i < bm.nbonds; i++)
 		{
 			if (i < bm.n)

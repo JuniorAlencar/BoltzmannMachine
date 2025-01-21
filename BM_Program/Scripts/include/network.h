@@ -7,7 +7,7 @@
 class Rede
 {
 	public:
-		int n, nbonds;
+		int n, nbonds; // Number of nodes and number of single combinations of multiply si*sj
 		double mean, sigma; 
 		double k;
 		VecInt no, s, nb, s_nb;
