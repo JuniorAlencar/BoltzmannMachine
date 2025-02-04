@@ -1459,106 +1459,124 @@ void wang_landau(
     const int t_eq, const int t_step, const int relx, const int rept,
     double f_init = 2.0, double f_min = 1e-8
 ) {
-    unordered_map<int, double> g; // Logarithm of density of states
-    unordered_map<int, int> H;   // Histogram of visited energies
-    double f = f_init;           // Modification factor
+    unordered_map<int, double> g; // Logaritmo da densidade de estados
+    unordered_map<int, int> H;    // Histograma de energias visitadas
+    double f = f_init;            // Fator de modificação
 
-    // Initialize density of states and histogram
+    cout << "Iniciando Wang-Landau com f_init = " << f_init << " e f_min = " << f_min << endl;
+
+    // Inicializar densidade de estados e histograma
     for (int E = -2 * r.n; E <= 2 * r.n; E += 4) {
         g[E] = 0.0;
         H[E] = 0;
     }
 
-    // Initialize averages
-    //for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
-    //for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
-
-    int E = 0; // Initial energy of the system
+    // Calcular energia inicial do sistema
+    int E = 0;
     for (int bond = 0; bond < r.nbonds; ++bond) {
         E += -r.J[bond] * r.s[r.no[bond * 2]] * r.s[r.no[bond * 2 + 1]];
     }
+    cout << "Energia inicial: " << E << endl;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> spin_dist(0, r.n - 1);
+    std::uniform_real_distribution<double> prob_dist(0.0, 1.0);
 
     while (f > f_min) {
-        for (int t = 0; t < t_step; ++t) {
-            // Randomly select a spin to flip
-            int s_flip = rand() % r.n;
+        cout << "\nNovo ciclo com f = " << f << endl;
 
-            // Calculate energy change
-            double dE = 2 * r.s[s_flip] * r.h[s_flip];
-            for (int bond = 0; bond < r.nbonds; ++bond) {
-                if (r.no[bond * 2] == s_flip || r.no[bond * 2 + 1] == s_flip) {
-                    dE += 2 * r.J[bond] * r.s[s_flip] * r.s[r.no[bond * 2] == s_flip ? r.no[bond * 2 + 1] : r.no[bond * 2]];
+        for (int t = 0; t < t_step; ++t) {
+            int s_flip = spin_dist(gen);
+            double dE = delta_E(r, s_flip);  // Usar a mesma função de Metropolis
+
+            cout << "Tentando flip no spin " << s_flip << " com dE = " << dE << endl;
+
+            if (dE <= 0) {
+                r.s[s_flip] = -r.s[s_flip]; // Aceita sempre se dE ≤ 0
+                E += dE;
+            } else {
+                double p = prob_dist(gen);
+                if (p < exp(g[E] - g[E + dE])) { 
+                    r.s[s_flip] = -r.s[s_flip]; // Aceita com probabilidade e^(g(E) - g(E+dE))
+                    E += dE;
                 }
             }
 
-            // Wang-Landau acceptance rule
-            if ((double)rand() / RAND_MAX < exp(g[E] - g[E + dE])) {
-                r.s[s_flip] *= -1; // Accept move
-                E += dE;           // Update energy
-            }
-
-            // Update density of states and histogram
+            // Atualiza logaritmo da densidade de estados e histograma
             g[E] += log(f);
             H[E]++;
         }
 
-        // Check histogram flatness
+        // Verificar achatamento do histograma
         int minH = INT_MAX, maxH = INT_MIN;
         for (const auto &entry : H) {
-            if (entry.second > 0) { // Only consider visited energies
+            if (entry.second > 0) {
                 minH = min(minH, entry.second);
                 maxH = max(maxH, entry.second);
             }
         }
 
+        cout << "Histograma: minH = " << minH << ", maxH = " << maxH << endl;
+
         if (minH > 0.8 * maxH) {
-            f = sqrt(f); // Reduce modification factor
-            for (auto &entry : H) entry.second = 0; // Reset histogram
+            f = sqrt(f);
+            for (auto &entry : H) entry.second = 0; // Resetar histograma
+            cout << "Histograma achatado, reduzindo f para " << f << endl;
         }
     }
 
-    // Sampling
+    cout << "Finalizando Wang-Landau. Iniciando amostragem...\n";
+
+    // Processo de amostragem (igual ao Metropolis)
     for (int rep = 0; rep < rept; ++rep) {
         for (int t = 0; t < t_eq + t_step; ++t) {
-            if (t >= t_eq && t % relx == 0) {
-                // Update averages
+            if (t >= t_eq && (int)(t - t_eq) % (int)relx == 0) {
                 for (int i = 0; i < r.n; ++i) av_s[i] += r.s[i];
 
                 int ind_ss = 0;
-                for (int i = 0; i < r.n - 1; ++i) {
-                    for (int j = i + 1; j < r.n; ++j) {
+                for (int i = 0; i < r.n; ++i) {
+                    for (int j = i; j < r.n; ++j) {
                         av_ss[ind_ss++] += r.s[i] * r.s[j];
                     }
                 }
             }
 
-            // Perform spin flip during sampling
-            int s_flip = rand() % r.n;
-            double dE = 2 * r.s[s_flip] * r.h[s_flip];
-            for (int bond = 0; bond < r.nbonds; ++bond) {
-                if (r.no[bond * 2] == s_flip || r.no[bond * 2 + 1] == s_flip) {
-                    dE += 2 * r.J[bond] * r.s[s_flip] * r.s[r.no[bond * 2] == s_flip ? r.no[bond * 2 + 1] : r.no[bond * 2]];
-                }
-            }
+            int s_flip = spin_dist(gen);
+            double dE = delta_E(r, s_flip);
 
-            if ((double)rand() / RAND_MAX < exp(g[E] - g[E + dE])) {
-                r.s[s_flip] *= -1;
+            if (dE <= 0) {
+                r.s[s_flip] = -r.s[s_flip];
                 E += dE;
+            } else {
+                double p = prob_dist(gen);
+                if (p < exp(g[E] - g[E + dE])) {
+                    r.s[s_flip] = -r.s[s_flip];
+                    E += dE;
+                }
             }
         }
     }
 
-    // Normalize averages
+    cout << "Amostragem concluída. Normalizando valores...\n";
+
+    // Normalizar médias
     for (int i = 0; i < av_s.size(); ++i) 
-		av_s[i] /= (rept * t_step / relx);
+        av_s[i] /= (rept * t_step / relx);
 
     int ind_ss = 0;
-    for (int i = 0; i < r.n - 1; ++i) {
-        for (int j = i + 1; j < r.n; ++j) {
+    for (int i = 0; i < r.n; ++i) {
+        for (int j = i; j < r.n; ++j) {
             av_ss[ind_ss++] /= (rept * t_step / relx);
         }
     }
+
+    cout << "Finalização da função Wang-Landau.\n";
 }
+
+
+
+
 
 
 #endif
