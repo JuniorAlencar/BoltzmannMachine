@@ -1517,12 +1517,12 @@ void wang_landau(
             }
         }
 
-        cout << "Histograma: minH = " << minH << ", maxH = " << maxH << endl;
+        //cout << "Histograma: minH = " << minH << ", maxH = " << maxH << endl;
 
         if (minH > 0.8 * maxH) {
             f = sqrt(f);
             for (auto &entry : H) entry.second = 0; // Resetar histograma
-            cout << "Histograma achatado, reduzindo f para " << f << endl;
+            //cout << "Histograma achatado, reduzindo f para " << f << endl;
         }
     }
 
