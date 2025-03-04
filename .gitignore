@@ -1,6 +1,6 @@
 */Results/
 */Results_Metropolis
-
+BM_Program/tests
 #BMCarmona/Results/
 
 BMProgramCarmona/build/
@@ -10,11 +10,19 @@ BMProgramCarmona/inputs/
 BMProgramCarmona/Scripts/multithread_pc.sh
 
 BM_Program_json/jupyter/concatenated_data.json
-
+BM_Program/Scripts/BMfinal
+BM_Program/Scripts/CreateFolders
+BM_Program/Scripts/synt
+BM_Program/Scripts/tests
 # Ignore bins from cpp linux and windows keeping shell scripts
 *.[!c][!p][!p]
+*.out
 *.exe
-!*.sh
+*.bin
+*.o
+*.dat
+*.pyc
+
 
 # Ignore data folder
 */Data/

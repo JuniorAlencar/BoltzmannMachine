@@ -49,7 +49,7 @@ int main (int argc, char *argv[]){
 	file_name_sisj = "../Results_" + method + "/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
 	file_name_Tijk = "../Results_" + method + "/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
 	file_name_sisjsk = "../Results_" + method + "/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
-	file_name_mi = "../Results_" + method + "/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";		
+	file_name_mi = "../Results_" + method + "/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
 	// ---------------------
 	
     string first_line;
