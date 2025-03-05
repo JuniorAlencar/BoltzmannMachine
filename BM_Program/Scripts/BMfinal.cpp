@@ -74,8 +74,7 @@ int main(int argc, char *argv[]){
 	string multi_teq_str = os_teq.str();
 	string multi_relx_str = os_relx.str();
 	
-
-	// If true -> exact_solutions, else -> Metropolis--------------------
+	// Filenames to results
 	string file_name_erros;
 	string file_mag_corr_output;
 	string file_name_Jij;
@@ -89,13 +88,9 @@ int main(int argc, char *argv[]){
 	string file_name_hi;
 	string file_name_mi;
 
-	string file_rede_input;
-	string file_network_name;
-	string file_rede_output;
-	
-	file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + ".dat";
-	file_network_name = "../Results_" + method +  "/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	file_rede_output = "../Results_" + method +  "/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";	
+	string file_rede_input = "../Data/Mag_Corr/mag_corr_exp_" + text_name + ".dat";
+	string file_network_name = "../Results_" + method +  "/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	string file_rede_output = "../Results_" + method +  "/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	
 	// files name
 	file_name_erros = "../Results_" + method +  "/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";

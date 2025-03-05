@@ -7,6 +7,9 @@
 
 using namespace std;
 
+
+// Compute properties =========================================================/
+
 // Function to generate external field values h_i
 vector<double> generateHVector(int N, double min, double max) {
     random_device rd;
@@ -18,54 +21,6 @@ vector<double> generateHVector(int N, double min, double max) {
         vec[i] = dist(gen);
     }
     return vec;
-}
-
-// Function to generate a symmetric matrix J_ij with Gaussian-distributed values
-vector<vector<double>> generateJMatrix(int N, double mean, double stddev) {
-    random_device rd;
-    mt19937 gen(rd());
-    normal_distribution<double> dist(mean, stddev);
-
-    vector<vector<double>> J(N, vector<double>(N, 0.0));
-    for (int i = 0; i < N; ++i) {
-        for (int j = i + 1; j < N; ++j) { // Fill only upper triangle
-            J[i][j] = J[j][i] = dist(gen);
-        }
-    }
-    return J;
-}
-
-// Function to generate a binary spin vector (+1.0 or -1.0)
-vector<double> generateBinaryVector(int N) {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<int> dist(0, 1);
-
-    vector<double> vec(N);
-    for (int i = 0; i < N; ++i) {
-        vec[i] = (dist(gen) == 0) ? -1.0 : 1.0;
-    }
-    return vec;
-}
-
-// Function to compute the Hamiltonian H for a given state
-double computeHamiltonian(const vector<double>& sigma, const vector<double>& h, const vector<vector<double>>& J) {
-    int N = sigma.size();
-    double H = 0.0;
-
-    // External field contribution: sum_i (h_i * sigma_i)
-    for (int i = 0; i < N; ++i) {
-        H += h[i] * sigma[i];
-    }
-
-    // Interaction term: sum_i sum_j>i (J_ij * sigma_i * sigma_j)
-    for (int i = 0; i < N; ++i) {
-        for (int j = i + 1; j < N; ++j) {
-            H -= J[i][j] * sigma[i] * sigma[j];
-        }
-    }
-
-    return H;
 }
 
 // Function to compute the si syntetic
@@ -108,6 +63,107 @@ vector<double> computeSiSj(const vector<vector<double>>& sigma_states) {
     return ss;
 }
 
+vector<double> computeC(const vector<double> s, const vector<double> ss){
+    int N_spins = s.size();
+    int N_duplet = ss.size();
+    
+    vector<double> C(N_duplet, 0.0);
+    int aux = 0;
+    for (int p = 0; p < N_spins - 1; p++)
+	{
+		for (int pp = p+1; pp < N_spins; pp++)
+		{
+			C[aux] = ss[aux] - s[p] * s[pp];			
+			aux++;
+		}
+	}
+    return C;
+}
+
+// Function to generate a symmetric matrix J_ij with Gaussian-distributed values
+vector<vector<double>> generateJMatrix(int N, double mean, double stddev) {
+    random_device rd;
+    mt19937 gen(rd());
+    normal_distribution<double> dist(mean, stddev);
+
+    vector<vector<double>> J(N, vector<double>(N, 0.0));
+    for (int i = 0; i < N; ++i) {
+        for (int j = i + 1; j < N; ++j) { // Fill only upper triangle
+            J[i][j] = J[j][i] = dist(gen);
+        }
+    }
+    return J;
+}
+
+vector<vector<double>> generateCorrelatedStates(int N, int M,const double target_mean_C, const double target_std_C) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<double> dist(0.0, 1.0);
+    normal_distribution<double> corrDist(target_mean_C, target_std_C);
+    
+    vector<vector<double>> sigmaStates(M, vector<double>(N));
+    
+    // Gerar primeiro estado aleatório
+    for (int i = 0; i < N; ++i) {
+        sigmaStates[0][i] = (dist(gen) < 0.5) ? -1.0 : 1.0;
+    }
+    
+    // Criar uma matriz de correlação alvo
+    vector<double> target_C((N * (N - 1)) / 2);
+    for (double& c : target_C) {
+        c = corrDist(gen);
+    }
+    
+    // Gerar estados subsequentes tentando obedecer a correlação alvo
+    int index = 0;
+    for (int m = 1; m < M; ++m) {
+        for (int i = 0; i < N; ++i) {
+            sigmaStates[m][i] = (dist(gen) < 0.5) ? -1.0 : 1.0;
+        }
+        
+        // Ajuste para manter a correlação esperada
+        index = 0;
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if ((dist(gen) < (target_C[index] + 1.0) / 2.0)) {
+                    sigmaStates[m][j] = sigmaStates[m][i];
+                }
+                index++;
+            }
+        }
+    }
+    
+    return sigmaStates;
+}
+
+// Função para calcular a Hamiltoniana para cada estado
+vector<double> computeHamiltonian(const vector<vector<double>>& sigmaStates, const vector<double>& h, const vector<vector<double>>& J) {
+    int M = sigmaStates.size();
+    int N = (M > 0) ? sigmaStates[0].size() : 0;
+    vector<double> H_values(M, 0.0);
+    
+    for (int m = 0; m < M; ++m) {
+        double H = 0.0;
+        
+        // Contribuição do campo externo
+        for (int i = 0; i < N; ++i) {
+            H += h[i] * sigmaStates[m][i];
+        }
+        
+        // Termo de interação
+        for (int i = 0; i < N; ++i) {
+            for (int j = i + 1; j < N; ++j) {
+                H -= J[i][j] * sigmaStates[m][i] * sigmaStates[m][j];
+            }
+        }
+        
+        H_values[m] = H;
+    }
+    return H_values;
+}
+
+
+// Save properties =========================================================/
 
 // Function to save h_i values in a column format
 void saveVectorAsColumn(const string& filename, const vector<double>& data) {
@@ -193,5 +249,28 @@ void saveSiSj(const string& filename, const vector<double>& sisj){
 
     //fechando arquivos
     file_sisj.close();
+    cout << "File saved: " << filename << endl;
+}
+
+void saveMagCorr(const string& filename, const vector<double> si, const vector<double>& sisj, const vector<double> C){
+    int N_spins = si.size();
+    int N_duplet = sisj.size();
+    
+    ofstream file_MagCorr (filename.c_str());
+    
+    
+    file_MagCorr << N_spins << endl;
+	
+	for (int i = 0; i < N_duplet; i++)
+	{
+		file_MagCorr << " " << sisj[i] << " " << C[i];
+		
+		if (i < N_spins)
+			file_MagCorr << " " << si[i];
+			
+		file_MagCorr << endl;
+	}
+
+    file_MagCorr.close();
     cout << "File saved: " << filename << endl;
 }
