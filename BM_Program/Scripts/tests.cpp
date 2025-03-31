@@ -82,6 +82,8 @@ int main(int argc, char *argv[]) {
     
     cout << "BMfinal ..." << endl;
 	
+	string file_rede_input = "../tests/mag_corr_synthetic.dat";
+	
 	ifstream rede (file_rede_input.c_str());
 	
 	rede >> n;

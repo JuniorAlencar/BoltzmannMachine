@@ -2,6 +2,7 @@
     "cmake.sourceDirectory": "/home/junior/Documents/BoltzmannMachine/BMProgramCarmona",
     "files.associations": {
         "iosfwd": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "string": "cpp"
     }
 }

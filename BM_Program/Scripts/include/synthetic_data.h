@@ -136,6 +136,22 @@ vector<vector<double>> generateCorrelatedStates(int N, int M,const double target
     return sigmaStates;
 }
 
+vector<vector<double>> generateUncorrelatedStates(int N, int M) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<double> dist(0.0, 1.0);
+    
+    vector<vector<double>> sigmaStates(M, vector<double>(N));
+    
+    for (int m = 0; m < M; ++m) {
+        for (int i = 0; i < N; ++i) {
+            sigmaStates[m][i] = (dist(gen) < 0.5) ? -1.0 : 1.0;
+        }
+    }
+
+    return sigmaStates;
+}
+
 // Função para calcular a Hamiltoniana para cada estado
 vector<double> computeHamiltonian(const vector<vector<double>>& sigmaStates, const vector<double>& h, const vector<vector<double>>& J) {
     int M = sigmaStates.size();
