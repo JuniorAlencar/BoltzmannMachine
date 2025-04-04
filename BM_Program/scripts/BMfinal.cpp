@@ -135,8 +135,6 @@ int main(int argc, char *argv[]){
 //-----------------------------------------------------------------------------
 //Abrir arquivo da rede
 
-	
-	
 	ifstream network_in (file_network_name.c_str());
 	
 	network_in >> r.n;

@@ -10,118 +10,167 @@
 
 using namespace std;
 
+//Classe para criação de uma rede aleatoria. Deve-se entrar com o tamano da rede n, valor medio da distribuição mean, desvio da distribuição sigma e a constante k para a probabilidade de haver ligação
+class Network
+{
+	public:
+		int n, nbonds; // Number of nodes and number of single combinations of multiply si*sj
+		double mean, sigma; 
+		double k;
+		VecInt no, s, nb, s_nb;
+		vector<double> J;
+		vector<double> h;
+		
+		int type;
+		double H;
+		
+		Network(int m, double mmean, double ssigma, double kk, int tp, double HH);
+		void create_bonds_random (void);
+		void create_bonds_tree (void);
+		void neighbours(void);
+		double gaussian (void);
+		void node (int bond);
+
+};
+
 // If you use vscode, install the Doxygen Documentation Generator extension
 
 // Compute properties =========================================================/
 
-
 /**
- * @brief Gera estados e momentos <s_i> e <s_i s_j> para uma rede de Ising usando Metropolis.
+ * @brief Generates a symmetric matrix J_ij with Gaussian-distributed values.
  *
- * @param rede      Objeto Rede com spins, J, h
- * @param av_s      Vetor para armazenar as médias <s_i>
- * @param av_ss     Vetor para armazenar as médias <s_i s_j>
- * @param t_eq      Passos de equilíbrio (burn-in)
- * @param relx      Relaxamento entre amostras
- * @param rept      Número de repetições do processo
- * @param M         Número total de amostras desejadas
- * @param beta      Inverso da temperatura
- * @param energies  Vetor para armazenar energias
- * @param states    Vetor para armazenar estados de spin
- * @param seed      Semente randômica
+ * @param N \c int: Number of spins
+ * @param mean \c double: Mean of the Gaussian distribution
+ * @param sigma \c double: Standard deviation of the Gaussian distribution
+ * @param seed \c std::optional<unsigned int> (optional): Seed for the random number generator. If not provided, a random device is used.
+ * @return Matrix J of size NxN with symmetric Gaussian-distributed values
  */
-void GenerateStates(
-    Rede &rede,
-    std::vector<double> &av_s,
-    std::vector<double> &av_ss,
-    const int t_eq,
-    const int relx,
-    const int rept,
-    const int M,
-    const double beta,
-    std::vector<double> &energies,
-    std::vector<std::vector<int>> &states,
-    std::optional<unsigned int> seed = std::nullopt
-) {
-    int N = rede.n;
-    int N_pairs = (N * (N - 1)) / 2;
 
-    std::mt19937 gen(seed ? std::mt19937(*seed) : std::mt19937(std::random_device{}()));
-    std::uniform_real_distribution<double> dist(0.0, 1.0);
-    std::uniform_int_distribution<int> spin_dist(0, N - 1);
-
-    av_s.assign(N, 0.0);
-    av_ss.assign(N_pairs, 0.0);
-    energies.clear();
-    states.assign(M, std::vector<int>(N, 0));
-
-    int m_count = 0;
-
-    for (int rep = 0; rep < rept; ++rep) {
-        int step = 0;
-        while (m_count < M) {
-            // Equilíbrio + relaxamento
-            for (int t = 0; t < t_eq; ++t) {
-                int i = spin_dist(gen);
-                double dE = 2.0 * rede.s[i] * rede.h[i];
-                int idx = 0;
-                for (int a = 0; a < N - 1; ++a)
-                    for (int b = a + 1; b < N; ++b, ++idx)
-                        if (a == i)
-                            dE += 2.0 * rede.s[i] * rede.s[b] * rede.J[idx];
-                        else if (b == i)
-                            dE += 2.0 * rede.s[i] * rede.s[a] * rede.J[idx];
-                if (dE <= 0.0 || dist(gen) < std::exp(-beta * dE))
-                    rede.s[i] *= -1;
-            }
-
-            // Coleta
-            for (int relax = 0; relax < relx && m_count < M; ++relax) {
-                int i = spin_dist(gen);
-                double dE = 2.0 * rede.s[i] * rede.h[i];
-                int idx = 0;
-                for (int a = 0; a < N - 1; ++a)
-                    for (int b = a + 1; b < N; ++b, ++idx)
-                        if (a == i)
-                            dE += 2.0 * rede.s[i] * rede.s[b] * rede.J[idx];
-                        else if (b == i)
-                            dE += 2.0 * rede.s[i] * rede.s[a] * rede.J[idx];
-                if (dE <= 0.0 || dist(gen) < std::exp(-beta * dE))
-                    rede.s[i] *= -1;
-            }
-
-            // Acumular momentos
-            for (int k = 0; k < N; ++k)
-                av_s[k] += rede.s[k];
-
-            int idx2 = 0;
-            for (int a = 0; a < N - 1; ++a)
-                for (int b = a + 1; b < N; ++b)
-                    av_ss[idx2++] += rede.s[a] * rede.s[b];
-
-            // Energia
-            double energy = 0.0;
-            int idx3 = 0;
-            for (int a = 0; a < N; ++a)
-                energy -= rede.h[a] * rede.s[a];
-            for (int a = 0; a < N - 1; ++a)
-                for (int b = a + 1; b < N; ++b)
-                    energy -= rede.J[idx3++] * rede.s[a] * rede.s[b];
-            energies.push_back(energy);
-
-            for (int k = 0; k < N; ++k)
-                states[m_count][k] = rede.s[k];
-
-            ++m_count;
-        }
+VecDoub generateJMatrix(int N_pairs, double sigma, double mean, optional<unsigned int> seed = nullopt){
+    mt19937 gen(seed ? mt19937(*seed) : mt19937(random_device{}()));
+    normal_distribution<double> dist(mean, sigma);
+    
+    VecDoub J(N_pairs, 0.0);
+    
+    for (int i = 0; i < N_pairs; ++i) {
+        J[i] = dist(gen);
+        
     }
-
-    for (int i = 0; i < N; ++i)
-        av_s[i] /= M;
-    for (int i = 0; i < N_pairs; ++i)
-        av_ss[i] /= M;
+    return J;
 }
 
+/**
+ * @brief Generates a vector of external field values h_i from a uniform distribution.
+ *
+ * @param N \c int: Number of spins
+ * @param min \c double: Minimum value of the external field
+ * @param max \c double: Maximum value of the external field
+ * @param seed \c std::optional<unsigned int>: Seed for the random number generator. If not provided, a random device is used.
+ * @return Vector of size N with uniformly distributed values in [min, max]
+ */
+VecDoub generateHVector(int N, double min = -1.0, double max = 1.0, optional<unsigned int> seed = nullopt) {
+    mt19937 gen(seed ? mt19937(*seed) : mt19937(random_device{}()));
+    uniform_real_distribution<double> dist(min, max);
+
+    VecDoub h(N, 0.0);
+    for (int i = 0; i < N; ++i) {
+        h[i] = dist(gen);
+    }
+    return h;
+}
+
+/**
+ * @brief Runs the Monte Carlo simulation using the Metropolis algorithm for a spin model.
+ *
+ * @param r \c Rede: Structure containing spin vector, external field, and coupling matrix.
+ * @param av_s \c VecDoub_IO: Accumulator for the average of individual spins over sampling.
+ * @param av_ss \c VecDoub_IO: Accumulator for the average of pairwise spin products.
+ * @param t_eq \c int: Number of steps for the system to reach equilibrium (relaxation time).
+ * @param t_step \c int: Number of steps after equilibrium used for sampling.
+ * @param relx \c int: Interval between spin state samplings after the system equilibrates.
+ * @param rept \c int: Number of independent repetitions of the Monte Carlo process.
+ * @param beta \c double: Inverse temperature \c (1/kT).
+ * @param energies \c std::vector<double>: Vector storing the total energy of the system at each step.
+ * @param states \c std::vector<std::vector<int>>: Matrix of size MxN storing the spin states over time.
+ *               Each row corresponds to a sampled time step, and each column to a spin.
+ * @param seed \c std::optional<unsigned int>: \c Optional seed for the random number generator.
+ *              If provided, ensures reproducible simulations.
+ */
+// void GenerateStates(
+//     Rede &r,
+//     VecDoub_IO &av_s,
+//     VecDoub_IO &av_ss,
+//     const int t_eq,
+//     const int t_step,
+//     const int relx,
+//     const int rept,
+//     const double beta,
+//     std::vector<double> &energies,
+//     std::vector<std::vector<int>> &states,
+//     std::optional<unsigned int> seed = std::nullopt
+// ) {
+//     int N = r.n;
+//     int total_steps = t_eq + t_step;
+
+//     std::mt19937 gen(seed ? std::mt19937(*seed) : std::mt19937(std::random_device{}()));
+//     std::uniform_real_distribution<double> dist(0.0, 1.0);
+//     std::uniform_int_distribution<int> spin_dist(0, N - 1);
+
+//     int M = t_step / relx;
+//     states.assign(M, std::vector<int>(N, 0)); // M rows = sampled states, N columns = spins
+//     energies.clear();
+//     int m_index = 0;
+
+//     for (int j = 0; j < rept; j++) {
+//         m_index = 0;
+
+//         for (int i = 0; i < total_steps; i++) {
+//             int k = spin_dist(gen);
+
+//             // Energy change if spin k is flipped
+//             double dE = 2.0 * r.s[k] * r.h[k];
+//             for (int l = 0; l < N; l++) {
+//                 dE += 2.0 * r.s[k] * r.J[k][l] * r.s[l];
+//             }
+
+//             if (dE <= 0.0 || dist(gen) < std::exp(-beta * dE)) {
+//                 r.s[k] *= -1;
+//             }
+
+//             // Compute total energy and store
+//             double energy = 0.0;
+//             for (int m = 0; m < N; m++) {
+//                 energy -= r.h[m] * r.s[m];
+//                 for (int n = m + 1; n < N; n++) {
+//                     energy -= r.J[m][n] * r.s[m] * r.s[n];
+//                 }
+//             }
+//             energies.push_back(energy);
+
+//             // After equilibration, sample state every 'relx' steps
+//             if (i >= t_eq && ((i - t_eq) % relx == 0)) {
+//                 for (int jj = 0; jj < N; jj++) {
+//                     av_s[jj] += r.s[jj];
+//                 }
+
+//                 int ind_ss = 0;
+//                 for (int jj = 0; jj < N - 1; jj++) {
+//                     for (int l = jj + 1; l < N; l++) {
+//                         av_ss[ind_ss] += r.s[jj] * r.s[l];
+//                         ind_ss++;
+//                     }
+//                 }
+
+//                 // Store current spin state
+//                 for (int spin = 0; spin < N; ++spin) {
+//                     states[m_index][spin] = r.s[spin];
+//                 }
+//                 m_index++;
+//             }
+//         }
+//     }
+// }
 
 /**
  * @brief Computes the first moment (magnetization) of the system.
