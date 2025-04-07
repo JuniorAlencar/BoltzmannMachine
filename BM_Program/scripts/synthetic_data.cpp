@@ -105,15 +105,19 @@ int main(int argc, char *argv[]) {
 
         for (int i = 0; i < net_upd.nbonds; i++) {
             if (i < net_upd.n) {
-                dh = eta_h * (bm_av_s[i] - av_s[i]);
-                erroh += dh * dh;
+                dh = eta_h * bm_av_s[i];
+                erroh += pow(bm_av_s[i], 2);
                 net_upd.h[i] -= dh;
             }
+            dJ = eta_J*bm_av_ss[i];
+			erroJ += pow(bm_av_ss[i], 2);
+			net_upd.J[i] -= dJ;
         }
         erroJ = sqrt(erroJ / net_upd.nbonds);
         erroh = sqrt(erroh / net_upd.n);
 
         erros << inter << " " << setprecision(13) << erroJ << " " << erroh << endl;
+        
         // Média da energia dessa iteração
         double ava_energy = 0.0;
         for (size_t i = 0; i < energies.size(); ++i)
