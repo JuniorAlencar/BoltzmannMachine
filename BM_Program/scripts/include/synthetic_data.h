@@ -28,32 +28,31 @@ using namespace std;
  * @param beta      Inverso da temperatura
  * @param energies  Vetor para armazenar energias
  * @param states    Vetor para armazenar estados de spin
- * @param seed      Semente randômica
+ * @param gen       Semente randômica
  */
 void GenerateStates(
     Rede &rede,
-    std::vector<double> &av_s,
-    std::vector<double> &av_ss,
+    vector<double> &av_s,
+    vector<double> &av_ss,
     const int t_eq,
     const int relx,
     const int rept,
     const int M,
     const double beta,
-    std::vector<double> &energies,
-    std::vector<std::vector<int>> &states,
-    std::optional<unsigned int> seed = std::nullopt
+    vector<double> &energies,
+    vector<vector<int>> &states,
+    mt19937 &gen
 ) {
     int N = rede.n;
     int N_pairs = (N * (N - 1)) / 2;
-
-    std::mt19937 gen(seed ? std::mt19937(*seed) : std::mt19937(std::random_device{}()));
-    std::uniform_real_distribution<double> dist(0.0, 1.0);
-    std::uniform_int_distribution<int> spin_dist(0, N - 1);
+    
+    uniform_real_distribution<double> dist(0.0, 1.0);
+    uniform_int_distribution<int> spin_dist(0, N - 1);
 
     av_s.assign(N, 0.0);
     av_ss.assign(N_pairs, 0.0);
     energies.clear();
-    states.assign(M, std::vector<int>(N, 0));
+    states.assign(M, vector<int>(N, 0));
 
     int m_count = 0;
 
@@ -71,7 +70,7 @@ void GenerateStates(
                             dE += 2.0 * rede.s[i] * rede.s[b] * rede.J[idx];
                         else if (b == i)
                             dE += 2.0 * rede.s[i] * rede.s[a] * rede.J[idx];
-                if (dE <= 0.0 || dist(gen) < std::exp(-beta * dE))
+                if (dE <= 0.0 || dist(gen) < exp(-beta * dE))
                     rede.s[i] *= -1;
             }
 
@@ -86,7 +85,7 @@ void GenerateStates(
                             dE += 2.0 * rede.s[i] * rede.s[b] * rede.J[idx];
                         else if (b == i)
                             dE += 2.0 * rede.s[i] * rede.s[a] * rede.J[idx];
-                if (dE <= 0.0 || dist(gen) < std::exp(-beta * dE))
+                if (dE <= 0.0 || dist(gen) < exp(-beta * dE))
                     rede.s[i] *= -1;
             }
 
@@ -129,7 +128,7 @@ void GenerateStates(
  * @param sigma_states \c vector<vector<double>>: Matrix containing all spin states (M samples × N spins)
  * @return \c vector<double>: Magnetization vector s_i
  */
-vector<double> computeSi(const vector<vector<double>>& sigma_states) {
+vector<double> computeSi(const vector<vector<int>>& sigma_states) {
     int N_samples = sigma_states.size(); // Number of rows (M_states)
     int N_spins = (N_samples > 0) ? sigma_states[0].size() : 0; // Number of columns (N_spins)
     
@@ -151,7 +150,7 @@ vector<double> computeSi(const vector<vector<double>>& sigma_states) {
  * @param sigma_states \c vector<vector<double>>: Matrix containing all spin states (M samples × N spins)
  * @return \c vector<double>: Vector of s_i * s_j averages for all unique pairs (i < j)
  */
-vector<double> computeSiSj(const vector<vector<double>>& sigma_states) {
+vector<double> computeSiSj(const vector<vector<int>>& sigma_states) {
     int N_samples = sigma_states.size();
     int N_spins = (N_samples > 0) ? sigma_states[0].size() : 0;
     int N_duplet = (N_spins * (N_spins - 1)) / 2;
@@ -202,7 +201,7 @@ vector<double> computeC(const vector<double> s, const vector<double> ss) {
  * @param J \c vector<vector<double>>: Symmetric interaction matrix J_ij
  * @return \c vector<double>: Vector of Hamiltonian values for each configuration
  */
-vector<double> computeHamiltonian(const vector<vector<double>>& sigmaStates, const vector<double>& h, const vector<vector<double>>& J) {
+vector<double> computeHamiltonian(const vector<vector<int>>& sigmaStates, const vector<double>& h, const vector<vector<double>>& J) {
     int M = sigmaStates.size();
     int N = (M > 0) ? sigmaStates[0].size() : 0;
     vector<double> H_values(M, 0.0);
@@ -236,7 +235,7 @@ vector<double> computeHamiltonian(const vector<vector<double>>& sigmaStates, con
  * @param sisj \c vector<double>&: Output vector of mean products s_i * s_j (second moment)
  * @param C \c vector<double>&: Output vector of connected correlations C_ij
  */
-void computeMagCorr(const vector<vector<double>>& sigmaStates, vector<double>& si, vector<double>& sisj, vector<double>& C) {
+void computeMagCorr(const vector<vector<int>>& sigmaStates, vector<double>& si, vector<double>& sisj, vector<double>& C) {
     int M = sigmaStates.size();
     int N = sigmaStates[0].size();
 
@@ -265,7 +264,7 @@ void computeMagCorr(const vector<vector<double>>& sigmaStates, vector<double>& s
 /**
  * @brief Saves h_i values (external fields) to a file in column format.
  *
- * @param filename \c std::string: Path + filename (including extension)
+ * @param filename \c string: Path + filename (including extension)
  * @param data \c vector<double>: Vector containing h_i values
  */
 void savehH(const string& filename, const vector<double>& data) {
@@ -285,37 +284,37 @@ void savehH(const string& filename, const vector<double>& data) {
 /**
  * @brief Saves the upper triangular part of the interaction matrix J_ij to file.
  *
- * @param filename \c  std::string: Path + filename (including extension)
- * @param J \c std::vector<vector<double>>: Symmetric interaction matrix J_ij
+ * @param filename \c  string: Path + filename (including extension)
+ * @param J \c vector<vector<double>>: Symmetric interaction matrix J_ij
  */
-void saveJ(const string& filename, const vector<vector<double>>& J) {
-    ofstream file(filename);
-    if (!file) {
-        cerr << "Error opening file " << filename << endl;
-        return;
-    }
+// void saveJ(const string& filename, const vector<vector<double>>& J) {
+//     ofstream file(filename);
+//     if (!file) {
+//         cerr << "Error opening file " << filename << endl;
+//         return;
+//     }
 
-    for (int i = 0; i < J.size(); ++i) {
-        for (int j = i + 1; j < J[i].size(); ++j) { // Upper triangle only
-            file << fixed << setprecision(4) << J[i][j];
-            if (j < J[i].size() - 1) {
-                file << ","; // Comma separator
-            }
-        }
-        file << "\n"; // New row for each i-th row
-    }
+//     for (int i = 0; i < J.size(); ++i) {
+//         for (int j = i + 1; j < J[i].size(); ++j) { // Upper triangle only
+//             file << fixed << setprecision(4) << J[i][j];
+//             if (j < J[i].size() - 1) {
+//                 file << ","; // Comma separator
+//             }
+//         }
+//         file << "\n"; // New row for each i-th row
+//     }
 
-    file.close();
-    cout << "File saved: " << filename << endl;
-}
+//     file.close();
+//     cout << "File saved: " << filename << endl;
+// }
 
 /**
  * @brief Saves multiple spin configurations (sigma states) row-wise in CSV-like format.
  *
- * @param filename \c std::string: Path + filename (including extension)
+ * @param filename \c string: Path + filename (including extension)
  * @param sigmaStates \c vector<vector<double>>: Matrix with spin states (each row = one configuration)
  */
-void saveSigmaStates(const string& filename, const vector<vector<double>>& sigmaStates) {
+void saveSigmaStates(const string& filename, const vector<vector<int>>& sigmaStates) {
     ofstream file(filename);
     if (!file) {
         cerr << "Error opening file " << filename << endl;
@@ -339,8 +338,8 @@ void saveSigmaStates(const string& filename, const vector<vector<double>>& sigma
 /**
  * @brief Saves the magnetization vector si (first moment) to a file.
  *
- * @param filename \c std::string: Name of file, including path and extension
- * @param si \c std::vector<double>: Vector containing the mean value of each spin (s_i)
+ * @param filename \c string: Name of file, including path and extension
+ * @param si \c vector<double>: Vector containing the mean value of each spin (s_i)
  */
 void saveSi(const string& filename, const vector<double>& si) {
     ofstream file_si(filename.c_str());
@@ -357,7 +356,7 @@ void saveSi(const string& filename, const vector<double>& si) {
 /**
  * @brief Saves the second moment vector sisj (⟨s_i s_j⟩) to a file.
  *
- * @param filename \c std::string: Name of file, including path and extension
+ * @param filename \c string: Name of file, including path and extension
  * @param sisj \c vector<double>: Vector of pairwise spin products
  */
 void saveSiSj(const string& filename, const vector<double>& sisj) {
