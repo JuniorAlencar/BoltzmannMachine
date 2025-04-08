@@ -9,11 +9,51 @@
 #include <optional>
 
 using namespace std;
+using std::mt19937;
 
 // If you use vscode, install the Doxygen Documentation Generator extension
 
 // Compute properties =========================================================/
 
+/**
+ * @brief Generates a 1D vector containing Gaussian-distributed J_ij values.
+ * 
+ * @param N_pairs Number of spin pairs (should be N*(N-1)/2 for N spins).
+ * @param stddev Standard deviation of the normal distribution.
+ * @param gen Reference to a random number generator.
+ * @param mean Mean of the normal distribution (default = 0.0).
+ * @return vector<double> Vector containing J_ij values.
+ */
+vector<double> ComputeJValues(int N_pairs, double stddev, mt19937 &gen, double mean = 0.0) {
+    normal_distribution<double> dist(mean, stddev);
+
+    vector<double> J(N_pairs, 0.0);
+    for (int i = 0; i < N_pairs; i++)
+        J[i] = dist(gen);
+
+    return J;
+}
+
+
+/**
+ * @brief Generates a vector of external field values h_i sampled from a uniform distribution.
+ * 
+ * @param N Number of spins.
+ * @param min Minimum value of the uniform distribution (e.g., -1.0).
+ * @param max Maximum value of the uniform distribution (e.g., 1.0).
+ * @param gen Reference to a random number generator (mt19937).
+ * @return vector<double> Vector containing the h_i values.
+ */
+vector<double> ComputehValues(int N, double min, double max, mt19937 &gen) {
+    uniform_real_distribution<double> dist(min, max);
+
+    vector<double> h(N);
+    for (int i = 0; i < N; ++i) {
+        h[i] = dist(gen);
+    }
+
+    return h;
+}
 
 /**
  * @brief Gera estados e momentos <s_i> e <s_i s_j> para uma rede de Ising usando Metropolis.
@@ -57,9 +97,8 @@ void GenerateStates(
     int m_count = 0;
 
     for (int rep = 0; rep < rept; ++rep) {
-        int step = 0;
         while (m_count < M) {
-            // Equilíbrio + relaxamento
+            // Equilibration
             for (int t = 0; t < t_eq; ++t) {
                 int i = spin_dist(gen);
                 double dE = 2.0 * rede.s[i] * rede.h[i];
@@ -70,11 +109,23 @@ void GenerateStates(
                             dE += 2.0 * rede.s[i] * rede.s[b] * rede.J[idx];
                         else if (b == i)
                             dE += 2.0 * rede.s[i] * rede.s[a] * rede.J[idx];
-                if (dE <= 0.0 || dist(gen) < exp(-beta * dE))
+
+                if (dE <= 0.0 || dist(gen) < exp(-beta * dE)) {
                     rede.s[i] *= -1;
+
+                    // Save energy after accepted flip
+                    double energy = 0.0;
+                    int idx3 = 0;
+                    for (int a = 0; a < N; ++a)
+                        energy -= rede.h[a] * rede.s[a];
+                    for (int a = 0; a < N - 1; ++a)
+                        for (int b = a + 1; b < N; ++b)
+                            energy -= rede.J[idx3++] * rede.s[a] * rede.s[b];
+                    energies.push_back(energy);
+                }
             }
 
-            // Coleta
+            // Sampling
             for (int relax = 0; relax < relx && m_count < M; ++relax) {
                 int i = spin_dist(gen);
                 double dE = 2.0 * rede.s[i] * rede.h[i];
@@ -85,11 +136,23 @@ void GenerateStates(
                             dE += 2.0 * rede.s[i] * rede.s[b] * rede.J[idx];
                         else if (b == i)
                             dE += 2.0 * rede.s[i] * rede.s[a] * rede.J[idx];
-                if (dE <= 0.0 || dist(gen) < exp(-beta * dE))
+
+                if (dE <= 0.0 || dist(gen) < exp(-beta * dE)) {
                     rede.s[i] *= -1;
+
+                    // Save energy after accepted flip
+                    double energy = 0.0;
+                    int idx3 = 0;
+                    for (int a = 0; a < N; ++a)
+                        energy -= rede.h[a] * rede.s[a];
+                    for (int a = 0; a < N - 1; ++a)
+                        for (int b = a + 1; b < N; ++b)
+                            energy -= rede.J[idx3++] * rede.s[a] * rede.s[b];
+                    energies.push_back(energy);
+                }
             }
 
-            // Acumular momentos
+            // Accumulate observables
             for (int k = 0; k < N; ++k)
                 av_s[k] += rede.s[k];
 
@@ -98,16 +161,7 @@ void GenerateStates(
                 for (int b = a + 1; b < N; ++b)
                     av_ss[idx2++] += rede.s[a] * rede.s[b];
 
-            // Energia
-            double energy = 0.0;
-            int idx3 = 0;
-            for (int a = 0; a < N; ++a)
-                energy -= rede.h[a] * rede.s[a];
-            for (int a = 0; a < N - 1; ++a)
-                for (int b = a + 1; b < N; ++b)
-                    energy -= rede.J[idx3++] * rede.s[a] * rede.s[b];
-            energies.push_back(energy);
-            cout << "update state" + to_string(m_count) << endl;
+            // Save spin configuration
             for (int k = 0; k < N; ++k)
                 states[m_count][k] = rede.s[k];
 
@@ -115,6 +169,7 @@ void GenerateStates(
         }
     }
 
+    // Normalize moments
     for (int i = 0; i < N; ++i)
         av_s[i] /= M;
     for (int i = 0; i < N_pairs; ++i)
@@ -172,6 +227,110 @@ vector<double> computeSiSj(const vector<vector<int>>& sigma_states) {
 }
 
 /**
+ * @brief Computes the third-order moment ⟨s_i s_j s_k⟩ for all i < j < k.
+ *
+ * @param sigma_states Vector of spin configurations (M × N).
+ * @return Flattened vector of size C(N, 3) with ⟨s_i s_j s_k⟩ values.
+ */
+std::vector<double> computeSiSjSk(const std::vector<std::vector<int>>& sigma_states) {
+    int M = sigma_states.size();
+    int N = (M > 0) ? sigma_states[0].size() : 0;
+    std::vector<double> sss;
+
+    for (int i = 0; i < N - 2; ++i) {
+        for (int j = i + 1; j < N - 1; ++j) {
+            for (int k = j + 1; k < N; ++k) {
+                double acc = 0.0;
+                for (int m = 0; m < M; ++m)
+                    acc += sigma_states[m][i] * sigma_states[m][j] * sigma_states[m][k];
+                sss.push_back(acc / M);
+            }
+        }
+    }
+    return sss;
+}
+
+/**
+ * @brief Computes Pearson correlation coefficients P_{ij} = C_{ij} / (σ_i σ_j) in flat format.
+ *
+ * @param sigma_states Vector of spin configurations (M × N).
+ * @param cov Vector of covariance values from computeCovariance.
+ * @return Flattened vector of Pearson correlation values P_{ij} for i < j.
+ */
+std::vector<double> computePij(const std::vector<std::vector<int>>& sigma_states, const std::vector<double>& cov) {
+    int M = sigma_states.size();
+    int N = (M > 0) ? sigma_states[0].size() : 0;
+
+    std::vector<double> mean(N, 0.0);
+    std::vector<double> stddev(N, 0.0);
+    std::vector<double> Pij(cov.size(), 0.0);
+
+    for (int i = 0; i < N; ++i)
+        for (int m = 0; m < M; ++m)
+            mean[i] += sigma_states[m][i];
+    for (int i = 0; i < N; ++i)
+        mean[i] /= M;
+
+    for (int i = 0; i < N; ++i)
+        for (int m = 0; m < M; ++m)
+            stddev[i] += std::pow(sigma_states[m][i] - mean[i], 2);
+    for (int i = 0; i < N; ++i)
+        stddev[i] = std::sqrt(stddev[i] / M);
+
+    int idx = 0;
+    for (int i = 0; i < N - 1; ++i) {
+        for (int j = i + 1; j < N; ++j, ++idx) {
+            double denom = stddev[i] * stddev[j];
+            Pij[idx] = (denom != 0.0) ? cov[idx] / denom : 0.0;
+        }
+    }
+
+    return Pij;
+}
+
+/**
+ * @brief Computes third-order central moments T_{ijk} = ⟨s_i s_j s_k⟩ - s_i⟨s_j s_k⟩ - ... + 2s_i s_j s_k.
+ *
+ * @param sigma_states Vector of spin configurations (M × N).
+ * @param third_moment Precomputed third-order moments from computeThirdMoment.
+ * @return Flattened vector of central moment values T_{ijk}.
+ */
+std::vector<double> computeTriplet(const std::vector<std::vector<int>>& sigma_states, const std::vector<double>& third_moment) {
+    int M = sigma_states.size();
+    int N = (M > 0) ? sigma_states[0].size() : 0;
+    std::vector<double> s(N, 0.0);
+    std::vector<double> Tijk;
+
+    for (int i = 0; i < N; ++i)
+        for (int m = 0; m < M; ++m)
+            s[i] += sigma_states[m][i];
+    for (int i = 0; i < N; ++i)
+        s[i] /= M;
+
+    int idx = 0;
+    for (int i = 0; i < N - 2; ++i) {
+        for (int j = i + 1; j < N - 1; ++j) {
+            for (int k = j + 1; k < N; ++k) {
+                double sij = 0.0, sik = 0.0, sjk = 0.0;
+                for (int m = 0; m < M; ++m) {
+                    sij += sigma_states[m][i] * sigma_states[m][j];
+                    sik += sigma_states[m][i] * sigma_states[m][k];
+                    sjk += sigma_states[m][j] * sigma_states[m][k];
+                }
+                sij /= M; sik /= M; sjk /= M;
+
+                double T = third_moment[idx] - s[i]*sjk - s[j]*sik - s[k]*sij + 2*s[i]*s[j]*s[k];
+                Tijk.push_back(T);
+                idx++;
+            }
+        }
+    }
+
+    return Tijk;
+}
+
+
+/**
  * @brief Computes the connected correlations C_ij = ⟨s_i s_j⟩ - ⟨s_i⟩⟨s_j⟩.
  *
  * @param s \c vector<double>: Magnetization vector ⟨s_i⟩
@@ -186,8 +345,7 @@ vector<double> computeC(const vector<double> s, const vector<double> ss) {
     int aux = 0;
     for (int p = 0; p < N_spins - 1; p++) {
         for (int pp = p + 1; pp < N_spins; pp++) {
-            C[aux] = ss[aux] - s[p] * s[pp];
-            aux++;
+            C[aux++] = ss[aux] - s[p] * s[pp];
         }
     }
     return C;
@@ -268,13 +426,13 @@ void computeMagCorr(const vector<vector<int>>& sigmaStates, vector<double>& si, 
  * @param filename \c string: Path + filename (including extension)
  * @param data \c vector<double>: Vector containing h_i values
  */
-void saveValues(const string& filename, const vector<double>& data) {
+void saveValues(const string& filename,const string& header ,const vector<double>& data) {
     ofstream file(filename);
     if (!file) {
         cerr << "Error opening file " << filename << endl;
         return;
     }
-
+    file << header << endl;
     for (const auto& value : data) {
         file << fixed << setprecision(4) << value << "\n";
     }
@@ -295,6 +453,15 @@ void saveSigmaStates(const string& filename, const vector<vector<int>>& sigmaSta
         cerr << "Error opening file " << filename << endl;
         return;
     }
+    int N = sigmaStates[0].size(); // Number of spins
+    
+    // Write CSV header
+    for (int i = 1; i < N +1; ++i) {
+        file << "s_" + to_string(i);
+        if (i < N - 1)
+            file << ",";
+    }
+    file << "\n";
 
     for (const auto& state : sigmaStates) {
         for (size_t i = 0; i < state.size(); ++i) {
@@ -316,33 +483,15 @@ void saveSigmaStates(const string& filename, const vector<vector<int>>& sigmaSta
  * @param filename \c string: Name of file, including path and extension
  * @param si \c vector<double>: Vector containing the mean value of each spin (s_i)
  */
-void saveSi(const string& filename, const vector<double>& si) {
+void saveS(const string& filename, const string& header ,const vector<double>& si) {
     ofstream file_si(filename.c_str());
     int N_spins = si.size();
-
+    file_si << header << endl;
     for (int i = 0; i < N_spins; i++) {
         file_si << si[i] << endl;
     }
 
     file_si.close();
-    cout << "File saved: " << filename << endl;
-}
-
-/**
- * @brief Saves the second moment vector sisj (⟨s_i s_j⟩) to a file.
- *
- * @param filename \c string: Name of file, including path and extension
- * @param sisj \c vector<double>: Vector of pairwise spin products
- */
-void saveSiSj(const string& filename, const vector<double>& sisj) {
-    ofstream file_sisj(filename.c_str());
-    int N_duplet = sisj.size();
-
-    for (int i = 0; i < N_duplet; i++) {
-        file_sisj << sisj[i] << endl;
-    }
-
-    file_sisj.close();
     cout << "File saved: " << filename << endl;
 }
 
@@ -371,6 +520,27 @@ void saveMagCorr(const string& filename, const vector<double>& si, const vector<
         file << endl;
     }
 
+    file.close();
+    cout << "File saved: " << filename << endl;
+}
+
+/**
+ * @brief Computes the total energy of a spin configuration.
+ * 
+ * @param state Vector of spin states (+1 or -1) for each site.
+ * @param h Vector of external field values h_i.
+ * @param J Flattened upper-triangular vector of interaction values J_ij (i < j).
+ * @return double Energy of the system.
+ */
+void SaveEnergy(const string& filename, const vector<double>& energies) {
+    int N_steps = energies.size();
+    
+    ofstream file(filename.c_str());
+    
+    file << "time" << " " << "energy_state" << endl;
+    for(int i=0; i < N_steps; i++){
+        file << i << " " << energies[i] << endl;
+    }
     file.close();
     cout << "File saved: " << filename << endl;
 }

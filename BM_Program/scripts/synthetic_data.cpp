@@ -1,6 +1,7 @@
 //#include "./include/nr3.h"
 #include "./include/network_jr.h"
 #include "./include/synthetic_data.h"
+
 #include <algorithm>
 
 int main(int argc, char *argv[]) {
@@ -12,180 +13,114 @@ int main(int argc, char *argv[]) {
 	double k = 10;
 	int type;
 	
-    string method = argv[1];
-    int N_spins = stoi(argv[2]);
-    int M_states = stoi(argv[3]);
-    // double min_erro_j	= std::stod(argv[4]);
-	// double min_erro_h	= std::stod(argv[5]);
-	// int multiply_teq 	= std::stoi(argv[6]);
-	// int multiply_relx 	= std::stoi(argv[7]);
-    int seed = stoi(argv[4]);
-    
-    // Lista de métodos válidos
-    vector<string> valid_methods = {
-        "exact", "metropolis", "parallel_tempering", "swendsen_wang", "wang_landau"
-    };
+    int N_spins = stoi(argv[1]);
+    int M_states = stoi(argv[2]);
+    int seed = stoi(argv[3]);
 
-    // if (argc < 9) {
-    //     cerr << "Uso: " << argv[0] << " <method> <N_spins> <M_states>" << endl;
-    //     cerr << "Métodos disponíveis: exact, metropolis, parallel_tempering, swendsen_wang, wang_landau" << endl;
-    //     return 1;
-    // }
-
-    // Verifica se o método fornecido é válido
-    if (find(valid_methods.begin(), valid_methods.end(), method) == valid_methods.end()) {
-        cerr << "Erro: método '" << method << "' inválido." << endl;
-        cerr << "Métodos válidos: exact, metropolis, parallel_tempering, swendsen_wang, wang_landau" << endl;
+    if (argc < 4) {
+        cerr << "Uso: " << argv[0] << "<N_spins> <M_states> <seed>" << endl;
+        
         return 1;
     }
+    cout << "Number of spins: " << N_spins << ", Number of states: " << M_states << ", seed: " << seed << endl;
     
-    cout << "Selected method: " << method << endl;
-    cout << "Number of spins: " << N_spins << ", Number of states: " << M_states << endl;
+    // Generate to code
+    std::mt19937 gen(seed);
     
     // Number of combinations in pairs s_i * s_j (s_i * s_j = s_j * s_i) -> symmetric matrix
     int N_pairs = (N_spins * (N_spins - 1)) / 2;
     
     // Initial network, with J and h obtaining from gaussian and uniform distributions, respectively, with mean=0.0
-    Rede net_ini(N_spins, mean, sigma, k, 0, 1, seed);
+    Rede net(N_spins, 0.0, 1.0, k, type, 1, seed);
+    double min = -1.0, max = 1.0;
+    vector<double> J_ij = ComputeJValues(N_pairs, sigma, gen, mean);
+    vector<double> h_i = ComputehValues(N_spins, min, max, gen);
+    net.h = h_i;
+    net.J = J_ij;
     
-    // av_s, av_ss is the initial avarage s_i and s_i*s_j
-    vector<double> av_s = net_ini.h, av_ss = net_ini.J;
-    
-    // Network to update from MC method, using BoltzmannMachine(BM)
-    Rede net_upd(N_spins, 0, 0, 0, 0, 0, seed);
-
-    // bm_s, bm_ss is the update avarage s_i and s_i*s_j, using MC methods
-    vector<double> bm_av_s(N_spins, 0.0), bm_av_ss(N_pairs, 0.0);
+    vector<double> av_s(N_spins, 0.0), av_ss(N_pairs, 0.0);
     
     // Vector to alocate the energies throughout the implementation
     vector<double> energies;
     vector<vector<int>> sigmaStates;
     
-    // Generate to code
-    std::mt19937 gen(seed);
-    
     // MONTE CARLO UPDATE ----------------------
-    int multiply_relx = 2;
     // Monte Carlo variables
-	int t_eq = 900; // 150
-	int relx = 60;
+	int t_eq = 500; // 150
+	int relx = 2500;
 	int rept = 40;
-	int t_step = (M_states * relx) / rept;
-    // Number of states (M)
-    // 
-	double min_error_j = 1.0e-5;
-	double min_error_h = 1.0e-4;
     
-    // Initial errors in J and h
-    double erroJ = 1.0, erroh = 1.0;
-    double dJ, dh;
-	int cort = 500;
-	// inter_max - inter = Number of interations
+    // Number of steps
+	int t_step = (M_states * relx) / rept;
+    
+    // inter_max - inter = Number of interations
     int inter = 1;
 	int inter_max = 300000;
 	
-    // Process update rate
-	double eta_J = 0.05;
-	double eta_h = 0.03;
-    string file_name_errors = "../tests/errors.dat";
-    string file_name_energies = "../tests/energies.dat";
+    GenerateStates(net, av_s, av_ss, t_eq,  relx, rept, M_states, 1.0, energies, sigmaStates, gen);
     
-    ofstream erros (file_name_errors.c_str());
-    ofstream ener (file_name_energies.c_str());
-    
-    erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
-    ener << "inter" << " " << "energy" << endl;
-    
-    while ((erroJ > min_error_j || erroh > min_error_h) && inter <= inter_max) {
-    //while ((int)sigmaStates.size() < M_states && inter <= inter_max) {        
-        erroJ = erroh = 0;
-
-        eta_J = pow(inter, -0.4);
-        eta_h = 2 * pow(inter, -0.4);
-
-        GenerateStates(net_upd, bm_av_s, bm_av_ss, t_eq,  relx, rept, M_states, 1.0, energies, sigmaStates, gen);
-
-        for (int i = 0; i < net_upd.nbonds; i++) {
-            if (i < net_upd.n) {
-                dh = eta_h * bm_av_s[i];
-                erroh += pow(bm_av_s[i], 2);
-                net_upd.h[i] -= dh;
-            }
-            dJ = eta_J*bm_av_ss[i];
-			erroJ += pow(bm_av_ss[i], 2);
-			net_upd.J[i] -= dJ;
-        }
-        erroJ = sqrt(erroJ / net_upd.nbonds);
-        erroh = sqrt(erroh / net_upd.n);
-
-        erros << inter << " " << setprecision(13) << erroJ << " " << erroh << endl;
-        
-        // Média da energia dessa iteração
-        double ava_energy = 0.0;
-        for (size_t i = 0; i < energies.size(); ++i)
-            ava_energy += energies[i];
-        ava_energy /= energies.size();
-        
-        // Salvando energia no mesmo estilo
-        ener << inter << " " << setprecision(13) << ava_energy << endl;        
-        
-        if (inter % cort == 0 || (erroJ < min_error_j && erroh < min_error_h)) {
-            cout << "tests " << inter << " "
-                 << "err_J " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
-                 << "err_h " << left << setw(13) << scientific << setprecision(6) << erroh << endl;
-        }
-
-        inter++;
-    }
-
-    erros.close();
-    ener.close();
-    
-    vector<double> h = net_upd.h;
-    vector<double> J = net_upd.J;
-
     // Compute Hamiltonian
-    vector<double> hamiltonianValues = computeHamiltonian(sigmaStates, h, J);
+    vector<double> hamiltonianValues = computeHamiltonian(sigmaStates, net.h, net.J);
 
     // Calculate si and sisj and C_i from synthetic data
     vector<double> si_synthetic = computeSi(sigmaStates);
     vector<double> sisj_synthetic = computeSiSj(sigmaStates);
-    vector<double> C_synthetic = computeC(si_synthetic, sisj_synthetic);
+    vector<double> Cij_synthetic = computeC(si_synthetic, sisj_synthetic);
+    vector<double> Pij_synthetic = computePij(sigmaStates, Cij_synthetic);
+    vector<double> sisjsk_synthetic = computeSiSjSk(sigmaStates);
+    vector<double> Tijk_synthetic = computeTriplet(sigmaStates, sisjsk_synthetic);
+
+    string file_h_syntetic = "../tests/synthetic/hi/h_synteticN" + to_string(N_spins) + ".dat";
+    string file_H_syntetic = "../tests/synthetic/H/H_synteticN" + to_string(N_spins) + ".dat";
+    string file_j_syntetic = "../tests/synthetic/Jij/J_synteticN" + to_string(N_spins) + ".dat";
     
-    
-    string file_h_syntetic = "../tests/" + method +  "/hi/h_syntetic.csv";
-    string file_si_syntetic = "../tests/" + method +  "/si/si_syntetic.csv";
-    string file_sisj_syntetic = "../tests/" + method +  "/sisj/sisj_syntetic.csv";
-    string file_j_syntetic = "../tests/" + method +  "/Jij/J_syntetic.csv";
-    string file_H_syntetic = "../tests/" + method +  "/H/H_syntetic.csv";
+    string file_si_syntetic = "../tests/synthetic/si/si_synteticN" + to_string(N_spins) + ".dat";
+    string file_sisj_syntetic = "../tests/synthetic/sisj/sisj_synteticN" + to_string(N_spins) + ".dat";
+    string file_sisjsk_syntetic = "../tests/synthetic/sisjsk/sisjsk_synteticN" + to_string(N_spins) + ".dat";
+    string file_Pij_syntetic = "../tests/synthetic/Pij/Pij_synteticN" + to_string(N_spins) + ".dat";
+    string file_Cij_syntetic = "../tests/synthetic/Cij/Cij_synteticN" + to_string(N_spins) + ".dat";
+    string file_Tijk_syntetic = "../tests/synthetic/Tijk/Tijk_synteticN" + to_string(N_spins) + ".dat";
     
     // Save synthetic data
     string file_states_syntetic = "../tests/data_synteticN" + to_string(N_spins) + ".dat";
     // Save synthetic mag_corr
     string file_mag_corr_syntetic = "../tests/mag_corr_synteticN" + to_string(N_spins) +  ".dat";
+    //string energies_syntetic = "../tests/energiesN" + to_string(N_spins) +  ".dat";
     
+    // Save Hamiltonian values (each row corresponds to a sigma state)
+    saveValues(file_H_syntetic, "H", hamiltonianValues);
     // Save h_i values as a column
-    saveValues(file_h_syntetic, h);
-
+    saveValues(file_h_syntetic, "h_i", net.h);
     // Save upper triangular J_ij matrix
-    saveValues(file_j_syntetic, J);;
+    saveValues(file_j_syntetic, "J_ij", net.J);;
     // Save sigma states (each row = one state)
     saveSigmaStates(file_states_syntetic, sigmaStates);
-
-    // Save Hamiltonian values (each row corresponds to a sigma state)
-    saveValues(file_H_syntetic, hamiltonianValues);
-
-    saveSi(file_si_syntetic, si_synthetic);
-    saveSiSj(file_sisj_syntetic, sisj_synthetic);
-    //saveMagCorr(file_mag_corr_syntetic, si_synthetic, sisj_synthetic, C_synthetic);
     
-    computeMagCorr(sigmaStates, si_synthetic, sisj_synthetic, C_synthetic);
-    saveMagCorr(file_mag_corr_syntetic, si_synthetic, sisj_synthetic, C_synthetic);
+    // Save energies a long of time
+    //SaveEnergy(energies_syntetic, energies);
+    
+    
+    // SAVE PROPERTIES ===========
+    // Save first moment (si/magnetization)
+    saveS(file_si_syntetic,"si" ,si_synthetic);
+    // Save Second moment (sisj)
+    saveS(file_sisj_syntetic,"sisj", sisj_synthetic);
+    // Save Third moment (sisjsk)
+    saveS(file_sisjsk_syntetic,"sisjsk", sisjsk_synthetic);
+    // Save Covariance (Cij)
+    saveS(file_Cij_syntetic,"Cij", Cij_synthetic);
+    // Save Correlation (Pij)
+    saveS(file_Pij_syntetic,"Pij", Pij_synthetic);
+    // Save Triplet (Tijk)
+    saveS(file_Tijk_syntetic,"Tijk", Tijk_synthetic);
+
+    computeMagCorr(sigmaStates, si_synthetic, sisj_synthetic, Cij_synthetic);
+    saveMagCorr(file_mag_corr_syntetic, si_synthetic, sisj_synthetic, Cij_synthetic);
 
     // Saving information about synthetic data
-    string info = "../tests/" + method + "/info.dat";
+    string info = "../tests/infoN" + to_string(N_spins) + ".dat";
     ofstream file_info (info.c_str());
-    file_info << "N_spins = " << N_spins << "\tN_samples = " << M_states << endl;
+    file_info << "N_spins = " << N_spins << "\tN_samples = " << M_states << "\tt_eq = " << to_string(t_eq) << "\trelx = " << to_string(relx) << "\trept = " << to_string(rept) << "\tseed = " << seed << endl;
     file_info.close();
 
     return 0;

@@ -131,7 +131,7 @@ def plotting_graph2(mcs, erro, ylabel, ymin, label, label_min_err, t_eq, relx):
         ha='left', 
         va='top'
     )
-    
+    plt.savefig(f"err_{ylabel}.pdf")
     plt.show()
 #mcs, erro, ylabel, ymin, label, label_min_err, t_eq, relx
 # Função principal para plotar os gráficos

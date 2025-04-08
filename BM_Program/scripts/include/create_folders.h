@@ -41,24 +41,60 @@ void create_folders(string method) {
     fs::create_directories(PJij_folder);
     fs::create_directories(SeparateData_folder);
 
-    // folders method to tests
+    // folders method to tests ================
     string tests_method = tests_folder + "/" + method;
     fs::create_directories(tests_method);
     
-    // Create subfolders
+    // Create subfolders ==========================
     string hi_tests = tests_method + "/hi";
     string Jij_tests = tests_method + "/Jij";
     string H_tests = tests_method + "/H";
+    
     string si_tests = tests_method + "/si";
     string sisj_tests = tests_method + "/sisj";
+    string sisjsk_tests = tests_method + "/sisjsk";
+    string Pij_tests = tests_method + "/Pij";
+    string Cij_tests = tests_method + "/Cij";
+    string Tijk_tests = tests_method + "/Tijk";
     
     fs::create_directories(hi_tests);
     fs::create_directories(Jij_tests);
-    fs::create_directories(si_tests);
     fs::create_directories(H_tests);
+    
+    fs::create_directories(si_tests);
     fs::create_directories(sisj_tests);
+    fs::create_directories(sisjsk_tests);
+    fs::create_directories(Pij_tests);
+    fs::create_directories(Cij_tests);
+    fs::create_directories(Tijk_tests);
+    
+    // Create subfolders to sinthetic data ==============
+    string tests_synt = tests_folder + "/synthetic";
+    fs::create_directories(tests_method);
+    
+// Create subfolders ==========================
+    string hi_synt = tests_synt + "/hi";
+    string Jij_synt = tests_synt + "/Jij";
+    string H_synt = tests_synt + "/H";
+    string si_synt = tests_synt + "/si";
+    string sisj_synt = tests_synt + "/sisj";
+    string sisjsk_synt = tests_synt + "/sisjsk";
+    string Pij_synt = tests_synt + "/Pij";
+    string Cij_synt = tests_synt + "/Cij";
+    string Tijk_synt = tests_synt + "/Tijk";
+    
+    fs::create_directories(hi_synt);
+    fs::create_directories(Jij_synt);
+    fs::create_directories(H_synt);
+    
+    fs::create_directories(si_synt);
+    fs::create_directories(sisj_synt);
+    fs::create_directories(sisjsk_synt);
+    fs::create_directories(Cij_synt);
+    fs::create_directories(Pij_synt);
+    fs::create_directories(Tijk_synt);
 
-    // Add more folders as required
+    // Add more folders as required ===================
     string correlation_folder = comparative_folder + "/correlation";
     string magnetization_folder = comparative_folder + "/magnetization";
     string covariance_folder = comparative_folder + "/covariance";

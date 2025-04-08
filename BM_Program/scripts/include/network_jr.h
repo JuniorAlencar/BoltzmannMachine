@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 
+
 //Classe para criação de uma rede aleatoria. Deve-se entrar com o tamano da rede n, valor medio da distribuição mean, desvio da distribuição sigma e a constante k para a probabilidade de haver ligação
 class Rede
 {
@@ -11,6 +12,7 @@ class Rede
 		int n, nbonds; // Number of nodes and number of single combinations of multiply si*sj
 		double mean, sigma; 
 		double k;
+
 		std::vector<int> no, s, nb, s_nb;
 		std::vector<double> J;
 		std::vector<double> h;
@@ -19,12 +21,12 @@ class Rede
 		double H;
 		
 		Rede(int m, double mmean, double ssigma, double kk, int tp, double HH, unsigned int seed = 0);
+		
 		void create_bonds_random (void);
 		void create_bonds_tree (void);
 		void neighbours(void);
 		double gaussian (void);
 		void node (int bond);
-
 };
 
 //Contrutor 
