@@ -16,6 +16,7 @@ BM_Program/Scripts/synt
 BM_Program/Scripts/tests
 # Ignore bins from cpp linux and windows keeping shell scripts
 *.[!c][!p][!p]
+!*.pdf
 *.out
 *.exe
 *.bin

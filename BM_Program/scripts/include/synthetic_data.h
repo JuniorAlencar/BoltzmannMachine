@@ -107,7 +107,7 @@ void GenerateStates(
                 for (int b = a + 1; b < N; ++b)
                     energy -= rede.J[idx3++] * rede.s[a] * rede.s[b];
             energies.push_back(energy);
-
+            cout << "update state" + to_string(m_count) << endl;
             for (int k = 0; k < N; ++k)
                 states[m_count][k] = rede.s[k];
 
@@ -201,7 +201,7 @@ vector<double> computeC(const vector<double> s, const vector<double> ss) {
  * @param J \c vector<vector<double>>: Symmetric interaction matrix J_ij
  * @return \c vector<double>: Vector of Hamiltonian values for each configuration
  */
-vector<double> computeHamiltonian(const vector<vector<int>>& sigmaStates, const vector<double>& h, const vector<vector<double>>& J) {
+vector<double> computeHamiltonian(const vector<vector<int>>& sigmaStates, const vector<double>& h, const vector<double>& J) {
     int M = sigmaStates.size();
     int N = (M > 0) ? sigmaStates[0].size() : 0;
     vector<double> H_values(M, 0.0);
@@ -213,12 +213,13 @@ vector<double> computeHamiltonian(const vector<vector<int>>& sigmaStates, const 
         for (int i = 0; i < N; ++i) {
             H += h[i] * sigmaStates[m][i];
         }
-
+        int index = 0;
         // Pairwise interaction term (only upper triangle considered)
         for (int i = 0; i < N; ++i) {
             for (int j = i + 1; j < N; ++j) {
-                H -= J[i][j] * sigmaStates[m][i] * sigmaStates[m][j];
+                H -= J[index] * sigmaStates[m][i] * sigmaStates[m][j];
             }
+            index ++;
         }
 
         H_values[m] = H;
@@ -267,7 +268,7 @@ void computeMagCorr(const vector<vector<int>>& sigmaStates, vector<double>& si, 
  * @param filename \c string: Path + filename (including extension)
  * @param data \c vector<double>: Vector containing h_i values
  */
-void savehH(const string& filename, const vector<double>& data) {
+void saveValues(const string& filename, const vector<double>& data) {
     ofstream file(filename);
     if (!file) {
         cerr << "Error opening file " << filename << endl;
@@ -281,32 +282,6 @@ void savehH(const string& filename, const vector<double>& data) {
     cout << "File saved: " << filename << endl;
 }
 
-/**
- * @brief Saves the upper triangular part of the interaction matrix J_ij to file.
- *
- * @param filename \c  string: Path + filename (including extension)
- * @param J \c vector<vector<double>>: Symmetric interaction matrix J_ij
- */
-// void saveJ(const string& filename, const vector<vector<double>>& J) {
-//     ofstream file(filename);
-//     if (!file) {
-//         cerr << "Error opening file " << filename << endl;
-//         return;
-//     }
-
-//     for (int i = 0; i < J.size(); ++i) {
-//         for (int j = i + 1; j < J[i].size(); ++j) { // Upper triangle only
-//             file << fixed << setprecision(4) << J[i][j];
-//             if (j < J[i].size() - 1) {
-//                 file << ","; // Comma separator
-//             }
-//         }
-//         file << "\n"; // New row for each i-th row
-//     }
-
-//     file.close();
-//     cout << "File saved: " << filename << endl;
-// }
 
 /**
  * @brief Saves multiple spin configurations (sigma states) row-wise in CSV-like format.

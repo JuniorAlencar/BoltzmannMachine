@@ -97,6 +97,7 @@ int main(int argc, char *argv[]) {
     ener << "inter" << " " << "energy" << endl;
     
     while ((erroJ > min_error_j || erroh > min_error_h) && inter <= inter_max) {
+    //while ((int)sigmaStates.size() < M_states && inter <= inter_max) {        
         erroJ = erroh = 0;
 
         eta_J = pow(inter, -0.4);
@@ -140,8 +141,11 @@ int main(int argc, char *argv[]) {
     erros.close();
     ener.close();
     
+    vector<double> h = net_upd.h;
+    vector<double> J = net_upd.J;
+
     // Compute Hamiltonian
-    vector<double> hamiltonianValues = computeHamiltonian(sigmaStates, net_upd.h, net_upd.j);
+    vector<double> hamiltonianValues = computeHamiltonian(sigmaStates, h, J);
 
     // Calculate si and sisj and C_i from synthetic data
     vector<double> si_synthetic = computeSi(sigmaStates);
@@ -161,15 +165,15 @@ int main(int argc, char *argv[]) {
     string file_mag_corr_syntetic = "../tests/mag_corr_synteticN" + to_string(N_spins) +  ".dat";
     
     // Save h_i values as a column
-    savehH(file_h_syntetic, net_upd.h);
+    saveValues(file_h_syntetic, h);
 
     // Save upper triangular J_ij matrix
-    //saveJ(file_j_syntetic, net_upd.J);
+    saveValues(file_j_syntetic, J);;
     // Save sigma states (each row = one state)
     saveSigmaStates(file_states_syntetic, sigmaStates);
 
     // Save Hamiltonian values (each row corresponds to a sigma state)
-    savehH(file_H_syntetic, hamiltonianValues);
+    saveValues(file_H_syntetic, hamiltonianValues);
 
     saveSi(file_si_syntetic, si_synthetic);
     saveSiSj(file_sisj_syntetic, sisj_synthetic);
