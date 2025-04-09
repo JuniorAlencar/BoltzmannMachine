@@ -2,14 +2,17 @@
 #include <ctime>
 #include <string>
 #include <sstream>
+#include <cstdlib>
 #include <vector>
 #include <fstream>
 #include <fmt/core.h>
 #include "./include/nr3.h"
 #include "./include/network.h"
-#include "./include/forwardmethod.h"
+#include "./include/forwardmethod_jr.h"
 #include "./include/InverseMethod.h"
 #include "./include/LUdcmp.h"
+
+using namespace std;
 
 int main(int argc, char *argv[]) {
 
@@ -21,17 +24,14 @@ int main(int argc, char *argv[]) {
 	int type;
 	int H;
 	
-	string text_name	= argv[1];
+	int N_spins	= std::stoi(argv[1]);
 	double min_erro_j	= std::stod(argv[2]);
 	double min_erro_h	= std::stod(argv[3]);
 	int multiply_teq 	= std::stoi(argv[4]);
 	int multiply_relx 	= std::stoi(argv[5]);
     string method = argv[6];
+	int seed = stoi(argv[7]);
     
-    // Opening syntetic data ======================================================================================================= /
-    string file_states_syntetic = "../tests/data_syntetic.csv";
-    ofstream file_data (file_states_syntetic.c_str());
-
     if (argc < 7) {
         std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <exact_solutions>" << std::endl;
         return 1;
@@ -72,36 +72,127 @@ int main(int argc, char *argv[]) {
 	string min_erro_h_str = os_h.str();
 	string multi_teq_str = os_teq.str();
 	string multi_relx_str = os_relx.str();
-    
+
+	string errors_str = "../tests/" + method + "/erros_j_min_" + min_erro_j_str + "_h_min_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
     // Filenames to results of method ======================================================================================================= /
-    string h_string = "../tests/" + method + "/hi/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
-    string J_string = "../tests/" + method + "/Jij/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
-    string H_string = "../tests/" + method + "/H/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
-    string si_string = "../tests/" + method + "/si/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
-    string sisj_string = "../tests/" + method + "/sisj/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
+    // string h_string = "../tests/" + method + "/hi/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
+    // string J_string = "../tests/" + method + "/Jij/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
+    // string H_string = "../tests/" + method + "/H/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
+    // string si_string = "../tests/" + method + "/si/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
+    // string sisj_string = "../tests/" + method + "/sisj/" + "file_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str;
     
-    cout << "BMfinal ..." << endl;
 	
-	string file_rede_input = "../tests/mag_corr_synthetic.dat";
+	cout << "Tests with synthetic data with N = " + to_string(N_spins) + " spins" << endl;
 	
-	ifstream rede (file_rede_input.c_str());
+	string file_network_input = "../tests/mag_corr_synteticN" + to_string(N_spins) + ".dat";
 	
-	rede >> n;
+	ifstream network (file_network_input.c_str());
+
+	if (!network.is_open()) {
+        std::cerr << "Erro to open file." << std::endl;
+        return 1;
+    }
 	
-	VecDoub av_s(n, 0.0), av_ss(n*(n-1)/2, 0.0), C(n*(n-1)/2, 0.0);
+	int N_pairs = (N_spins * (N_spins - 1)) / 2;
+	int N_triplets = (N_spins * (N_spins - 1) * (N_spins - 2)) / 6;
 	
-	//Rede r(tamanho, media, desvio, k, type = 0(random) 1(tree), H = 0(no field) 1(ConstField) -1(ConstField) 2(RandField))
-	Rede r(n, mean, sigma, k, 0, 1);	
+	network >> n;
 	
-	for (int i = 0; i < r.nbonds; i++)
-	{
-		rede >> av_ss[i] >> C[i];
+	// Vectors with <s>, <ss> and <C> from synthetic data ====================
+	VecDoub av_s(N_spins, 0.0), av_ss(N_pairs, 0.0), C(N_pairs, 0.0);
+
+	// Transfer values experimental to VecDoub
+ 	double ss, c, s;
+    for (int i = 0; i < N_pairs; ++i) {
+        if (!(network >> ss >> c >> s)) {
+            std::cerr << "Error reading line " << i + 2 << std::endl;
+            return 1;
+        }
+
+        av_ss[i] = ss;
+        C[i] = c;
+
+        if (i < N_spins) {
+            av_s[i] = s;
+        }
+    }
+
+    network.close();
+
+	// Initial network to Boltmann Machine
+	Rede bm(N_spins, 0, 0, 0, 0, 0);
+	
+	// <s> and <ss> to update with Ising
+	VecDoub_IO bm_av_s(N_spins, 0.0), bm_av_ss(N_pairs, 0.0);
+
+	// MC variables
+	int t_eq = n*multiply_teq; // 150
+	int relx = n*multiply_relx; // 2
+	int rept = 40;
+	int t_step = n*6000*relx/rept;
+	
+	double erroJ = 1, erroh = 1;
+	double dJ, dh;
+	int cort = 1000;
+	int inter = 1;//= inter_ini;
+	int inter_max = 300000;
+	
+	double eta_J = 0.05;//atof(argv[2]);
+	double eta_h = 0.03;
+
+	// Generate to code
+    std::mt19937 gen(seed);
+	
+	ofstream erros (errors_str.c_str());
+	
+	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
+	cout << method;
+	if(method == "metropolis" || method == "exact"){
+		while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
+		{	
+		erroJ = erroh = 0;
+
+		eta_J = pow(inter, -0.4);
+		eta_h = 2*pow(inter, -0.4);
+		if(method == "metropolis")
+			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
+		if(method == "exact")
+			exact_solution_bm(bm, bm_av_s, bm_av_ss, 1);
 		
-		if (i < r.n)
-			rede >> av_s[i];	
-		 
+	
+		for (int i = 0; i < bm.nbonds; i++)
+		{
+			if (i < bm.n)
+			{
+				dh = eta_h*(bm_av_s[i] - av_s[i]);
+				erroh += pow(bm_av_s[i] - av_s[i], 2);
+				bm.h[i] -= dh;
+			}
+			
+			dJ = eta_J*(bm_av_ss[i] - av_ss[i]);
+			erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
+			bm.J[i] -= dJ;
+
+		}
+		
+		erroJ = sqrt(erroJ/bm.nbonds);
+		erroh = sqrt(erroh/bm.n);
+
+		//Salvando Erros
+		erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl; 
+		
+		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
+		{
+			std::cout << N_spins << " " << inter << " "
+              << "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
+              << "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
+		}			
+
+		inter++;
+	
+		}
 	}
-
-
-    return 0;
+	erros.close();
+    
+	return 0;
 }
