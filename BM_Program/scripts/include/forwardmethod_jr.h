@@ -15,9 +15,7 @@
 using namespace std;
 
 // Gera um número aleatório entre 0 e 1
-double random_double() {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+double random_double(std::mt19937 gen) {
     static std::uniform_real_distribution<> dis(0.0, 1.0);
     return dis(gen);
 }

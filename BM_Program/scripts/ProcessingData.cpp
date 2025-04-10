@@ -44,12 +44,12 @@ int main (int argc, char *argv[]){
 	string file_name_mi;
 	
 	file_name_output = "../Data/Mag_Corr/mag_corr_exp_" + file_name_input + ".dat";
-	file_name_Cij = "../Results_" + method + "/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
-	file_name_Pij = "../Results_" + method + "/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
-	file_name_sisj = "../Results_" + method + "/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
-	file_name_Tijk = "../Results_" + method + "/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
-	file_name_sisjsk = "../Results_" + method + "/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
-	file_name_mi = "../Results_" + method + "/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
+	file_name_Cij = "../Results/" + method + "/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
+	file_name_Pij = "../Results/" + method + "/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
+	file_name_sisj = "../Results/" + method + "/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
+	file_name_Tijk = "../Results/_" + method + "/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
+	file_name_sisjsk = "../Results/" + method + "/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
+	file_name_mi = "../Results/" + method + "/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
 	// ---------------------
 	
     string first_line;
@@ -59,11 +59,9 @@ int main (int argc, char *argv[]){
 
     //Numero de observaveis
     int N = count(first_line.begin(), first_line.end(), ',');
-
+	N += 1;
     //Contar o numero de amostrar
     int m = 0;
-	
-	int number = N + 1;
     
 	while (getline(data_input, first_line))
     {
@@ -72,7 +70,7 @@ int main (int argc, char *argv[]){
 
 	m++;
 
-    cout << "Numero de observaveis = " << number << endl;
+    cout << "Numero de observaveis = " << N << endl;
     cout << "Numero de amostrar = " << m << endl;
 
     //Voltar para o inicio do arquivo

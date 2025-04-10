@@ -13,22 +13,24 @@ void create_folders(string method) {
     // Folders exact_solutions-----------------------------------------
     // Set folder names using std::string
     string tests_folder = "../tests"; 
-    string results_folder = "../Results_" + method;
-    string specificHeat_folder = results_folder + "/SpecificHeat";
-    string comparative_folder = results_folder + "/Comparative";
-    string CorrJij_folder = results_folder + "/CorrJij";
-    string Energy_folder = results_folder + "/Energy";
-    string Erro_folder = results_folder + "/Erro";
-    string Mag_Corr_ising_folder = results_folder + "/Mag_Corr_ising";
-    string Magnetization_vs_T_folder = results_folder + "/Magnetization_vs_T";
-    string MatrixJij_folder = results_folder + "/MatrixJij";
-    string Network_folder = results_folder + "/Network";
-    string PJij_folder = results_folder + "/PJij";
-    string SeparateData_folder = results_folder + "/SeparateData";
+    string results_folder = "../Results";
+    string results_method_folder = results_folder + "/" + method;
+    string specificHeat_folder = results_method_folder + "/SpecificHeat";
+    string comparative_folder = results_method_folder + "/Comparative";
+    string CorrJij_folder = results_method_folder + "/CorrJij";
+    string Energy_folder = results_method_folder + "/Energy";
+    string Erro_folder = results_method_folder + "/Erro";
+    string Mag_Corr_ising_folder = results_method_folder + "/Mag_Corr_ising";
+    string Magnetization_vs_T_folder = results_method_folder + "/Magnetization_vs_T";
+    string MatrixJij_folder = results_method_folder + "/MatrixJij";
+    string Network_folder = results_method_folder + "/Network";
+    string PJij_folder = results_method_folder + "/PJij";
+    string SeparateData_folder = results_method_folder + "/SeparateData";
 
     // Create folders
     fs::create_directories(tests_folder);
     fs::create_directories(results_folder);
+    fs::create_directories(results_method_folder);
     fs::create_directories(specificHeat_folder);
     fs::create_directories(comparative_folder);
     fs::create_directories(CorrJij_folder);

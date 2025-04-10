@@ -27,44 +27,16 @@ def select_file():
 def minimum_values(file):
     file_name = os.path.basename(file)
     
-    if(file_name[5:14] == "sampleN30"):
-        pattern = r"erro_sampleN30_err_j_([-+]?[0-9]*\.?[0-9]+[eE][-+]?[0-9]+)_err_h_([-+]?[0-9]*\.?[0-9]+[eE][-+]?[0-9]+)\.dat"
-    elif(file_name[5:14] == "sampleN20"):
-        pattern = r"erro_sampleN20_err_j_([-+]?[0-9]*\.?[0-9]+[eE][-+]?[0-9]+)_err_h_([-+]?[0-9]*\.?[0-9]+[eE][-+]?[0-9]+)\.dat"
-    else:
-        pattern = r"erro_sampleCarmona_err_j_([-+]?[0-9]*\.?[0-9]+[eE][-+]?[0-9]+)_err_h_([-+]?[0-9]*\.?[0-9]+[eE][-+]?[0-9]+)\.dat"
-    match = re.match(pattern, file_name)
+    # Regex genérica para capturar os valores de err_j, err_h, mteq e mrelx
+    pattern = r"err_j_([-+]?\d+\.\d+[eE][-+]?\d+)_err_h_([-+]?\d+\.\d+[eE][-+]?\d+)_mteq_(\d+)_mrelx_(\d+)\.dat"
+    
+    match = re.search(pattern, file_name)
     
     if match:
-        # Extract values as strings
-        j_min_match, h_min_match = match.groups()
-        
-        # Convert to float and format in scientific notation
-        j_min_sci = format(float(j_min_match), ".2e")
-        h_min_sci = format(float(h_min_match), ".2e")
-        
-    return j_min_sci, h_min_sci
-
-def minimum_values2(file):
-    file_name = os.path.basename(file)
-    
-    if(file_name[5:14] == "sampleN30"):
-        pattern = r"erro_sampleN30_err_j_([-+]?\d+\.\d+[eE][-+]?\d+)_err_h_([-+]?\d+\.\d+[eE][-+]?\d+)_mteq_(\d+)_mrelx_(\d+)\.dat"
-    elif(file_name[5:14] == "sampleN20"):
-        pattern = r"erro_sampleN20_err_j_([-+]?\d+\.\d+[eE][-+]?\d+)_err_h_([-+]?\d+\.\d+[eE][-+]?\d+)_mteq_(\d+)_mrelx_(\d+)\.dat"
-    else:
-        pattern = r"erro_sampleCarmona_err_j_([-+]?\d+\.\d+[eE][-+]?\d+)_err_h_([-+]?\d+\.\d+[eE][-+]?\d+)_mteq_(\d+)_mrelx_(\d+)\.dat"
-    match = re.match(pattern, file_name)
-    
-    if match:
-        # Extract values as strings
         j_min_match, h_min_match, t_eq, relx = match.groups()
-        
-        # Convert to float and format in scientific notation
-        #j_min_sci = format(float(j_min_match), ".2e")
-        #h_min_sci = format(float(h_min_match), ".2e")
-        
-    return j_min_match, h_min_match, t_eq, relx
+        return j_min_match, h_min_match, t_eq, relx
+    else:
+        raise ValueError(f"Nome de arquivo inválido: {file_name}")
 
 
 # Função para carregar dados do file DAT
@@ -131,12 +103,11 @@ def plotting_graph2(mcs, erro, ylabel, ymin, label, label_min_err, t_eq, relx):
         ha='left', 
         va='top'
     )
-    plt.savefig(f"err_{ylabel}.pdf")
     plt.show()
 #mcs, erro, ylabel, ymin, label, label_min_err, t_eq, relx
 # Função principal para plotar os gráficos
 def plotting_graphs2(mcs, erroJ, erroh, file):
-    minimum = minimum_values2(file)
+    minimum = minimum_values(file)
     
     # Plot para Err_J
     plotting_graph2(
@@ -153,24 +124,24 @@ def plotting_graphs2(mcs, erroJ, erroh, file):
     )
     print(f'data_min_h = {min(erroh):.2e},data_min_j = {min(erroJ):.2e}, t_eq = {minimum[2]}, relx =  {minimum[3]}')
 
-# Função principal para plotar os gráficos
-def plotting_graphs(mcs, erroJ, erroh, file):
-    minimum = minimum_values(file)
+# # Função principal para plotar os gráficos
+# def plotting_graphs(mcs, erroJ, erroh, file):
+#     minimum = minimum_values(file)
     
-    # Plot para Err_J
-    plotting_graph(
-        mcs, erroJ, 'Err_J', float(minimum[0]), 
-        f'erro_min_J = {float(minimum[0]):.2e}', 
-        f'erro_min_J_data = {min(erroJ):.2e}'
-    )
+#     # Plot para Err_J
+#     plotting_graph(
+#         mcs, erroJ, 'Err_J', float(minimum[0]), 
+#         f'erro_min_J = {float(minimum[0]):.2e}', 
+#         f'erro_min_J_data = {min(erroJ):.2e}'
+#     )
     
-    # Plot para Err_h
-    plotting_graph(
-        mcs, erroh, 'Err_h', float(minimum[1]), 
-        f'erro_min_h = {float(minimum[1]):.2e}', 
-        f'erro_min_h_data = {min(erroh):.2e}'
-    )
-    print(f'data_min_h = {min(erroh):.2e},data_min_j = {min(erroJ):.2e}')
+#     # Plot para Err_h
+#     plotting_graph(
+#         mcs, erroh, 'Err_h', float(minimum[1]), 
+#         f'erro_min_h = {float(minimum[1]):.2e}', 
+#         f'erro_min_h_data = {min(erroh):.2e}'
+#     )
+#     print(f'data_min_h = {min(erroh):.2e},data_min_j = {min(erroJ):.2e}')
 
 
 # Function to load the data

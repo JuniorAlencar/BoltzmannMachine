@@ -2,23 +2,23 @@
 #include <ctime>
 #include <string>
 #include <sstream>
-#include <cstdlib>
 #include <vector>
 #include <fstream>
 #include <fmt/core.h>
 #include "./include/nr3.h"
 #include "./include/network.h"
-#include "./include/forwardmethod_jr.h"
+#include "./include/forwardmethod.h"
 #include "./include/InverseMethod.h"
 #include "./include/LUdcmp.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
-
-    // Gaussian Parameters ======================================================================================================= /
+	srand (time(NULL));
+	
+	// Gaussian Parameters ======================================================================================================= /
 	int n;
-	double mean = 1;
+	double mean = 1.0;
 	double sigma = 0.25;
 	double k = 10;
 	int type;
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 	int multiply_teq 	= std::stoi(argv[4]);
 	int multiply_relx 	= std::stoi(argv[5]);
     string method = argv[6];
-	int seed = stoi(argv[7]);
+
     
     if (argc < 7) {
         std::cerr << "Uso: " << argv[0] << " <param1> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <exact_solutions>" << std::endl;
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
     }
 
     network.close();
-
+	
 	// Initial network to Boltmann Machine
 	Rede bm(N_spins, 0, 0, 0, 0, 0);
 	
@@ -139,59 +139,56 @@ int main(int argc, char *argv[]) {
 	
 	double eta_J = 0.05;//atof(argv[2]);
 	double eta_h = 0.03;
-
-	// Generate to code
-    std::mt19937 gen(seed);
 	
 	ofstream erros (errors_str.c_str());
 	
 	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
-	cout << method;
-	if(method == "metropolis" || method == "exact"){
-		while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
-		{	
-		erroJ = erroh = 0;
-
-		eta_J = pow(inter, -0.4);
-		eta_h = 2*pow(inter, -0.4);
-		if(method == "metropolis")
-			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
-		if(method == "exact")
-			exact_solution_bm(bm, bm_av_s, bm_av_ss, 1);
-		
 	
-		for (int i = 0; i < bm.nbonds; i++)
-		{
-			if (i < bm.n)
-			{
-				dh = eta_h*(bm_av_s[i] - av_s[i]);
-				erroh += pow(bm_av_s[i] - av_s[i], 2);
-				bm.h[i] -= dh;
-			}
-			
-			dJ = eta_J*(bm_av_ss[i] - av_ss[i]);
-			erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
-			bm.J[i] -= dJ;
+	
+	while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
+	{	
+	srand(time(NULL)*time(NULL));
+	erroJ = erroh = 0;
 
+	eta_J = pow(inter, -0.4);
+	eta_h = 2*pow(inter, -0.4);
+	if(method == "metropolis")
+		metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
+	if(method == "exact" && N_spins < 25)
+		exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
+
+	for (int i = 0; i < bm.nbonds; i++)
+	{
+		if (i < bm.n)
+		{
+			dh = eta_h*(bm_av_s[i] - av_s[i]);
+			erroh += pow(bm_av_s[i] - av_s[i], 2);
+			bm.h[i] -= dh;
 		}
 		
-		erroJ = sqrt(erroJ/bm.nbonds);
-		erroh = sqrt(erroh/bm.n);
+		dJ = eta_J*(bm_av_ss[i] - av_ss[i]);
+		erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
+		bm.J[i] -= dJ;
 
-		//Salvando Erros
-		erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl; 
-		
-		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
-		{
-			std::cout << N_spins << " " << inter << " "
-              << "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
-              << "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
-		}			
-
-		inter++;
-	
-		}
 	}
+	
+	erroJ = sqrt(erroJ/bm.nbonds);
+	erroh = sqrt(erroh/bm.n);
+
+	//Salvando Erros
+	erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl; 
+	
+	if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
+	{
+		std::cout << N_spins << " " << inter << " "
+			<< "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
+			<< "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
+	}			
+
+	inter++;
+
+	}
+
 	erros.close();
     
 	return 0;
