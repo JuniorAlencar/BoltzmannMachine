@@ -33,19 +33,17 @@ if ! [[ $h_min =~ $re_float ]]; then
     exit 1
 fi
 
-echo "Processando arquivo "$filename.dat" ..."
+echo "Running Boltzmann Machine with '$6' method..."
 
-# Generate comparative and separate folders with files inside
-#./CreateFolders &
-#./ProcessingData $filename $method &
-#./BMfinal $filename $j_min $h_min $multi_teq $multi_relx $method &
+../bins/BMfinal $filename $j_min $h_min $multi_teq $multi_relx $method
 
-# pause for 5 seconds
-#sleep 5
+sleep 10
+
+echo "Creating comparative files..."
 
 # create files to comparative properties
-path_in='../Results_'$6'/SeparateData/'
-path_out='../Results_'$6'/Comparative/'
+path_in='../Results/'$6'/SeparateData/'
+path_out='../Results/'$6'/Comparative/'
 
 # Magnetization (first moment, si)
 paste $path_in'mi-exp/mi_exp_'$1'.dat' $path_in'mi-ising/mi_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'magnetization/mag_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
@@ -65,9 +63,8 @@ paste $path_in'Tijk-exp/Tijk_exp_'$1'.dat' $path_in'Tijk-ising/Tijk_ising_'$1'_e
 # Third momento (sisjsk)
 paste $path_in'sisjsk-exp/sisjsk_exp_'$1'.dat' $path_in'sisjsk-ising/sisjsk_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'sisjsk/sisjsk_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
 
+# hi (random-field)
+paste $path_in'hi/hi_real_'$1'.dat' $path_in'hi/hi_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'hi/hi_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'
 
-#./SpecificHeat $filename $j_min $h_min $multi_teq $multi_relx $method &
-
-
-
-
+# Jij (Spin glasses)
+paste $path_in'Jij/Jij_real_'$1'.dat' $path_in'Jij/Jij_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat' | sed 's/\t/ /g' > $path_out'Jij/Jij_exp_ising_'$1'_err_j_'$2'_err_h_'$3'_mteq_'$4'_mrelx_'$5'.dat'

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # GENERATE TO BINS =======================================
-
 # flags to run create folders with libboost
 g++ ../scripts/create_folders.cpp -o ../bins/CreateFolders -lboost_filesystem -lboost_system -O3
 
@@ -15,10 +14,13 @@ g++ -O3 ../scripts/BMfinal.cpp -o ../bins/BMfinal
 g++ ../scripts/SpecificHeat.cpp -o ../bins/SpecificHeat
 
 # Create to synthetic_data
-g++ ../scripts/synthetic_data.cpp -o ../bins/synt
+g++ ../scripts/gen_data_tests.cpp -o ../bins/gen_data
+
+# Giving permission to execute
+chmod 700 ../bins/*
 
 # Create to tests
-g++ ../scripts/tests.cpp -o ../bins/tests
+# g++ ../scripts/tests.cpp -o ../bins/tests
 
 # GENERATE TO FOLDERS RESULTS =====================================
 

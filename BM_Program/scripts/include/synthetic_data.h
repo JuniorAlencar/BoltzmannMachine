@@ -447,6 +447,13 @@ void saveValues(const string& filename,const string& header ,const vector<double
  * @param filename \c string: Path + filename (including extension)
  * @param sigmaStates \c vector<vector<double>>: Matrix with spin states (each row = one configuration)
  */
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
 void saveSigmaStates(const string& filename, const vector<vector<int>>& sigmaStates) {
     ofstream file(filename);
     if (!file) {
@@ -454,18 +461,19 @@ void saveSigmaStates(const string& filename, const vector<vector<int>>& sigmaSta
         return;
     }
     int N = sigmaStates[0].size(); // Number of spins
-    
+
     // Write CSV header
-    for (int i = 1; i < N +1; ++i) {
-        file << "s_" + to_string(i);
-        if (i < N - 1)
+    for (int i = 1; i <= N; ++i) {
+        file << "s_" << i;
+        if (i < N)
             file << ",";
     }
     file << "\n";
 
+    // Write data with one decimal place, no explicit positive sign
     for (const auto& state : sigmaStates) {
         for (size_t i = 0; i < state.size(); ++i) {
-            file << fixed << setprecision(1) << state[i]; // One decimal place
+            file << fixed << setprecision(1) << static_cast<double>(state[i]);
             if (i < state.size() - 1) {
                 file << ",";
             }

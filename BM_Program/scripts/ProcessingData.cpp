@@ -47,7 +47,7 @@ int main (int argc, char *argv[]){
 	file_name_Cij = "../Results/" + method + "/SeparateData/Cij-exp/Cij_exp_" + file_name_input + ".dat";
 	file_name_Pij = "../Results/" + method + "/SeparateData/Pij-exp/Pij_exp_" + file_name_input + ".dat";
 	file_name_sisj = "../Results/" + method + "/SeparateData/sisj-exp/sisj_exp_" + file_name_input + ".dat";
-	file_name_Tijk = "../Results/_" + method + "/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
+	file_name_Tijk = "../Results/" + method + "/SeparateData/Tijk-exp/Tijk_exp_" + file_name_input + ".dat";
 	file_name_sisjsk = "../Results/" + method + "/SeparateData/sisjsk-exp/sisjsk_exp_" + file_name_input + ".dat";
 	file_name_mi = "../Results/" + method + "/SeparateData/mi-exp/mi_exp_" + file_name_input + ".dat";
 	// ---------------------
@@ -275,7 +275,6 @@ int main (int argc, char *argv[]){
     ofstream file_Tijk (file_name_Tijk.c_str());
 
 	//Arquivo para sisjsk
-	
 
 	//abrir arquivo
 	ofstream file_sisjsk (file_name_sisjsk.c_str());

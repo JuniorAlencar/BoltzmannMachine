@@ -14,7 +14,8 @@ int main(int argc, char *argv[]) {
 	
     int N_spins = stoi(argv[1]);
     int M_states = stoi(argv[2]);
-    int seed = stoi(argv[3]);
+    string method = argv[3];
+    int seed = stoi(argv[4]);
 
     if (argc < 4) {
         cerr << "Uso: " << argv[0] << "<N_spins> <M_states> <seed>" << endl;
@@ -69,29 +70,29 @@ int main(int argc, char *argv[]) {
     vector<double> sisjsk_synthetic = computeSiSjSk(sigmaStates);
     vector<double> Tijk_synthetic = computeTriplet(sigmaStates, sisjsk_synthetic);
 
-    string file_h_syntetic = "../tests/synthetic/hi/h_synteticN" + to_string(N_spins) + ".dat";
-    string file_H_syntetic = "../tests/synthetic/H/H_synteticN" + to_string(N_spins) + ".dat";
-    string file_j_syntetic = "../tests/synthetic/Jij/J_synteticN" + to_string(N_spins) + ".dat";
+    string file_h_syntetic = "../Results/" + method + "/SeparateData/hi/hi_real_data_synteticN" + to_string(N_spins) + ".dat";
+    //string file_H_syntetic = "../Results/" + method + "/H/H_synteticN/"
+    string file_j_syntetic = "../Results/" + method + "/SeparateData/Jij/Jij_real_data_synteticN" + to_string(N_spins) + ".dat";
     
-    string file_si_syntetic = "../tests/synthetic/si/si_synteticN" + to_string(N_spins) + ".dat";
-    string file_sisj_syntetic = "../tests/synthetic/sisj/sisj_synteticN" + to_string(N_spins) + ".dat";
-    string file_sisjsk_syntetic = "../tests/synthetic/sisjsk/sisjsk_synteticN" + to_string(N_spins) + ".dat";
-    string file_Pij_syntetic = "../tests/synthetic/Pij/Pij_synteticN" + to_string(N_spins) + ".dat";
-    string file_Cij_syntetic = "../tests/synthetic/Cij/Cij_synteticN" + to_string(N_spins) + ".dat";
-    string file_Tijk_syntetic = "../tests/synthetic/Tijk/Tijk_synteticN" + to_string(N_spins) + ".dat";
+    string file_si_syntetic = "../Results/" + method + "/SeparateData/mi-exp/mi_exp_data_synteticN" + to_string(N_spins) + ".dat";
+    string file_sisj_syntetic = "../Results/" + method + "/SeparateData/sisj-exp/sisj_exp_data_synteticN" + to_string(N_spins) + ".dat";
+    string file_sisjsk_syntetic = "../Results/" + method + "/SeparateData/sisjsk-exp/sisjsk_exp_data_synteticN" + to_string(N_spins) + ".dat";
+    string file_Pij_syntetic = "../Results/" + method + "/SeparateData/Pij-exp/Pij_exp_data_synteticN" + to_string(N_spins) + ".dat";
+    string file_Cij_syntetic = "../Results/" + method + "/SeparateData/Cij-exp/Cij_exp_data_synteticN" + to_string(N_spins) + ".dat";
+    string file_Tijk_syntetic = "../Results/" + method + "/SeparateData/Tijk-exp/Tijk_exp_data_synteticN" + to_string(N_spins) + ".dat";
     
     // Save synthetic data
-    string file_states_syntetic = "../tests/data_synteticN" + to_string(N_spins) + ".dat";
+    string file_states_syntetic = "../Data/TidyData/data_synteticN" + to_string(N_spins) + ".dat";
     // Save synthetic mag_corr
-    string file_mag_corr_syntetic = "../tests/mag_corr_synteticN" + to_string(N_spins) +  ".dat";
+    string file_mag_corr_syntetic = "../Data/Mag_Corr/mag_corr_exp_data_synteticN" + to_string(N_spins) +  ".dat";
     //string energies_syntetic = "../tests/energiesN" + to_string(N_spins) +  ".dat";
     
     // Save Hamiltonian values (each row corresponds to a sigma state)
-    saveValues(file_H_syntetic, "H", hamiltonianValues);
+    //saveValues(file_H_syntetic, "H", hamiltonianValues);
     // Save h_i values as a column
-    saveValues(file_h_syntetic, "h_i", net.h);
+    saveValues(file_h_syntetic, "hi_synt", net.h);
     // Save upper triangular J_ij matrix
-    saveValues(file_j_syntetic, "J_ij", net.J);;
+    saveValues(file_j_syntetic, "Jij_synt", net.J);;
     // Save sigma states (each row = one state)
     saveSigmaStates(file_states_syntetic, sigmaStates);
     
@@ -101,23 +102,23 @@ int main(int argc, char *argv[]) {
     
     // SAVE PROPERTIES ===========
     // Save first moment (si/magnetization)
-    saveS(file_si_syntetic,"si" ,si_synthetic);
+    saveS(file_si_syntetic,"si_synt" ,si_synthetic);
     // Save Second moment (sisj)
-    saveS(file_sisj_syntetic,"sisj", sisj_synthetic);
+    saveS(file_sisj_syntetic,"sisj_synt", sisj_synthetic);
     // Save Third moment (sisjsk)
-    saveS(file_sisjsk_syntetic,"sisjsk", sisjsk_synthetic);
+    saveS(file_sisjsk_syntetic,"sisjsk_synt", sisjsk_synthetic);
     // Save Covariance (Cij)
-    saveS(file_Cij_syntetic,"Cij", Cij_synthetic);
+    saveS(file_Cij_syntetic,"Cij_synt", Cij_synthetic);
     // Save Correlation (Pij)
-    saveS(file_Pij_syntetic,"Pij", Pij_synthetic);
+    saveS(file_Pij_syntetic,"Pij_synt", Pij_synthetic);
     // Save Triplet (Tijk)
-    saveS(file_Tijk_syntetic,"Tijk", Tijk_synthetic);
+    saveS(file_Tijk_syntetic,"Tijk_synt", Tijk_synthetic);
 
     computeMagCorr(sigmaStates, si_synthetic, sisj_synthetic, Cij_synthetic);
     saveMagCorr(file_mag_corr_syntetic, si_synthetic, sisj_synthetic, Cij_synthetic);
 
     // Saving information about synthetic data
-    string info = "../tests/infoN" + to_string(N_spins) + ".dat";
+    string info = "../Data/TidyData/info_synteticN" + to_string(N_spins) + ".dat";
     ofstream file_info (info.c_str());
     file_info << "N_spins = " << N_spins << "\tN_samples = " << M_states << "\tt_eq = " << to_string(t_eq) << "\trelx = " << to_string(relx) << "\trept = " << to_string(rept) << "\tseed = " << seed << endl;
     file_info.close();

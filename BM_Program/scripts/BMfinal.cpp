@@ -322,11 +322,10 @@ int main(int argc, char *argv[]){
 
 	//Salvar arquivo com Jij e Pij
 	//Nome do arquivo alvo
-
-
+	
 	//Abrindo arquivo output
 	ofstream PJij (file_name_PJij.c_str());
-
+	PJij << "Pij_ising" << endl;
     //Passando os valores para o arquivo
     for (int i = 0; i < bm.nbonds; i++)
     {
@@ -350,7 +349,8 @@ int main(int argc, char *argv[]){
 
     //abrir arquivo
     ofstream file_mi (file_name_mi.c_str());
-
+	file_mi << "si_ising" << endl;
+	file_hi << "hi_ising" << endl;
     for (int i = 0; i < n; i++)
     {
         file_hi << bm.h[i] << endl;
@@ -385,7 +385,10 @@ int main(int argc, char *argv[]){
 
 	//abrir arquivo
 	ofstream file_sisj (file_name_sisj.c_str());
-    
+    file_Jij << "Jij_ising" << endl;
+	file_Cij << "Cij_ising" << endl;
+	file_Pij << "Pij_ising" << endl;
+	file_sisj << "sisj_ising" << endl;
 	//salvar arquivos
     for (int i = 0; i < (n*(n-1)/2); i++)
     {
@@ -420,7 +423,8 @@ int main(int argc, char *argv[]){
 	//abrir arquivo
 	ofstream file_sisjsk (file_name_sisjsk.c_str());
 
-
+	file_Tijk << "Tijk_ising" << endl;
+	file_sisjsk << "sisjsk_ising" << endl;
 	// Resolvendo dependendo do numero de observaveis
 	if (n > 25)
 	{
