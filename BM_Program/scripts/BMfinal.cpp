@@ -95,7 +95,7 @@ int main(int argc, char *argv[]){
 	// files name
 	file_name_erros = "../Results/" + method +  "/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	file_mag_corr_output = "../Results/" + method +  "/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
-	file_name_Jij = "../Results/" + method +  "/SeparateData/Jij/Jij_" + text_name + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_Jij = "../Results/" + method +  "/SeparateData/Jij/Jij_" +  text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	file_name_Cij = "../Results/" + method +  "/SeparateData/Cij-ising/Cij_ising_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	file_name_Pij = "../Results/" + method +  "/SeparateData/Pij-ising/Pij_ising_"  + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	file_name_sisj = "../Results/" + method +  "/SeparateData/sisj-ising/sisj_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
@@ -182,7 +182,6 @@ int main(int argc, char *argv[]){
 	ofstream erros (file_name_erros.c_str());
 	
 	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
-	if(method == "metropolis" || method =="exact"){
 	while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
 	{	
 		srand(time(NULL)*time(NULL));
@@ -195,8 +194,10 @@ int main(int argc, char *argv[]){
 		if(method == "metropolis")
 			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
 		
-		if(method == "exact" && n < 25)
+		else if(method == "exact" && n < 25)
 			exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
+		else if(method == "wolff")	
+			wolff_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1.0);
 		
 		// if(method == "wang_landau"){
 		// 	double f_init = 2.0;
@@ -253,75 +254,7 @@ int main(int argc, char *argv[]){
 		inter++;
 	
 		}
-	}
 	
-	// Parâmetros para critério de parada inteligente
-	double best_erroJ = 1e9, best_erroh = 1e9;
-	int patience = 50; // número de iterações sem melhoria antes de parar
-	int no_improve_count = 0;
-	if(method=="swendsen_wang"){
-	while (inter <= inter_max)
-	{	
-		srand(time(NULL) * time(NULL));
-
-		erroJ = erroh = 0;
-		eta_J = pow(inter, -0.4);
-		eta_h = 2 * pow(inter, -0.4);
-
-		// Apenas swendsen_wang neste caso
-		swendsen_wang(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
-
-		for (int i = 0; i < bm.nbonds; i++)
-		{
-			if (i < bm.n)
-			{
-				dh = eta_h * (bm_av_s[i] - av_s[i]);
-				erroh += pow(bm_av_s[i] - av_s[i], 2);
-				bm.h[i] -= dh;
-			}
-			
-			dJ = eta_J * (bm_av_ss[i] - av_ss[i]);
-			erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
-			bm.J[i] -= dJ;
-		}
-
-		erroJ = sqrt(erroJ / bm.nbonds);
-		erroh = sqrt(erroh / bm.n);
-
-		// Salvar os erros a cada passo
-		erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl;
-
-		// Mostrar progresso a cada 'cort' iterações ou se erro for pequeno
-		if (inter % cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
-		{
-			std::cout << text_name << " " << inter << " "
-					<< "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
-					<< "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
-		}
-
-		// Critério de parada baseado em falta de melhoria
-		if (erroJ < best_erroJ || erroh < best_erroh)
-		{
-			best_erroJ = std::min(erroJ, best_erroJ);
-			best_erroh = std::min(erroh, best_erroh);
-			no_improve_count = 0;
-		}
-		else
-		{
-			no_improve_count++;
-		}
-
-		if (no_improve_count >= patience)
-		{
-			std::cout << "Critério de parada: erro não melhora há " << patience << " iterações.\n";
-			break;
-		}
-
-		inter++;
-		}
-		}
-
-
 	//Fechar arquivos dos erros salvos 
 	erros.close();
 	

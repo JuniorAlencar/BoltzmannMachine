@@ -1386,6 +1386,114 @@ void swendsen_wang(
     }
 }
 
+void wolff_bm(
+    Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss,
+    const int t_eq, const int t_step, const int relx, const int rept, const double beta)
+{
+    std::vector<bool> visited(r.n);
+    std::vector<int> cluster;
+    int ind_ss;
+
+    // Acumula durante o loop de aprendizado, sem zerar no início
+    for (int rep = 0; rep < rept; ++rep)
+    {
+        for (int i = 0; i < t_eq + t_step; ++i)
+        {
+            std::fill(visited.begin(), visited.end(), false);
+            cluster.clear();
+
+            int seed = rand() % r.n;
+            int spin_seed = r.s[seed];
+            cluster.push_back(seed);
+            visited[seed] = true;
+
+            std::queue<int> q;
+            q.push(seed);
+
+            while (!q.empty())
+            {
+                int current = q.front();
+                q.pop();
+
+                for (int b = 0; b < r.nbonds; ++b)
+                {
+                    int a = r.no[b], j = r.nb[b];
+                    int neighbor = (a == current) ? j : ((j == current) ? a : -1);
+                    if (neighbor == -1) continue;
+
+                    if (!visited[neighbor] && r.s[neighbor] == spin_seed)
+                    {
+                        double p = 1.0 - exp(-2.0 * beta * fabs(r.J[b]));
+                        if ((double)rand() / RAND_MAX < p)
+                        {
+                            visited[neighbor] = true;
+                            q.push(neighbor);
+                            cluster.push_back(neighbor);
+                        }
+                    }
+                }
+            }
+
+            // Calcula deltaE para reweighting com campo aleatório e fronteiras externas
+            double deltaE = 0.0;
+
+            for (int i : cluster)
+            {
+                deltaE += 2.0 * r.h[i] * r.s[i];
+
+                for (int b = 0; b < r.nbonds; ++b)
+                {
+                    int a = r.no[b], bnd = r.nb[b];
+                    if (a == i || bnd == i)
+                    {
+                        int neighbor = (a == i) ? bnd : a;
+                        if (!visited[neighbor])
+                            deltaE += 2.0 * r.J[b] * r.s[i] * r.s[neighbor];
+                    }
+                }
+            }
+
+            // Aplica decisão de flip com reweighting
+            if (deltaE <= 0.0 || ((double)rand() / RAND_MAX < exp(-beta * deltaE)))
+            {
+                for (int i : cluster)
+                    r.s[i] *= -1;
+            }
+
+            // Acumula médias após t_eq
+            if (i >= t_eq && (i - t_eq) % relx == 0)
+            {
+                for (int j = 0; j < r.n; ++j)
+                    av_s[j] += r.s[j];
+
+                ind_ss = 0;
+                for (int j = 0; j < r.n - 1; ++j)
+                    for (int k = j + 1; k < r.n; ++k)
+                        av_ss[ind_ss++] += r.s[j] * r.s[k];
+            }
+        }
+    }
+
+    // Normalização após o loop de aprendizado
+    int total = rept * (t_step / relx);
+
+    // Normaliza av_s
+    for (int jj = 0; jj < r.n; ++jj)
+        av_s[jj] /= total;
+
+    // Normaliza av_ss
+    ind_ss = 0;
+    for (int jj = 0; jj < r.n - 1; ++jj)
+    {
+        for (int l = jj + 1; l < r.n; ++l)
+        {
+            av_ss[ind_ss++] /= total;
+        }
+    }
+}
+
+
+
 void parallel_tempering(
     vector<Rede> &replicas, VecDoub_IO &av_s, VecDoub_IO &av_ss,
     const int t_eq, const int t_step, const int relx, const int rept

@@ -11,86 +11,108 @@ from sklearn.metrics import root_mean_squared_error
 from sklearn.metrics import mean_squared_error
 import glob
 
-mpl.rcParams['axes.linewidth'] = 1.4 #set the value globally
-
 def pattern_properties(file):
-    # desired properties
-    props = ["correlation", "magnetization", "sisj", "sisjsk", "triplet"]
-    # name of file
-    filename = os.path.basename(file)
-    # folder of propertie select
-    comp_folder = os.path.basename(os.path.dirname(file))
-    
-    pattern = 'a'  # Inicializa o padrão como um valor padrão
+    # Mapeamento entre pastas e prefixos dos arquivos
+    property_prefixes = {
+        "correlation": "Pij",
+        "covariance": "Cij",
+        "hi": "hi",
+        "Jij": "Jij",
+        "magnetization": "mag",
+        "sisj": "sisj",
+        "sisjsk": "sisjsk",
+        "triplet": "Tijk"
+    }
 
-    # file patterns for each desired property
-    if comp_folder == 'correlation':
-        pattern = r'^Pij_exp_ising_(?P<filename>[a-zA-Z0-9_]+)_err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_mteq_(?P<mteq>\d+)_mrelx_(?P<mrelx>\d+)\.dat$'
-    elif comp_folder == 'magnetization':
-        pattern = r'^mag_exp_ising_(?P<filename>[a-zA-Z0-9_]+)_err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_mteq_(?P<mteq>\d+)_mrelx_(?P<mrelx>\d+)\.dat$'
-    elif comp_folder == "sisj":
-        pattern = r'^sisj_exp_ising_(?P<filename>[a-zA-Z0-9_]+)_err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_mteq_(?P<mteq>\d+)_mrelx_(?P<rmelx>\d+)\.dat$'
-    elif comp_folder == "sisjsk":
-        pattern = r'^sisjsk_exp_ising_(?P<filename>[a-zA-Z0-9_]+)_err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_mteq_(?P<mteq>\d+)_mrelx_(?P<mrelx>\d+)\.dat$'
-    elif comp_folder == "triplet":
-        pattern = r'^Tijk_exp_ising_(?P<filename>[a-zA-Z0-9_]+)_err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_mteq_(?P<mteq>\d+)_mrelx_(?P<rmelx>\d+)\.dat$'
-    else:
-        print(f'Run properties in {props}')
-        return 
-    # Returning the name of the originating data property, min_j, min_h, mteq, relx
+    # Obtém o nome do arquivo e da pasta
+    filename = os.path.basename(file)
+    comp_folder = os.path.basename(os.path.dirname(file))
+
+    # Verifica se a pasta está no mapeamento
+    if comp_folder not in property_prefixes:
+        print(f'Unknown property folder: {comp_folder}')
+        print(f'Expected one of: {list(property_prefixes.keys())}')
+        return
+
+    prefix = property_prefixes[comp_folder]
+
+    # Cria o padrão regex dinamicamente
+    pattern = (
+        rf'^{prefix}_exp_ising_'
+        r'(?P<filename>[a-zA-Z0-9_]+)_'
+        r'err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_'
+        r'err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_'
+        r'mteq_(?P<mteq>\d+)_mrelx_(?P<mrelx>\d+)\.dat$'
+    )
+
+    # Aplica o regex
     match = re.match(pattern, filename)
-    variable_data = []
     if match:
-        variable_data.append(match.group("filename"))
-        variable_data.append(match.group("err1"))
-        variable_data.append(match.group("err2"))
-        variable_data.append(match.group("mteq"))
-        variable_data.append(match.group("mrelx"))
-        return variable_data
+        return [
+            match.group("filename"),
+            match.group("err1"),
+            match.group("err2"),
+            match.group("mteq"),
+            match.group("mrelx")
+        ]
     else:
-        print("No match found")
+        print(f"No match found for file: {filename}")
+        return
+
 
 def load_data(file):
-    comp_folder = os.path.dirname(os.path.dirname(file))
+    # Caminho até a pasta raiz das propriedades
+    base_folder = os.path.dirname(os.path.dirname(file))
 
-    # get ['sampleName', 'min_j_value', 'min_h_value']
+    # Extrai os parâmetros do nome do arquivo
     pattern = pattern_properties(file)
+    if pattern is None:
+        raise ValueError("Could not extract pattern from file name.")
 
-    # filename properties
-    props = ["correlation", "magnetization", "sisj", "sisjsk", "triplet"]
-    file_t = [f"{comp_folder}/{i}/" for i in props]
-    files = [f'Pij_exp_ising_{pattern[0]}_err_j_{pattern[1]}_err_h_{pattern[2]}_mteq_{pattern[3]}_mrelx_{pattern[4]}.dat', 
-             f'mag_exp_ising_{pattern[0]}_err_j_{pattern[1]}_err_h_{pattern[2]}_mteq_{pattern[3]}_mrelx_{pattern[4]}.dat', 
-             f'sisj_exp_ising_{pattern[0]}_err_j_{pattern[1]}_err_h_{pattern[2]}_mteq_{pattern[3]}_mrelx_{pattern[4]}.dat',
-             f'sisjsk_exp_ising_{pattern[0]}_err_j_{pattern[1]}_err_h_{pattern[2]}_mteq_{pattern[3]}_mrelx_{pattern[4]}.dat', 
-             f'Tijk_exp_ising_{pattern[0]}_err_j_{pattern[1]}_err_h_{pattern[2]}_mteq_{pattern[3]}_mrelx_{pattern[4]}.dat']
-    filenames = [file_t[i] + files[i] for i in range(len(files))]
+    sample_name, err_j, err_h, mteq, mrelx = pattern
 
-    # create dict of dicts with propertie: {"exp":val_exp,"ising":val_ising} to all properties
+    # Mapeamento de propriedades para prefixos de arquivos e colunas
+    property_map = {
+        "correlation": ("Pij", "Pij"),
+        "covariance": ("Cij", "Cij"),
+        "hi": ("hi", "hi"),
+        "Jij": ("Jij", "Jij"),
+        "magnetization": ("mag", "si"),
+        "sisj": ("sisj", "sisj"),
+        "sisjsk": ("sisjsk", "sisjsk"),
+        "triplet": ("Tijk", "Tijk"),  # Se quiser usar outro nome aqui, é só mudar
+    }
+
+    props = list(property_map.keys())
     all_data = {}
 
-    # run all properties file, saving data in all_data dictionary
-    for i in range(len(filenames)):
-        df = pd.read_csv(filenames[i], sep = ' ',header=None)
-        df.columns = ["exp", "ising"]
-        all_data[props[i]] = {"exp":df["exp"], "ising":df["ising"]}
-    
+    for prop in props:
+        prefix, column_prefix = property_map[prop]
+        folder_path = os.path.join(base_folder, prop)
+        filename = f"{prefix}_exp_ising_{sample_name}_err_j_{err_j}_err_h_{err_h}_mteq_{mteq}_mrelx_{mrelx}.dat"
+        full_path = os.path.join(folder_path, filename)
+
+        df = pd.read_csv(full_path, sep=' ')
+        all_data[prop] = {
+            "exp": df[f"{column_prefix}_synt"],
+            "ising": df[f"{column_prefix}_ising"]
+        }
+
     return props, all_data
 
 def plotting_graph(exp, ising, title):
     plt.figure(figsize=(16, 9))
     rms = root_mean_squared_error(exp, ising)
     
-    plt.plot(exp, ising, 'o' ,color='b',ms=20, 
-            alpha=0.2, mec='k',label=f'rmsa = {rms:.3e}')
+    plt.plot(exp, ising, 'o',label=f'rmsa = {rms:.3e}')
     #plt.plot(data[prop[0]]['exp'], data[prop[0]]['exp'], color='k',linewidth=2.0)
     plt.xlabel('exp', fontsize=26)
     plt.ylabel('ising', fontsize=26)
 
     # Aumentar o tamanho dos ticks
-    plt.tick_params(axis='both', which='major', length=10, width=2)  # Tamanho e espessura dos ticks maiores
-    plt.yticks(fontsize=25)
-    plt.xticks(fontsize=25)
+    #plt.tick_params(axis='both', which='major', length=10, width=2)  # Tamanho e espessura dos ticks maiores
+    #plt.yticks(fontsize=25)
+    #plt.xticks(fontsize=25)
     plt.legend(prop={"size":30}, fancybox=True, framealpha=0.0)
     plt.title(title, fontsize=30)
 
