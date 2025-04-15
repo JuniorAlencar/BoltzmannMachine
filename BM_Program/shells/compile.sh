@@ -25,7 +25,7 @@ chmod 700 ../bins/*
 # GENERATE TO FOLDERS RESULTS =====================================
 
 # List of methods
-lst=("exact" "metropolis" "parallel_tempering" "swendsen_wang" "wang_landau")
+lst=("exact" "metropolis" "parallel_tempering" "swendsen_wang" "wang_landau" "wolff")
 
 # Path to exec
 exe_path="../bins/CreateFolders"
