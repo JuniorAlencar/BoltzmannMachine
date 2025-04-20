@@ -1,0 +1,23 @@
+*/Results/
+BM_Program/tests
+#BMCarmona/Results/
+
+# Ignore bins from cpp linux and windows keeping shell scripts
+*.[!c][!p][!p]
+!*.pdf
+*.out
+*.exe
+*.bin
+*.o
+*.dat
+*.pyc
+*.deb
+
+# Ignore data folder
+Data/*
+bins/*
+__pycache__*
+tests/*
+#BM_Program_Original/Results/Erro/erro_sampleN30.dat
+*/build
+
