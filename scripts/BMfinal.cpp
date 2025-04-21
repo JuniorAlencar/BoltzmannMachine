@@ -17,7 +17,11 @@
 using namespace std::chrono;
 using namespace std;
 
+<<<<<<< HEAD
 int main(int argc, char *argv[]){
+=======
+int main(int argc, char *argv[]){	
+>>>>>>> dea5f45 (metropolis with generator)
 	// Gaussian Parameters
 	int n;
 	double mean = 0.0;
@@ -31,11 +35,20 @@ int main(int argc, char *argv[]){
 	double min_erro_h	= stod(argv[3]);
 	int multiply_teq 	= stoi(argv[4]);
 	int multiply_relx 	= stoi(argv[5]);
+<<<<<<< HEAD
 	int seed 			= stoi(argv[6]);
 	string method = argv[7];
 	
     if (argc < 8) {
         cerr << "Uso: " << argv[0] << " <filename> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <seed> <method>" << endl;
+=======
+	int seed = stoi(argv[6]);
+	string method = argv[7];
+
+
+    if (argc < 7) {
+        std::cerr << "Uso: " << argv[0] << " <filename> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <method>" << std::endl;
+>>>>>>> dea5f45 (metropolis with generator)
         return 1;
     }
 
@@ -181,9 +194,13 @@ int main(int argc, char *argv[]){
 	double eta_h = 0.03;
 
 	//Arquivo para salvar os erros ao longo do tempo
+<<<<<<< HEAD
 	
 	// Generator to MC
 	std::mt19937 gen(seed); 
+=======
+	std::mt19937 gen(seed);  // Seed fixa
+>>>>>>> dea5f45 (metropolis with generator)
 
 	ofstream erros (file_name_erros.c_str());
 
@@ -206,6 +223,7 @@ int main(int argc, char *argv[]){
 		eta_J = pow(inter, -0.4);
 		eta_h = 2*pow(inter, -0.4);
 
+<<<<<<< HEAD
 		if(method == "metropolis"){
 			auto start = high_resolution_clock::now();
 			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
@@ -213,6 +231,10 @@ int main(int argc, char *argv[]){
 			std::chrono::duration<double> duration_sec = end - start;
 			times << duration_sec.count() << std::endl;
 		}
+=======
+		if(method == "metropolis")
+			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
+>>>>>>> dea5f45 (metropolis with generator)
 		
 		else if(method == "exact" && n < 25){
 			auto start = high_resolution_clock::now();

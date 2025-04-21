@@ -628,6 +628,7 @@ void metropolis (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, c
 int draw_site(Rede &r, std::mt19937 &gen) {
     static std::uniform_int_distribution<int> dist(0, r.n - 1);
     return dist(gen);
+<<<<<<< HEAD
 }
 
 double draw_probability(std::mt19937 &gen) {
@@ -691,6 +692,77 @@ void metropolis_bm(Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq,
 	}
 }
 
+=======
+}
+
+double draw_probability(std::mt19937 &gen) {
+    static std::uniform_real_distribution<double> dist(0.0, 1.0);
+    return dist(gen);
+}
+
+
+//METROPOLIS PARA BM-------------------------------------------------------------------------------
+void metropolis_bm(Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step,  
+                   const int relx, const int rept, const double beta, std::mt19937 &gen)
+{
+    int s_flip;
+    double p;
+    double dE;
+    int ind_ss = 0;
+
+    for (int j = 0; j < rept; j++)
+    {
+        for (int i = 0; i < t_eq + t_step; i++)
+        {
+            if (i >= t_eq && (i - t_eq) % relx == 0)
+            {
+                for (int jj = 0; jj < r.n; jj++)
+                    av_s[jj] += r.s[jj];
+
+                ind_ss = 0;
+                for (int jj = 0; jj < r.n - 1; jj++)
+                {
+                    for (int l = jj + 1; l < r.n; l++)
+                    {
+                        av_ss[ind_ss] += r.s[jj] * r.s[l];
+                        ind_ss++;
+                    }
+                }
+            }
+
+            s_flip = draw_site(r, gen);
+            dE = delta_E(r, s_flip);
+
+            if (dE <= 0)
+            {
+                r.s[s_flip] = -r.s[s_flip];
+            }
+            else
+            {
+                p = draw_probability(gen);
+                if (p < exp(-beta * dE))
+                {
+                    r.s[s_flip] = -r.s[s_flip];
+                }
+            }
+        }
+    }
+
+    for (int jj = 0; jj < r.n; jj++)
+        av_s[jj] /= (rept * t_step / relx);
+
+    ind_ss = 0;
+    for (int jj = 0; jj < r.n - 1; jj++)
+    {
+        for (int l = jj + 1; l < r.n; l++)
+        {
+            av_ss[ind_ss] /= (rept * t_step / relx);
+            ind_ss++;
+        }
+    }
+}
+
+>>>>>>> dea5f45 (metropolis with generator)
 
 //METROPOLIS COMPLETO------------------------------------------------------------------------------
 void metropolis_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step,  const int relx, const int rept, const double beta, Doub &E, Doub &E2)
