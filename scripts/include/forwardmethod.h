@@ -624,70 +624,72 @@ void metropolis (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, c
 
 }
 
+int draw_site(Rede &r, std::mt19937 &gen) {
+    static std::uniform_int_distribution<int> dist(0, r.n - 1);
+    return dist(gen);
+}
+
+double draw_probability(std::mt19937 &gen) {
+    static std::uniform_real_distribution<double> dist(0.0, 1.0);
+    return dist(gen);
+}
+
+
 //METROPOLIS PARA BM-------------------------------------------------------------------------------
-void metropolis_bm (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step,  
-					const int relx, const int rept, const double beta)
+void metropolis_bm(Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step,  
+	const int relx, const int rept, const double beta, std::mt19937 &gen)
 {
 	int s_flip;
 	double p;
 	double dE;
 	int ind_ss = 0;
-	
-	
-	for (int j = 0; j < rept; j++)
-	{
-		
-		for (int i = 0; i < t_eq + t_step; i++)
-		{
-			if (i >= t_eq && (int) (i-t_eq)%(int)relx == 0)
-			{
-				for (int jj = 0; jj < r.n; jj++)
-					av_s[jj] += r.s[jj];
 
-				ind_ss = 0;
-				for (int jj = 0; jj < r.n-1; jj++)
-				{
-					for (int l = jj+1; l < r.n; l++)
-					{
-						av_ss[ind_ss] += r.s[jj]*r.s[l];
-						ind_ss++;
-					}
+	for (int j = 0; j < rept; j++){
+			for (int i = 0; i < t_eq + t_step; i++)
+		{
+			if (i >= t_eq && (i - t_eq) % relx == 0)
+		{
+			for (int jj = 0; jj < r.n; jj++)
+			av_s[jj] += r.s[jj];
+
+		ind_ss = 0;
+		for (int jj = 0; jj < r.n - 1; jj++)
+		{
+			for (int l = jj + 1; l < r.n; l++)
+			{
+				av_ss[ind_ss] += r.s[jj] * r.s[l];
+				ind_ss++;
+		}
+		}
+	}
+
+		s_flip = draw_site(r, gen);
+		dE = delta_E(r, s_flip);
+
+		if (dE <= 0){
+			r.s[s_flip] = -r.s[s_flip];
+		}
+		else{
+			p = draw_probability(gen);
+			if (p < exp(-beta * dE)){
+			r.s[s_flip] = -r.s[s_flip];
 				}
 			}
-	
-			s_flip = rand() % r.n; 
-			dE = delta_E (r, s_flip);
-			
-			if (dE <= 0)
-			{
-				r.s[s_flip] = -r.s[s_flip];
-			}
-			else
-			{
-				 p = ((double) rand()/RAND_MAX);
-				 
-				 if (p < exp(-beta*dE))
-				 {
-				 	r.s[s_flip] = -r.s[s_flip];
-				 }
-			}
 		}
-	
 	}
-	
+
 	for (int jj = 0; jj < r.n; jj++)
-		av_s[jj] /= (rept*t_step/relx);
+		av_s[jj] /= (rept * t_step / relx);
 
 	ind_ss = 0;
-	for (int jj = 0; jj < r.n-1; jj++)
-	{
-		for (int l = jj+1; l < r.n; l++)
-		{
-			av_ss[ind_ss] /= (rept*t_step/relx);
-			ind_ss++;
+	for (int jj = 0; jj < r.n - 1; jj++){
+		for (int l = jj + 1; l < r.n; l++){
+		av_ss[ind_ss] /= (rept * t_step / relx);
+		ind_ss++;
 		}
 	}
 }
+
 
 //METROPOLIS COMPLETO------------------------------------------------------------------------------
 void metropolis_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step,  const int relx, const int rept, const double beta, Doub &E, Doub &E2)
@@ -1500,7 +1502,8 @@ void parallel_tempering(
     const int &type, double H,
     std::vector<double> &energy_per_replica,
     std::vector<double> &temperatures,
-    double &swap_acceptance_ratio
+    double &swap_acceptance_ratio,
+    std::mt19937 &gen
 ) {
     // Distribuição logarítmica de temperaturas
     temperatures.resize(n_replicas);
@@ -1530,21 +1533,21 @@ void parallel_tempering(
     for (int rep = 0; rep < rept; ++rep) {
         // Equilibração
         for (int step = 0; step < t_eq; ++step) {
-            for (auto &replica : replicas) {
-                int s_flip = rand() % replica.n;
-                double dE = delta_E(replica, s_flip);
-                if (dE <= 0 || ((double)rand() / RAND_MAX) < exp(-replica.k * dE))
-                    replica.s[s_flip] *= -1;
+            for (int i = 0; i < n_replicas; ++i) {
+                int s_flip = draw_site(replicas[i], gen);
+                double dE = delta_E(replicas[i], s_flip);
+                if (dE <= 0 || draw_probability(gen) < exp(-replicas[i].k * dE))
+                    replicas[i].s[s_flip] *= -1;
             }
         }
 
         // Amostragem
         for (int step = 0; step < t_step; ++step) {
-            for (auto &replica : replicas) {
-                int s_flip = rand() % replica.n;
-                double dE = delta_E(replica, s_flip);
-                if (dE <= 0 || ((double)rand() / RAND_MAX) < exp(-replica.k * dE))
-                    replica.s[s_flip] *= -1;
+            for (int i = 0; i < n_replicas; ++i) {
+                int s_flip = draw_site(replicas[i], gen);
+                double dE = delta_E(replicas[i], s_flip);
+                if (dE <= 0 || draw_probability(gen) < exp(-replicas[i].k * dE))
+                    replicas[i].s[s_flip] *= -1;
             }
 
             // Acumular da réplica-alvo
@@ -1571,7 +1574,7 @@ void parallel_tempering(
                 double delta = (beta_j - beta_i) * (E_j - E_i);
                 ++swap_attempts;
 
-                if ((double)rand() / RAND_MAX < exp(delta)) {
+                if (draw_probability(gen) < exp(delta)) {
                     std::swap(replicas[i].s, replicas[i + 1].s);
                     ++swap_accepted;
                 }
@@ -1583,28 +1586,21 @@ void parallel_tempering(
         }
     }
 
-    // Normalização das médias
-    if (n_meas > 0) {
-        for (int i = 0; i < av_s.size(); ++i)
-            av_s[i] /= n_meas;
-
-        int ind_ss = 0;
-        for (int i = 0; i < replicas[0].n - 1; ++i)
-            for (int j = i + 1; j < replicas[0].n; ++j)
-                av_ss[ind_ss++] /= n_meas;
-    } else {
-        std::cerr << "⚠️  Nenhuma medida foi acumulada (n_meas = 0). Verifique o valor de relx, t_step ou T_min/T_max." << std::endl;
-    }
-
-    // Energia média por réplica
-    if (rept * t_step > 0) {
-        for (int i = 0; i < n_replicas; ++i)
-            energy_per_replica[i] /= (rept * t_step);
-    }
-
     // Taxa de aceitação
     swap_acceptance_ratio = (swap_attempts > 0) ? (double)swap_accepted / swap_attempts : 0.0;
+
+    // Normalizações
+    for (int i = 0; i < av_s.size(); ++i)
+        av_s[i] /= n_meas;
+
+    for (int i = 0; i < av_ss.size(); ++i)
+        av_ss[i] /= n_meas;
+
+    for (int i = 0; i < n_replicas; ++i)
+        energy_per_replica[i] /= (t_step * rept);
 }
+
+
 
 
 void wang_landau(

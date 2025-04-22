@@ -11,5 +11,5 @@ filename = ["data_synteticN30" for i in range(len(m_relx))]
 
 method = ['metropolis' for i in range(len(m_relx))]
 
-#multithread_local(filename, j_min, h_min, m_teq, m_relx, seed, method)
-minimum_val("metropolis", seed)
+multithread_local(filename, j_min, h_min, m_teq, m_relx, seed, method)
+#minimum_val("metropolis", seed)

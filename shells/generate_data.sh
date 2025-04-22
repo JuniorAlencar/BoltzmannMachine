@@ -22,6 +22,6 @@ exe_path="../bins/gen_data"
 # Loop over methods
 for i in "${lst[@]}"
 do
-    echo "Running: $exe_path $N_spins $M_states $i $seed"
+    echo "Running: $exe_path with $N_spins spins, M = $M_states states, method = $i, seed = $seed"
     $exe_path "$N_spins" "$M_states" "$i" "$seed"
 done

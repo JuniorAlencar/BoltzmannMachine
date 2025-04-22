@@ -13,7 +13,7 @@ _bm_complete() {
     fi
 
     # Auto-complete para o sexto argumento: método
-    if [[ ${COMP_CWORD} -eq 6 ]]; then
+    if [[ ${COMP_CWORD} -eq 7 ]]; then
         local methods="metropolis exact parallel_tempering"
         COMPREPLY=( $(compgen -W "${methods}" -- "${cur}") )
         return 0

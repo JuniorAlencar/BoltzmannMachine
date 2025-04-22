@@ -7,6 +7,8 @@
 #include <cmath>
 #include <numeric>
 #include <optional>
+#include "nr3.h"
+#include "network.h"
 
 using namespace std;
 using std::mt19937;

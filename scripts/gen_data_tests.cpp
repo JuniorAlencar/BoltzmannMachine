@@ -1,4 +1,3 @@
-#include "./include/network_jr.h"
 #include "./include/synthetic_data.h"
 
 #include <algorithm>
@@ -31,12 +30,15 @@ int main(int argc, char *argv[]) {
     int N_pairs = (N_spins * (N_spins - 1)) / 2;
     
     // Initial network, with J and h obtaining from gaussian and uniform distributions, respectively, with mean=0.0
-    Rede net(N_spins, 0.0, 1.0, k, type, 1, seed);
+    Rede net(N_spins, 0.0, 1.0, k, type, 1);
     double min = -1.0, max = 1.0;
     vector<double> J_ij = ComputeJValues(N_pairs, sigma, gen, mean);
     vector<double> h_i = ComputehValues(N_spins, min, max, gen);
-    net.h = h_i;
-    net.J = J_ij;
+    for (int i = 0; i<N_pairs; i++){
+        J_ij[i] = net.J[i];
+        if(i < N_spins)
+            h_i[i]= net.h[i];
+    }
     
     vector<double> av_s(N_spins, 0.0), av_ss(N_pairs, 0.0);
     
@@ -60,7 +62,7 @@ int main(int argc, char *argv[]) {
     GenerateStates(net, av_s, av_ss, t_eq,  relx, rept, M_states, 1.0, energies, sigmaStates, gen);
     
     // Compute Hamiltonian
-    vector<double> hamiltonianValues = computeHamiltonian(sigmaStates, net.h, net.J);
+    vector<double> hamiltonianValues = computeHamiltonian(sigmaStates, h_i, J_ij);
 
     // Calculate si and sisj and C_i from synthetic data
     vector<double> si_synthetic = computeSi(sigmaStates);
@@ -90,9 +92,9 @@ int main(int argc, char *argv[]) {
     // Save Hamiltonian values (each row corresponds to a sigma state)
     //saveValues(file_H_syntetic, "H", hamiltonianValues);
     // Save h_i values as a column
-    saveValues(file_h_syntetic, "hi_synt", net.h);
+    saveValues(file_h_syntetic, "hi_synt", h_i);
     // Save upper triangular J_ij matrix
-    saveValues(file_j_syntetic, "Jij_synt", net.J);;
+    saveValues(file_j_syntetic, "Jij_synt", J_ij);
     // Save sigma states (each row = one state)
     saveSigmaStates(file_states_syntetic, sigmaStates);
     

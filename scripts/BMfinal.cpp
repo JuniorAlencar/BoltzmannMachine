@@ -15,26 +15,24 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-	
-	srand (time(NULL));
-	
 	// Gaussian Parameters
 	int n;
-	double mean = 1;
+	double mean = 0.0;
 	double sigma = 0.25;
 	double k = 10;
 	int type = 0;
 	int H = 0;
 	
 	string text_name	= argv[1];
-	double min_erro_j	= std::stod(argv[2]);
-	double min_erro_h	= std::stod(argv[3]);
-	int multiply_teq 	= std::stoi(argv[4]);
-	int multiply_relx 	= std::stoi(argv[5]);
-	string method = argv[6];
+	double min_erro_j	= stod(argv[2]);
+	double min_erro_h	= stod(argv[3]);
+	int multiply_teq 	= stoi(argv[4]);
+	int multiply_relx 	= stoi(argv[5]);
+	int seed 			= stoi(argv[6]);
+	string method = argv[7];
 
-    if (argc < 7) {
-        std::cerr << "Uso: " << argv[0] << " <filename> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <seed> <method>" << std::endl;
+    if (argc < 8) {
+        cerr << "Uso: " << argv[0] << " <filename> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <seed> <method>" << endl;
         return 1;
     }
 
@@ -166,6 +164,7 @@ int main(int argc, char *argv[]){
 	int t_eq = n*multiply_teq; // 150
 	int relx = n*multiply_relx; // 2
 	int rept = 40;
+	//int t_step = n*6000*relx/rept;
 	int t_step = n*6000*relx/rept;
 	
 	double erroJ = 1, erroh = 1;
@@ -178,22 +177,24 @@ int main(int argc, char *argv[]){
 	double eta_h = 0.03;
 
 	//Arquivo para salvar os erros ao longo do tempo
-	//std::mt19937 gen(seed);  // Seed fixa
+	
+	// Generator to MC
+	std::mt19937 gen(seed); 
 
 	ofstream erros (file_name_erros.c_str());
 
 	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
 	while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
 	{	
-		srand(time(NULL)*time(NULL));
 
 		erroJ = erroh = 0;
 
 		eta_J = pow(inter, -0.4);
+		//eta_h = 2*pow(inter, -0.5);
 		eta_h = 2*pow(inter, -0.4);
 
 		if(method == "metropolis")
-			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1);
+			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
 		
 		else if(method == "exact" && n < 25)
 			exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
@@ -201,7 +202,7 @@ int main(int argc, char *argv[]){
 		else if (method == "parallel_tempering") {
 			std::vector<double> temperatures, energy_per_replica;
 			double swap_ratio = 0.0;
-			int n_replicas = 8;            // Ou ajuste conforme desejar
+			int n_replicas = 12;            // Ou ajuste conforme desejar
 			double T_min = 0.2;
 			double T_max = 2.0;
 			double swap_acceptance_ratio;
@@ -211,7 +212,7 @@ int main(int argc, char *argv[]){
 				t_eq, t_step, relx, rept,
 				n, mean, sigma,
 				type, H, energy_per_replica, temperatures,
-				swap_acceptance_ratio
+				swap_acceptance_ratio, gen
 			);
 
 		// Diagnóstico no terminal (opcional)
@@ -236,6 +237,10 @@ int main(int argc, char *argv[]){
 			erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
 			bm.J[i] -= dJ;
 
+		}
+		if (inter % 10 == 0) {
+			std::cout << "bm_av_s[0]: " << bm_av_s[0] << "  bm_av_ss[0]: " << bm_av_ss[0] << std::endl;
+			std::cout << "J[0]: " << bm.J[0] << "  h[0]: " << bm.h[0] << std::endl;
 		}
 		
 		erroJ = sqrt(erroJ/bm.nbonds);
