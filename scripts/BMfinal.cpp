@@ -91,7 +91,7 @@ int main(int argc, char *argv[]){
 	string file_rede_output = "../Results/" + method +  "/Network/network_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	
 	// files name
-	file_name_erros = "../Results/" + method +  "/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	file_name_erros = "../Results/" + method +  "/Erro/erro_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + "seed_" + to_string(seed) + ".dat";
 	file_mag_corr_output = "../Results/" + method +  "/Mag_Corr_ising/mag_corr_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	file_name_Jij = "../Results/" + method +  "/SeparateData/Jij/Jij_" +  text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	file_name_Cij = "../Results/" + method +  "/SeparateData/Cij-ising/Cij_ising_" + text_name  + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
@@ -184,7 +184,9 @@ int main(int argc, char *argv[]){
 	ofstream erros (file_name_erros.c_str());
 
 	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
-	while ((erroJ > min_erro_j || erroh > min_erro_h) && inter <= inter_max)    //(inter <= inter_max)
+	
+	// Running with inter_max interations
+	while (inter <= inter_max)
 	{	
 
 		erroJ = erroh = 0;
@@ -238,10 +240,6 @@ int main(int argc, char *argv[]){
 			bm.J[i] -= dJ;
 
 		}
-		if (inter % 10 == 0) {
-			std::cout << "bm_av_s[0]: " << bm_av_s[0] << "  bm_av_ss[0]: " << bm_av_ss[0] << std::endl;
-			std::cout << "J[0]: " << bm.J[0] << "  h[0]: " << bm.h[0] << std::endl;
-		}
 		
 		erroJ = sqrt(erroJ/bm.nbonds);
 		erroh = sqrt(erroh/bm.n);
@@ -249,25 +247,31 @@ int main(int argc, char *argv[]){
 		//Salvando Erros
 		erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl; 
 		
-		if (inter%cort == 0 || (erroJ < min_erro_j && erroh < min_erro_h))
+		if (inter%cort == 0)
 		{
 			std::cout << text_name << " " << inter << " "
               << "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
               << "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
 		}			
-
+		
+		// If J and h converge, break loop
+		if(erroJ <= min_erro_j && erroh <= min_erro_h){
+			cout << "Converged with: " << inter << " interations\n";
+			break;
+		}
+		
 		inter++;
 	
 		}
 	
-	//Fechar arquivos dos erros salvos 
+	// Close errors file
 	erros.close();
 	
 //-----------------------------------------------------------------------------
-//Arquivo para salvar a rede obtida	
+	//Arquivo para salvar a rede obtida	
 	ofstream network (file_rede_output.c_str());
 
-	network << bm.n << endl;
+	network << bm.n + 1 << endl;
 	
 	for (int i = 0; i < bm.nbonds; i++)
 	{

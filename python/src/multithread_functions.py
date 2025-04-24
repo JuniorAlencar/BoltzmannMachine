@@ -48,35 +48,60 @@ def load_data(file):
 
 
 # find minimum values in Monte Carlo while running
-def minimum_val(method, seed):
+def minimum_val(filename, method, comb_parms):
+    """
+        filename (string): name of file (without extension .dat)
+        method (string): name of algorithm used (metropolis, exact ou parallel_tempering)
+        comb_parms (tuple): all combinations of (m_relx, m_teq)
+    
+    """
     folder_erros = f"../Results/{method}/Erro"
-    pattern = r'^erro_(?P<filename>[a-zA-Z0-9_]+)_err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_mteq_(?P<mteq>\d+)_mrelx_(?P<mrelx>\d+)\.dat$'
-    all_files = glob.glob(os.path.join(folder_erros,"*.dat"))
-    
-    data_frame = {"filename":[],"min_j_use":[],
-                  "min_h_use":[],"mteq":[],"mrelx":[],"seed":[], "method":[]}
-    
-    for file in all_files:
+    pattern = fr'^erro_{re.escape(filename)}_err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_mteq_(?P<mteq>\d+)_mrelx_(?P<mrelx>\d+)_seed_(?P<seed>\d+)\.dat$'
+    all_files = glob.glob(os.path.join(folder_erros, "*.dat"))
 
+    data_frame = {
+        "filename": [],
+        "min_j_use": [],
+        "min_h_use": [],
+        "mteq": [],
+        "mrelx": [],
+        "seed": [],
+        "method": []
+    }
+
+    for file in all_files:
         file_name = os.path.basename(file)
-        
-        mch, errJ, errH = load_data(file)
-        
-        min_j = format(min(errJ),".2e")
-        min_h = format(min(errH),".2e")
-        
         match = re.match(pattern, file_name)
-        
+
         if match:
-            data_frame["filename"].append(match.group("filename"))
-            data_frame["min_j_use"].append(min_j)
-            data_frame["min_h_use"].append(min_h)
-            data_frame["mteq"].append(match.group("mteq"))
-            data_frame["mrelx"].append(match.group("mrelx"))
-            
-            data_frame["method"].append(method)
-    for i in seed:
-        data_frame["seed"].append(i)
+            # Pega os valores e converte para int
+            mteq_val = int(match.group("mteq"))
+            mrelx_val = int(match.group("mrelx"))
+            seed_val  = int(match.group("seed"))
+            min_j_used = float(match.group("err1"))
+            min_h_used = float(match.group("err1"))
+
+            # Verifica se o par está em comb_parms
+            if (mteq_val, mrelx_val) in comb_parms:
+                mch, errJ, errH = load_data(file)
+                
+                # Minimum from file
+                min_j = format(min(errJ), ".2e")
+                min_h = format(min(errH), ".2e")
+                
+                # Minimum in simulation
+
+                # If system converged, ignore file
+                if (float(min_j) <= min_j_used and float(min_h) <= min_h_used): 
+                    pass
+                else:
+                    data_frame["filename"].append(filename)
+                    data_frame["min_j_use"].append(min_j)
+                    data_frame["min_h_use"].append(min_h)
+                    data_frame["mteq"].append(mteq_val)
+                    data_frame["mrelx"].append(mrelx_val)
+                    data_frame["method"].append(method)
+                    data_frame["seed"].append(seed_val)
     # DataFrame with paramers new input_multithread.txt
     df = pd.DataFrame(data=data_frame)
     df.to_csv("../shells/input_multithread.txt", sep=' ', header=False, index=False, mode='w+')
