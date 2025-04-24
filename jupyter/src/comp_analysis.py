@@ -143,10 +143,10 @@ def plotting_graphs(props, all_data):
     
 
 # That function clean data with ising empty and create comparative files
-def clean_files():
+def clean_files(method):
     # desired properties
     # folder of propertie select
-    folder_ising = "../Results_Metropolis/SeparateData/Cij-ising"
+    folder_ising = f"../Results/{method}/SeparateData/Cij-ising"
     
     # file patterns for each desired property
     pattern = r'^Cij_ising_(?P<filename>[a-zA-Z0-9_]+)_err_j_(?P<err1>-?\d+\.\d+e[+-]?\d+)_err_h_(?P<err2>-?\d+\.\d+e[+-]?\d+)_mteq_(?P<mteq>\d+)_mrelx_(?P<mrelx>\d+)\.dat$'
