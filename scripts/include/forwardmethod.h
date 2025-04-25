@@ -1495,7 +1495,7 @@ void wolff_bm(
 }
 
 void parallel_tempering(
-    int n_replicas, double T_min, double T_max,
+    const Rede &bm, int n_replicas, double T_min, double T_max,
     VecDoub_IO &av_s, VecDoub_IO &av_ss,
     const int t_eq, const int t_step, const int relx, const int rept,
     int n_spins, double mean, double sigma,
@@ -1512,12 +1512,12 @@ void parallel_tempering(
 
     // Inicializar réplicas
     std::vector<Rede> replicas;
-    for (int i = 0; i < n_replicas; ++i) {
-        double beta = 1.0 / temperatures[i];
-        Rede r(n_spins, mean, sigma, beta, type, H);
-        r.create_bonds_random();  // mesmo grafo para todas
-        replicas.push_back(r);
-    }
+	for (int i = 0; i < n_replicas; ++i) {
+		Rede replica = bm;
+		replica.k = 1.0 / temperatures[i];
+		replicas.push_back(replica);
+	}
+
 
     // Acumuladores
     int n_meas = 0;

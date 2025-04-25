@@ -185,6 +185,9 @@ int main(int argc, char *argv[]){
 
 	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
 	
+	const double J_MAX = 3.0;   // Valor limite para J
+	const double H_MAX = 3.0;   // Valor limite para h
+	
 	// Running with inter_max interations
 	while (inter <= inter_max)
 	{	
@@ -192,7 +195,6 @@ int main(int argc, char *argv[]){
 		erroJ = erroh = 0;
 
 		eta_J = pow(inter, -0.4);
-		//eta_h = 2*pow(inter, -0.5);
 		eta_h = 2*pow(inter, -0.4);
 
 		if(method == "metropolis")
@@ -202,14 +204,37 @@ int main(int argc, char *argv[]){
 			exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
 		
 		else if (method == "parallel_tempering") {
+			eta_J = pow(inter, -0.5);
+			eta_h = 2*pow(inter, -0.5);
+			double avg_abs_J = 0.0;
+			for (int i = 0; i < bm.nbonds; i++)
+				avg_abs_J += fabs(bm.J[i]);
+			avg_abs_J /= bm.nbonds;
+
+			double avg_abs_h = 0.0;
+			for (int i = 0; i < bm.n; i++)
+				avg_abs_h += fabs(bm.h[i]);
+			avg_abs_h /= bm.n;
+
+			double avg_scale = 0.5 * (avg_abs_J + avg_abs_h);
+
+			double T_min;
+			if (avg_scale < 1e-8) {
+				T_min = 2.0;   // Temperatura inicial padrão
+			} else {
+				T_min = std::max(0.2, 1.0 / (2.0 * avg_scale));
+			}
+
+			double T_max = T_min * 7.0;
+
+
+		
+			// Parallel Tempering
 			std::vector<double> temperatures, energy_per_replica;
-			double swap_ratio = 0.0;
-			int n_replicas = 12;            // Ou ajuste conforme desejar
-			double T_min = 0.2;
-			double T_max = 2.0;
-			double swap_acceptance_ratio;
+			double swap_acceptance_ratio = 0.0;
+			int n_replicas = 10;
 			
-			parallel_tempering(n_replicas, T_min, T_max,
+			parallel_tempering(bm, n_replicas, T_min, T_max,
 				bm_av_s, bm_av_ss,
 				t_eq, t_step, relx, rept,
 				n, mean, sigma,
@@ -222,6 +247,9 @@ int main(int argc, char *argv[]){
 		for (int i = 0; i < n_replicas; ++i) {
 			std::cout << "T = " << temperatures[i]
 					<< ", <E> = " << energy_per_replica[i] << std::endl;
+			if (inter % 10 == 0) {
+				std::cout << "Avg |J| = " << avg_abs_J << ", Avg |h| = " << avg_abs_h << std::endl;
+			}
 		}
 	}
 
@@ -240,10 +268,21 @@ int main(int argc, char *argv[]){
 			bm.J[i] -= dJ;
 
 		}
+
+		// Clipping
+		for (int i = 0; i < bm.nbonds; i++) {
+			if (bm.J[i] > J_MAX) bm.J[i] = J_MAX;
+			if (bm.J[i] < -J_MAX) bm.J[i] = -J_MAX;
+		}
+		for (int i = 0; i < bm.n; i++) {
+			if (bm.h[i] > H_MAX) bm.h[i] = H_MAX;
+			if (bm.h[i] < -H_MAX) bm.h[i] = -H_MAX;
+		}
 		
 		erroJ = sqrt(erroJ/bm.nbonds);
 		erroh = sqrt(erroh/bm.n);
 
+		
 		//Salvando Erros
 		erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl; 
 		

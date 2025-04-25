@@ -28,13 +28,13 @@ def minimum_values(file):
     file_name = os.path.basename(file)
     
     # Regex genérica para capturar os valores de err_j, err_h, mteq e mrelx
-    pattern = r"err_j_([-+]?\d+\.\d+[eE][-+]?\d+)_err_h_([-+]?\d+\.\d+[eE][-+]?\d+)_mteq_(\d+)_mrelx_(\d+)\.dat"
+    pattern = r"err_j_([-+]?\d+\.\d+[eE][-+]?\d+)_err_h_([-+]?\d+\.\d+[eE][-+]?\d+)_mteq_(\d+)_mrelx_(\d+)_seed_(\d+)\.dat"
     
     match = re.search(pattern, file_name)
     
     if match:
-        j_min_match, h_min_match, t_eq, relx = match.groups()
-        return j_min_match, h_min_match, t_eq, relx
+        j_min_match, h_min_match, t_eq, relx, seed = match.groups()
+        return j_min_match, h_min_match, t_eq, relx, seed
     else:
         raise ValueError(f"Nome de arquivo inválido: {file_name}")
 
