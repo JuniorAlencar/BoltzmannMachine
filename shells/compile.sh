@@ -10,7 +10,7 @@ g++ ../scripts/create_folders.cpp -o ../bins/CreateFolders -lboost_filesystem -l
 g++ -O3 ../scripts/ProcessingData.cpp -o ../bins/ProcessingData
 
 # Create ising means
-g++ -O3 ../scripts/BMfinal.cpp -o ../bins/BMfinal
+g++ -O3 -fopenmp ../scripts/BMfinal.cpp -o ../bins/BMfinal
 
 # Create ising means to specific heat
 g++ ../scripts/SpecificHeat.cpp -o ../bins/SpecificHeat

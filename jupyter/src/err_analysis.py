@@ -38,7 +38,6 @@ def minimum_values(file):
     else:
         raise ValueError(f"Nome de arquivo inválido: {file_name}")
 
-
 # Função para carregar dados do file DAT
 def load_data(file):
     df = pd.read_csv(file, sep = ' ')

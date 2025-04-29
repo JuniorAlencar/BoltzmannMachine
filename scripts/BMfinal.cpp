@@ -5,6 +5,8 @@
 #include <vector>
 #include <fstream>
 #include <fmt/core.h>
+#include <chrono>
+#include <omp.h>
 #include "./include/nr3.h"
 #include "./include/network.h"
 #include "./include/forwardmethod.h"
@@ -12,6 +14,7 @@
 #include "./include/LUdcmp.h"
 
 
+using namespace std::chrono;
 using namespace std;
 
 int main(int argc, char *argv[]){
@@ -30,7 +33,7 @@ int main(int argc, char *argv[]){
 	int multiply_relx 	= stoi(argv[5]);
 	int seed 			= stoi(argv[6]);
 	string method = argv[7];
-
+	
     if (argc < 8) {
         cerr << "Uso: " << argv[0] << " <filename> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <seed> <method>" << endl;
         return 1;
@@ -103,6 +106,7 @@ int main(int argc, char *argv[]){
 	file_name_PJij = "../Results/" + method +  "/PJij/PJij_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	file_name_hi = "../Results/" + method +  "/SeparateData/hi/hi_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
 	file_name_mi = "../Results/" + method +  "/SeparateData/mi-ising/mi_ising_" + text_name + "_err_j_" + min_erro_j_str + "_err_h_" + min_erro_h_str + "_mteq_" + multi_teq_str + "_mrelx_" + multi_relx_str + ".dat";
+	string file_complex_time = "../Results/" + method + "/Complex_time/" + "time_method_" + to_string(seed);
 	//-----------------------------------------------------------------------------
 	//Ler o arquivo com as correlações e magnetizações de um certo arquivo
 
@@ -163,7 +167,7 @@ int main(int argc, char *argv[]){
 	//variaveis para MC
 	int t_eq = n*multiply_teq; // 150
 	int relx = n*multiply_relx; // 2
-	int rept = 40;
+	int rept = 60;
 	//int t_step = n*6000*relx/rept;
 	int t_step = n*6000*relx/rept;
 	
@@ -185,9 +189,14 @@ int main(int argc, char *argv[]){
 
 	erros << "inter" << " " <<  "erroJ" << " " << "erroh" << endl; 
 	
-	const double J_MAX = 3.0;   // Valor limite para J
-	const double H_MAX = 3.0;   // Valor limite para h
+	// const double J_MAX = 3.0;   // Valor limite para J
+	// const double H_MAX = 3.0;   // Valor limite para h
 	
+	std::ofstream times(file_complex_time);
+	if(method == "parallel_tempering")
+		times << "time(s) " << "swap_accept_rate" << endl;
+	else
+		times << "time(s)" << endl;
 	// Running with inter_max interations
 	while (inter <= inter_max)
 	{	
@@ -197,15 +206,32 @@ int main(int argc, char *argv[]){
 		eta_J = pow(inter, -0.4);
 		eta_h = 2*pow(inter, -0.4);
 
-		if(method == "metropolis")
+		if(method == "metropolis"){
+			auto start = high_resolution_clock::now();
 			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
+			auto end = high_resolution_clock::now();
+			std::chrono::duration<double> duration_sec = end - start;
+			times << duration_sec.count() << std::endl;
+		}
 		
-		else if(method == "exact" && n < 25)
+		else if(method == "exact" && n < 25){
+			auto start = high_resolution_clock::now();
 			exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
+			auto end = high_resolution_clock::now();
+			std::chrono::duration<double> duration_sec = end - start;
+			times << duration_sec.count() << std::endl;
+		}
 		
 		else if (method == "parallel_tempering") {
 			eta_J = pow(inter, -0.5);
 			eta_h = 2*pow(inter, -0.5);
+			// Parallel Tempering
+			double T_min, T_max;
+			std::vector<double> temperatures, energy_per_replica;
+			double swap_acceptance_ratio = 0.0;
+			int n_replicas = 12;
+
+			
 			double avg_abs_J = 0.0;
 			for (int i = 0; i < bm.nbonds; i++)
 				avg_abs_J += fabs(bm.J[i]);
@@ -218,41 +244,40 @@ int main(int argc, char *argv[]){
 
 			double avg_scale = 0.5 * (avg_abs_J + avg_abs_h);
 
-			double T_min;
 			if (avg_scale < 1e-8) {
-				T_min = 2.0;   // Temperatura inicial padrão
+				T_min = 2.0;
 			} else {
 				T_min = std::max(0.2, 1.0 / (2.0 * avg_scale));
 			}
+		T_max = T_min * 20.0;
 
-			double T_max = T_min * 7.0;
 
+		auto start = high_resolution_clock::now();
 
-		
-			// Parallel Tempering
-			std::vector<double> temperatures, energy_per_replica;
-			double swap_acceptance_ratio = 0.0;
-			int n_replicas = 10;
-			
-			parallel_tempering(bm, n_replicas, T_min, T_max,
-				bm_av_s, bm_av_ss,
-				t_eq, t_step, relx, rept,
-				n, mean, sigma,
-				type, H, energy_per_replica, temperatures,
-				swap_acceptance_ratio, gen
-			);
+		parallel_tempering_multi(
+			bm, n_replicas, T_min, T_max,
+			bm_av_s, bm_av_ss,
+			t_eq, t_step, relx, rept,
+			n, mean, sigma,
+			type, H, energy_per_replica, temperatures,
+			swap_acceptance_ratio, gen
+		);
 
-		// Diagnóstico no terminal (opcional)
+		auto end = high_resolution_clock::now();
+		std::chrono::duration<double> duration_sec = end - start;
+		times << duration_sec.count() << " " << swap_acceptance_ratio << std::endl;
+
+		// Diagnóstico no terminal
 		std::cout << "Swap acceptance rate: " << swap_acceptance_ratio << std::endl;
-		for (int i = 0; i < n_replicas; ++i) {
+		for (int i = 0; i < n_replicas; ++i)
 			std::cout << "T = " << temperatures[i]
 					<< ", <E> = " << energy_per_replica[i] << std::endl;
-			if (inter % 10 == 0) {
-				std::cout << "Avg |J| = " << avg_abs_J << ", Avg |h| = " << avg_abs_h << std::endl;
-			}
-		}
-	}
 
+			
+			
+		// Inicialização no primeiro passo
+		
+	}
 		
 		for (int i = 0; i < bm.nbonds; i++)
 		{
@@ -270,14 +295,14 @@ int main(int argc, char *argv[]){
 		}
 
 		// Clipping
-		for (int i = 0; i < bm.nbonds; i++) {
-			if (bm.J[i] > J_MAX) bm.J[i] = J_MAX;
-			if (bm.J[i] < -J_MAX) bm.J[i] = -J_MAX;
-		}
-		for (int i = 0; i < bm.n; i++) {
-			if (bm.h[i] > H_MAX) bm.h[i] = H_MAX;
-			if (bm.h[i] < -H_MAX) bm.h[i] = -H_MAX;
-		}
+		// for (int i = 0; i < bm.nbonds; i++) {
+		// 	if (bm.J[i] > J_MAX) bm.J[i] = J_MAX;
+		// 	if (bm.J[i] < -J_MAX) bm.J[i] = -J_MAX;
+		// }
+		// for (int i = 0; i < bm.n; i++) {
+		// 	if (bm.h[i] > H_MAX) bm.h[i] = H_MAX;
+		// 	if (bm.h[i] < -H_MAX) bm.h[i] = -H_MAX;
+		// }
 		
 		erroJ = sqrt(erroJ/bm.nbonds);
 		erroh = sqrt(erroh/bm.n);
@@ -305,6 +330,7 @@ int main(int argc, char *argv[]){
 	
 	// Close errors file
 	erros.close();
+	times.close();
 	
 //-----------------------------------------------------------------------------
 	//Arquivo para salvar a rede obtida	
@@ -523,4 +549,5 @@ int main(int argc, char *argv[]){
 
 	return 0;
 }
+
 

@@ -91,6 +91,14 @@
         "__split_buffer": "cpp",
         "__verbose_abort": "cpp",
         "locale": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "expected": "cpp",
+        "format": "cpp",
+        "generator": "cpp",
+        "print": "cpp",
+        "spanstream": "cpp",
+        "stacktrace": "cpp",
+        "stdfloat": "cpp",
+        "text_encoding": "cpp"
     }
 }

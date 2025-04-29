@@ -15,6 +15,7 @@ void create_folders(string method) {
     string tests_folder = "../tests"; 
     string results_folder = "../Results";
     string results_method_folder = results_folder + "/" + method;
+    string complex_time_folder = results_method_folder + "/Complex_time";
     string specificHeat_folder = results_method_folder + "/SpecificHeat";
     string comparative_folder = results_method_folder + "/Comparative";
     string CorrJij_folder = results_method_folder + "/CorrJij";
@@ -31,6 +32,7 @@ void create_folders(string method) {
     fs::create_directories(tests_folder);
     fs::create_directories(results_folder);
     fs::create_directories(results_method_folder);
+    fs::create_directories(complex_time_folder);
     fs::create_directories(specificHeat_folder);
     fs::create_directories(comparative_folder);
     fs::create_directories(CorrJij_folder);
