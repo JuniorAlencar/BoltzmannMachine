@@ -15,7 +15,9 @@ class Rede
 		int type;
 		double H;
 		
-		inline Rede(int m, double mmean, double ssigma, double kk, int tp, double HH);
+		//inline Rede(int m, double mmean, double ssigma, double kk, int tp, double HH);
+		inline Rede(int m, double mmean, double ssigma, double kk, int tp, double HH, std::mt19937 &gen);
+
 		inline void create_bonds_random (void);
 		inline void create_bonds_tree (void);
 		inline void neighbours(void);
@@ -27,54 +29,114 @@ class Rede
 };
 
 //Contrutor 
-inline Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double HH) : no(2), s(m, 1.0), n(m), mean(mmean), sigma(ssigma), k(kk), type(tp), H(HH), nbonds(n*(n-1)/2), J(nbonds, 0.0), h(m, 0.0), nb(n*(n-1)), s_nb(n*(n-1)), all_no(nbonds) {
+// inline Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double HH) : no(2), s(m, 1.0), n(m), mean(mmean), sigma(ssigma), k(kk), type(tp), H(HH), nbonds(n*(n-1)/2), J(nbonds, 0.0), h(m, 0.0), nb(n*(n-1)), s_nb(n*(n-1)), all_no(nbonds) {
 
-	if (type == 0)
-		create_bonds_random();
-	else if (type == 1)
-		create_bonds_tree();
+// 	if (type == 0)
+// 		create_bonds_random();
+// 	else if (type == 1)
+// 		create_bonds_tree();
 		
-	neighbours();
+// 	neighbours();
 	
-	double p;
+// 	double p;
 	
-	for (int i = 0; i < n; i++)
-	{
-		p = (double) rand()/RAND_MAX;
+// 	for (int i = 0; i < n; i++)
+// 	{
+// 		p = (double) rand()/RAND_MAX;
 		
-		if (p < 0.5)
-			s[i] = -s[i];
+// 		if (p < 0.5)
+// 			s[i] = -s[i];
 			
-	}
+// 	}
 	
-	if (H == 0)
-	{
-		for (int i = 0; i < n; i++)
-			h[i] = 0;
-	}	
-	else if (H == 1)
-	{
-		for (int i = 0; i < n; i++)
-			h[i] = (double) rand()/RAND_MAX;
-	}
-	else if (H == -1)
-	{
-		for (int i = 0; i < n; i++)
-			h[i] = -(double) rand()/RAND_MAX;
-	}
-	else
-	{
-		for (int i = 0; i < n; i++)
-		{
-			p = (double) rand()/RAND_MAX;
+// 	if (H == 0)
+// 	{
+// 		for (int i = 0; i < n; i++)
+// 			h[i] = 0;
+// 	}	
+// 	else if (H == 1)
+// 	{
+// 		for (int i = 0; i < n; i++)
+// 			h[i] = (double) rand()/RAND_MAX;
+// 	}
+// 	else if (H == -1)
+// 	{
+// 		for (int i = 0; i < n; i++)
+// 			h[i] = -(double) rand()/RAND_MAX;
+// 	}
+// 	else
+// 	{
+// 		for (int i = 0; i < n; i++)
+// 		{
+// 			p = (double) rand()/RAND_MAX;
 		
-			if (p < 0.5)
-				h[i] = -(double) rand()/RAND_MAX;
-			else
-				h[i] = (double) rand()/RAND_MAX;
-		}
-	}	
+// 			if (p < 0.5)
+// 				h[i] = -(double) rand()/RAND_MAX;
+// 			else
+// 				h[i] = (double) rand()/RAND_MAX;
+// 		}
+// 	}	
+// }
+inline Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double HH, mt19937 &gen) 
+: no(2), s(m, 1.0), n(m), mean(mmean), sigma(ssigma), k(kk), type(tp), H(HH), nbonds(n*(n-1)/2), J(nbonds, 0.0), h(m, 0.0), nb(n*(n-1)), s_nb(n*(n-1)), all_no(nbonds) 
+{
+    // Cria ligações
+    if (type == 0)
+        create_bonds_random();
+    else if (type == 1)
+        create_bonds_tree();
+
+    neighbours();
+
+    // Distribuições para aleatoriedade reprodutível
+    uniform_real_distribution<double> dist01(0.0, 1.0);
+
+    // Inicializa os spins s[] aleatoriamente (+1 ou -1)
+    for (int i = 0; i < n; i++)
+    {
+        double p = dist01(gen);
+        if (p < 0.5)
+            s[i] = -1.0;
+        else
+            s[i] = 1.0;
+    }
+
+    // Inicializa os campos h[]
+    if (H == 0)
+    {
+        for (int i = 0; i < n; i++)
+            h[i] = 0.0;
+    }	
+    else if (H == 1)
+    {
+        for (int i = 0; i < n; i++)
+            h[i] = dist01(gen); // Aleatório entre 0 e 1
+    }
+    else if (H == -1)
+    {
+        for (int i = 0; i < n; i++)
+            h[i] = -dist01(gen); // Aleatório entre -1 e 0
+    }
+    else
+    {
+        for (int i = 0; i < n; i++)
+        {
+            double p = dist01(gen);
+            if (p < 0.5)
+                h[i] = -dist01(gen);
+            else
+                h[i] = dist01(gen);
+        }
+    }
+
+    // Gera J_ij normalmente distribuído (mean, sigma)
+    normal_distribution<double> distJ(mean, sigma);
+    for (int i = 0; i < nbonds; i++)
+    {
+        J[i] = distJ(gen);
+    }
 }
+
 
 inline vector<int> Rede::get_all_bonds(void) const {
 	vector<int> full_no;

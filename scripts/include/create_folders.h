@@ -9,10 +9,15 @@
 using namespace std;
 namespace fs = boost::filesystem;
 
-void create_folders(string method) {
+void create_folders(string &method, string &N_spins) {
     // Folders exact_solutions-----------------------------------------
     // Set folder names using std::string
-    string tests_folder = "../tests"; 
+    string tests_folder = "../syntetic_tests"; 
+    string tests_N_spins_folder = tests_folder + "/N_" + N_spins;
+    string tests_hi_folder = tests_N_spins_folder + "/hi";
+    string tests_Jij_folder = tests_N_spins_folder + "/Jij";
+    string tests_info_folder = tests_N_spins_folder + "/Info";
+    
     string results_folder = "../Results";
     string results_method_folder = results_folder + "/" + method;
     string complex_time_folder = results_method_folder + "/Complex_time";
@@ -30,6 +35,11 @@ void create_folders(string method) {
 
     // Create folders
     fs::create_directories(tests_folder);
+    fs::create_directories(tests_N_spins_folder);
+    fs::create_directories(tests_info_folder);
+    fs::create_directories(tests_hi_folder);
+    fs::create_directories(tests_Jij_folder);
+    
     fs::create_directories(results_folder);
     fs::create_directories(results_method_folder);
     fs::create_directories(complex_time_folder);

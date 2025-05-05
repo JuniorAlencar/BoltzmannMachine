@@ -28,13 +28,17 @@ chmod 700 ../bins/*
 
 # List of methods
 lst=("exact" "metropolis" "parallel_tempering")
+lstN=("20" "40" "60" "80")
 
 # Path to exec
 exe_path="../bins/CreateFolders"
 
-# Loop in methods
-for i in "${lst[@]}"
+# Loop in methods and Ns
+for method in "${lst[@]}"
 do
-    echo "Executando $exe_path $i"
-    $exe_path "$i"
+    for N in "${lstN[@]}"
+    do
+        echo "Executando $exe_path $method $N"
+        $exe_path "$method" "$N"
+    done
 done

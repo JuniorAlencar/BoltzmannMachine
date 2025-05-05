@@ -17,45 +17,45 @@ using std::mt19937;
 
 // Compute properties =========================================================/
 
-/**
- * @brief Generates a 1D vector containing Gaussian-distributed J_ij values.
- * 
- * @param N_pairs Number of spin pairs (should be N*(N-1)/2 for N spins).
- * @param stddev Standard deviation of the normal distribution.
- * @param gen Reference to a random number generator.
- * @param mean Mean of the normal distribution (default = 0.0).
- * @return vector<double> Vector containing J_ij values.
- */
-vector<double> ComputeJValues(int N_pairs, double stddev, mt19937 &gen, double mean = 0.0) {
-    normal_distribution<double> dist(mean, stddev);
+// /**
+//  * @brief Generates a 1D vector containing Gaussian-distributed J_ij values.
+//  * 
+//  * @param N_pairs Number of spin pairs (should be N*(N-1)/2 for N spins).
+//  * @param stddev Standard deviation of the normal distribution.
+//  * @param gen Reference to a random number generator.
+//  * @param mean Mean of the normal distribution (default = 0.0).
+//  * @return vector<double> Vector containing J_ij values.
+//  */
+// vector<double> ComputeJValues(int N_pairs, double stddev, mt19937 &gen, double mean = 0.0) {
+//     normal_distribution<double> dist(mean, stddev);
 
-    vector<double> J(N_pairs, 0.0);
-    for (int i = 0; i < N_pairs; i++)
-        J[i] = dist(gen);
+//     vector<double> J(N_pairs, 0.0);
+//     for (int i = 0; i < N_pairs; i++)
+//         J[i] = dist(gen);
 
-    return J;
-}
+//     return J;
+// }
 
 
-/**
- * @brief Generates a vector of external field values h_i sampled from a uniform distribution.
- * 
- * @param N Number of spins.
- * @param min Minimum value of the uniform distribution (e.g., -1.0).
- * @param max Maximum value of the uniform distribution (e.g., 1.0).
- * @param gen Reference to a random number generator (mt19937).
- * @return vector<double> Vector containing the h_i values.
- */
-vector<double> ComputehValues(int N, double min, double max, mt19937 &gen) {
-    uniform_real_distribution<double> dist(min, max);
+// /**
+//  * @brief Generates a vector of external field values h_i sampled from a uniform distribution.
+//  * 
+//  * @param N Number of spins.
+//  * @param min Minimum value of the uniform distribution (e.g., -1.0).
+//  * @param max Maximum value of the uniform distribution (e.g., 1.0).
+//  * @param gen Reference to a random number generator (mt19937).
+//  * @return vector<double> Vector containing the h_i values.
+//  */
+// vector<double> ComputehValues(int N, double min, double max, mt19937 &gen) {
+//     uniform_real_distribution<double> dist(min, max);
 
-    vector<double> h(N);
-    for (int i = 0; i < N; ++i) {
-        h[i] = dist(gen);
-    }
+//     vector<double> h(N);
+//     for (int i = 0; i < N; ++i) {
+//         h[i] = dist(gen);
+//     }
 
-    return h;
-}
+//     return h;
+// }
 
 /**
  * @brief Gera estados e momentos <s_i> e <s_i s_j> para uma rede de Ising usando Metropolis.
@@ -436,7 +436,7 @@ void saveValues(const string& filename,const string& header ,const vector<double
     }
     file << header << endl;
     for (const auto& value : data) {
-        file << fixed << setprecision(4) << value << "\n";
+        file << fixed << setprecision(10) << value << "\n";
     }
     file.close();
     cout << "File saved: " << filename << endl;
