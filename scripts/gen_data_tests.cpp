@@ -7,7 +7,8 @@ int main(int argc, char *argv[]) {
     // Gaussian Parameters
 	int n;
 	double mean = 0.0;
-	double sigma = 0.1;
+	double sigma = 0.7; // N = 60
+    //double sigma = 0.1; //N = 20, N = 40
 	double k = 10;
 	int type;
 	
@@ -15,9 +16,11 @@ int main(int argc, char *argv[]) {
     int M_states = stoi(argv[2]);
     string method = argv[3];
     int seed = stoi(argv[4]);
-    string tests = argv[5]; // On or off
+    int multi_relx = stoi(argv[5]);
+    int multi_teq = stoi(argv[6]);
+    string tests = argv[7]; // On or off
     
-    if (argc < 5) {
+    if (argc < 7) {
         cerr << "Uso: " << argv[0] << "<N_spins> <M_states> <seed> <tests>" << endl;
         
         return 1;
@@ -33,8 +36,7 @@ int main(int argc, char *argv[]) {
     // Initial network, with J and h obtaining from gaussian and uniform distributions, respectively, with mean=0.0
     Rede net(N_spins, mean, sigma, k, type, 1, gen);
     double min = -1.0, max = 1.0;
-    // vector<double> J_ij = ComputeJValues(N_pairs, sigma, gen, mean);
-    // vector<double> h_i = ComputehValues(N_spins, min, max, gen);
+    
     vector<double> J_ij(N_pairs, 0.0);
     vector<double> h_i(N_spins, 0.0);
     
@@ -53,18 +55,17 @@ int main(int argc, char *argv[]) {
     // MONTE CARLO UPDATE ----------------------
     
     // Monte Carlo variables
-	int t_eq = 400*N_spins; // 150
-	int relx = 15*N_spins;
+	int t_eq = multi_teq*N_spins;
+	int relx = multi_relx*N_spins;
 	int rept = 50;
-    
+    // N = 20 -> relx = 5, t_eq = 50
+    // N = 40 -> relx = 10, t_eq = 50
+    // N = 60 -> relx = 40, t_eq = 100
+    // N = 80 -> relx = 50, t_eq = 150
     // Number of steps
 	int t_step = (M_states * relx) / rept;
     
-    // inter_max - inter = Number of interations
-    int inter = 1;
-	int inter_max = 300000;
-	
-    GenerateStates(net, av_s, av_ss, t_eq,  relx, rept, M_states, 1.0, energies, sigmaStates, gen);
+    GenerateStates_Wolff(net, av_s, av_ss, t_eq,  relx, rept, M_states, 1.0, energies, sigmaStates, gen);
     
     // Compute Hamiltonian
     vector<double> hamiltonianValues = computeHamiltonian(sigmaStates, h_i, J_ij);

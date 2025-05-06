@@ -8,7 +8,7 @@
 N_SPINS=(20 40 60 80)
 
 # Número de execuções por N_spins
-N_RUNS=20
+N_RUNS=5
 
 # Diretório base para dados e logs (caminho absoluto)
 DATA_DIR="$(pwd)/../data_syntetic"

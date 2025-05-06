@@ -7,6 +7,7 @@
 #include <cmath>
 #include <numeric>
 #include <optional>
+#include <queue>
 #include "nr3.h"
 #include "network.h"
 
@@ -56,6 +57,162 @@ using std::mt19937;
 
 //     return h;
 // }
+
+
+#include <vector>
+#include <random>
+#include <cmath>
+#include <queue>
+
+using namespace std;
+
+void wolff_update(Rede &rede, double beta, mt19937 &gen) {
+    int N = rede.n;
+    int N_pairs = (N * (N - 1)) / 2;
+
+    uniform_real_distribution<double> dist(0.0, 1.0);
+    uniform_int_distribution<int> spin_dist(0, N - 1);
+
+    // Probabilidade de adicionar um vizinho ao cluster
+    auto P_add = [&](double Jij) {
+        return 1.0 - exp(-2.0 * beta * fabs(Jij));
+    };
+
+    // Inicializar o cluster
+    vector<bool> in_cluster(N, false);
+
+    // Escolher spin raiz aleatório
+    int root_spin = spin_dist(gen);
+    int s_value = rede.s[root_spin];
+    in_cluster[root_spin] = true;
+
+    queue<int> cluster_queue;
+    cluster_queue.push(root_spin);
+
+    // Crescer o cluster
+    while (!cluster_queue.empty()) {
+        int i = cluster_queue.front();
+        cluster_queue.pop();
+
+        int idx = 0;
+        for (int j = 0; j < N - 1; ++j) {
+            for (int k = j + 1; k < N; ++k, ++idx) {
+                int a = j, b = k;
+                if (a == i || b == i) {
+                    int neighbor = (a == i) ? b : a;
+
+                    if (!in_cluster[neighbor] && rede.s[neighbor] == s_value) {
+                        double Jij = rede.J[idx];
+                        if (dist(gen) < P_add(Jij)) {
+                            in_cluster[neighbor] = true;
+                            cluster_queue.push(neighbor);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Flipar o cluster inteiro
+    for (int i = 0; i < N; ++i) {
+        if (in_cluster[i]) {
+            rede.s[i] *= -1;
+        }
+    }
+}
+
+void GenerateStates_Wolff(
+    Rede &rede,
+    vector<double> &av_s,
+    vector<double> &av_ss,
+    const int t_eq,
+    const int relx,
+    const int rept,
+    const int M,
+    const double beta,
+    vector<double> &energies,
+    vector<vector<int>> &states,
+    mt19937 &gen
+) {
+    int N = rede.n;
+    int N_pairs = (N * (N - 1)) / 2;
+
+    av_s.assign(N, 0.0);
+    av_ss.assign(N_pairs, 0.0);
+    energies.clear();
+    states.assign(M, vector<int>(N, 0));
+
+    // ---------------- Equilibration ----------------
+    for (int t = 0; t < t_eq; ++t)
+        wolff_update(rede, beta, gen);
+
+    int m_count = 0;
+
+    for (int rep = 0; rep < rept; ++rep) {
+        while (m_count < M) {
+
+            // Para cada amostra:
+            int relax_count = 0;
+            while (relax_count < relx) {
+                wolff_update(rede, beta, gen);
+                relax_count++;
+            }
+
+            // Coleta de estado
+            // (skip automático: se estado atual é igual ou invertido demais do anterior, pula)
+            bool accept = true;
+
+            if (m_count > 0) {
+                double corr = 0.0;
+                for (int k = 0; k < N; ++k)
+                    corr += states[m_count - 1][k] * rede.s[k];
+
+                corr /= N;
+
+                // Se a correlação for muito próxima de -1 (flip completo), não coleta
+                if (fabs(corr + 1.0) < 1e-3)  // tolerância ajustável
+                    accept = false;
+            }
+
+            if (!accept) continue; // Pula e faz próxima relaxação
+
+            // ---- Calcular energia ----
+            double energy = 0.0;
+            int idx = 0;
+            for (int i = 0; i < N; ++i)
+                energy -= rede.h[i] * rede.s[i];
+            for (int i = 0; i < N - 1; ++i)
+                for (int j = i + 1; j < N; ++j)
+                    energy -= rede.J[idx++] * rede.s[i] * rede.s[j];
+
+            energies.push_back(energy);
+
+            // ---- Acumular observáveis ----
+            for (int k = 0; k < N; ++k)
+                av_s[k] += rede.s[k];
+
+            idx = 0;
+            for (int i = 0; i < N - 1; ++i)
+                for (int j = i + 1; j < N; ++j)
+                    av_ss[idx++] += rede.s[i] * rede.s[j];
+
+            // ---- Salvar estado ----
+            for (int k = 0; k < N; ++k)
+                states[m_count][k] = rede.s[k];
+
+            ++m_count;
+        }
+    }
+
+    // ---- Normalizar médias ----
+    for (int i = 0; i < N; ++i)
+        av_s[i] /= M;
+
+    for (int i = 0; i < N_pairs; ++i)
+        av_ss[i] /= M;
+}
+
+
 
 /**
  * @brief Gera estados e momentos <s_i> e <s_i s_j> para uma rede de Ising usando Metropolis.
