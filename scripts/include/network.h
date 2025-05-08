@@ -1,6 +1,10 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#include <random>
+
+using namespace std;
+
 //Classe para criação de uma rede aleatoria. Deve-se entrar com o tamano da rede n, valor medio da distribuição mean, desvio da distribuição sigma e a constante k para a probabilidade de haver ligação
 class Rede
 {
@@ -8,10 +12,13 @@ class Rede
 		int n, nbonds; // Number of nodes and number of single combinations of multiply si*sj
 		double mean, sigma; 
 		double k;
+		
 		VecInt no, all_no, s, nb, s_nb;
 		VecDoub J;
 		VecDoub h;
 		
+		std::mt19937 gen;
+
 		int type;
 		double H;
 		
@@ -77,9 +84,10 @@ class Rede
 // 		}
 // 	}	
 // }
-inline Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double HH, mt19937 &gen) 
+
+inline Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double HH, std::mt19937 &gen) 
 : no(2), s(m, 1.0), n(m), mean(mmean), sigma(ssigma), k(kk), type(tp), H(HH), nbonds(n*(n-1)/2), J(nbonds, 0.0), h(m, 0.0), nb(n*(n-1)), s_nb(n*(n-1)), all_no(nbonds) 
-{
+{	
     // Cria ligações
     if (type == 0)
         create_bonds_random();
@@ -90,6 +98,7 @@ inline Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double
 
     // Distribuições para aleatoriedade reprodutível
     uniform_real_distribution<double> dist01(0.0, 1.0);
+	uniform_real_distribution<double> dist11(-1.0, 1.0);
 
     // Inicializa os spins s[] aleatoriamente (+1 ou -1)
     for (int i = 0; i < n; i++)
@@ -116,6 +125,11 @@ inline Rede::Rede (int m, double mmean, double ssigma, double kk, int tp, double
     {
         for (int i = 0; i < n; i++)
             h[i] = -dist01(gen); // Aleatório entre -1 e 0
+    }
+	else if (H == 2)
+    {
+        for (int i = 0; i < n; i++)
+            h[i] = dist11(gen); // Aleatório entre -1 e 1
     }
     else
     {

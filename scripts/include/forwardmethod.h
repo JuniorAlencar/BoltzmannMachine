@@ -628,7 +628,6 @@ void metropolis (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, c
 int draw_site(Rede &r, std::mt19937 &gen) {
     static std::uniform_int_distribution<int> dist(0, r.n - 1);
     return dist(gen);
-<<<<<<< HEAD
 }
 
 double draw_probability(std::mt19937 &gen) {
@@ -692,77 +691,6 @@ void metropolis_bm(Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq,
 	}
 }
 
-=======
-}
-
-double draw_probability(std::mt19937 &gen) {
-    static std::uniform_real_distribution<double> dist(0.0, 1.0);
-    return dist(gen);
-}
-
-
-//METROPOLIS PARA BM-------------------------------------------------------------------------------
-void metropolis_bm(Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step,  
-                   const int relx, const int rept, const double beta, std::mt19937 &gen)
-{
-    int s_flip;
-    double p;
-    double dE;
-    int ind_ss = 0;
-
-    for (int j = 0; j < rept; j++)
-    {
-        for (int i = 0; i < t_eq + t_step; i++)
-        {
-            if (i >= t_eq && (i - t_eq) % relx == 0)
-            {
-                for (int jj = 0; jj < r.n; jj++)
-                    av_s[jj] += r.s[jj];
-
-                ind_ss = 0;
-                for (int jj = 0; jj < r.n - 1; jj++)
-                {
-                    for (int l = jj + 1; l < r.n; l++)
-                    {
-                        av_ss[ind_ss] += r.s[jj] * r.s[l];
-                        ind_ss++;
-                    }
-                }
-            }
-
-            s_flip = draw_site(r, gen);
-            dE = delta_E(r, s_flip);
-
-            if (dE <= 0)
-            {
-                r.s[s_flip] = -r.s[s_flip];
-            }
-            else
-            {
-                p = draw_probability(gen);
-                if (p < exp(-beta * dE))
-                {
-                    r.s[s_flip] = -r.s[s_flip];
-                }
-            }
-        }
-    }
-
-    for (int jj = 0; jj < r.n; jj++)
-        av_s[jj] /= (rept * t_step / relx);
-
-    ind_ss = 0;
-    for (int jj = 0; jj < r.n - 1; jj++)
-    {
-        for (int l = jj + 1; l < r.n; l++)
-        {
-            av_ss[ind_ss] /= (rept * t_step / relx);
-            ind_ss++;
-        }
-    }
-}
-
->>>>>>> dea5f45 (metropolis with generator)
 
 //METROPOLIS COMPLETO------------------------------------------------------------------------------
 void metropolis_comp (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step,  const int relx, const int rept, const double beta, Doub &E, Doub &E2)
@@ -1373,225 +1301,31 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 	
 }
 
-void swendsen_wang(
-    Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, const int t_eq, const int t_step, const int relx, const int rept
-    ,const double beta)
-	{
-    vector<bool> visited(r.n, false);
-    vector<int> cluster_label(r.n, -1);
-    vector<vector<int>> clusters;
-    int cluster_id = 0;
-
-    // Initialize averages
-    //for (int i = 0; i < av_s.size(); ++i) av_s[i] = 0.0;
-    //for (int i = 0; i < av_ss.size(); ++i) av_ss[i] = 0.0;
-
-    for (int rep = 0; rep < rept; ++rep) {
-        // Equilibration
-        for (int t = 0; t < t_eq; ++t) {
-            clusters.clear();
-            fill(visited.begin(), visited.end(), false);
-
-            // Cluster formation
-            for (int i = 0; i < r.n; ++i) {
-                if (!visited[i]) {
-                    queue<int> q;
-                    q.push(i);
-                    visited[i] = true;
-                    cluster_label[i] = cluster_id;
-                    vector<int> cluster;
-
-                    while (!q.empty()) {
-                        int v = q.front();
-                        q.pop();
-                        cluster.push_back(v);
-
-                        for (int bond = 0; bond < r.nbonds; ++bond) {
-                            int neighbor = r.nb[bond]; // Neighbor node
-                            if (!visited[neighbor] && r.s[v] == r.s[neighbor]) {
-                                double p = 1 - exp(-beta * r.J[bond]); // Bond probability
-                                if ((double)rand() / RAND_MAX < p) {
-                                    visited[neighbor] = true;
-                                    cluster_label[neighbor] = cluster_id;
-                                    q.push(neighbor);
-                                }
-                            }
-                        }
-                    }
-                    clusters.push_back(cluster);
-                    cluster_id++;
-                }
-            }
-
-            // Cluster flipping
-            for (const auto &cluster : clusters) {
-                if ((double)rand() / RAND_MAX < 0.5) {
-                    for (int spin : cluster) {
-                        r.s[spin] *= -1; // Flip all spins in the cluster
-                    }
-                }
-            }
-        }
-
-        // Sampling
-        for (int t = 0; t < t_step; ++t) {
-            if (t % relx == 0) {
-                // Update averages
-                for (int i = 0; i < r.n; ++i) av_s[i] += r.s[i];
-
-                int ind_ss = 0;
-                for (int i = 0; i < r.n - 1; ++i) {
-                    for (int j = i + 1; j < r.n; ++j) {
-                        av_ss[ind_ss++] += r.s[i] * r.s[j];
-                    }
-                }
-            }
-        }
-    }
-
-    // Normalize averages
-    for (int i = 0; i < av_s.size(); ++i) 
-		av_s[i] /= (rept * t_step / relx);
-
-    int ind_ss = 0;
-    for (int i = 0; i < r.n - 1; ++i) {
-        for (int j = i + 1; j < r.n; ++j) {
-            av_ss[ind_ss++] /= (rept * t_step / relx);
-        }
-    }
-}
-
-void wolff_bm(
-    Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss,
-    const int t_eq, const int t_step, const int relx, const int rept, const double beta)
-{
-    std::vector<bool> visited(r.n);
-    std::vector<int> cluster;
-    int ind_ss;
-
-    // Acumula durante o loop de aprendizado, sem zerar no início
-    for (int rep = 0; rep < rept; ++rep)
-    {
-        for (int i = 0; i < t_eq + t_step; ++i)
-        {
-            std::fill(visited.begin(), visited.end(), false);
-            cluster.clear();
-
-            int seed = rand() % r.n;
-            int spin_seed = r.s[seed];
-            cluster.push_back(seed);
-            visited[seed] = true;
-
-            std::queue<int> q;
-            q.push(seed);
-
-            while (!q.empty())
-            {
-                int current = q.front();
-                q.pop();
-
-                for (int b = 0; b < r.nbonds; ++b)
-                {
-                    int a = r.no[b], j = r.nb[b];
-                    int neighbor = (a == current) ? j : ((j == current) ? a : -1);
-                    if (neighbor == -1) continue;
-
-                    if (!visited[neighbor] && r.s[neighbor] == spin_seed)
-                    {
-                        double p = 1.0 - exp(-2.0 * beta * fabs(r.J[b]));
-                        if ((double)rand() / RAND_MAX < p)
-                        {
-                            visited[neighbor] = true;
-                            q.push(neighbor);
-                            cluster.push_back(neighbor);
-                        }
-                    }
-                }
-            }
-
-            // Calcula deltaE para reweighting com campo aleatório e fronteiras externas
-            double deltaE = 0.0;
-
-            for (int i : cluster)
-            {
-                deltaE += 2.0 * r.h[i] * r.s[i];
-
-                for (int b = 0; b < r.nbonds; ++b)
-                {
-                    int a = r.no[b], bnd = r.nb[b];
-                    if (a == i || bnd == i)
-                    {
-                        int neighbor = (a == i) ? bnd : a;
-                        if (!visited[neighbor])
-                            deltaE += 2.0 * r.J[b] * r.s[i] * r.s[neighbor];
-                    }
-                }
-            }
-
-            // Aplica decisão de flip com reweighting
-            if (deltaE <= 0.0 || ((double)rand() / RAND_MAX < exp(-beta * deltaE)))
-            {
-                for (int i : cluster)
-                    r.s[i] *= -1;
-            }
-
-            // Acumula médias após t_eq
-            if (i >= t_eq && (i - t_eq) % relx == 0)
-            {
-                for (int j = 0; j < r.n; ++j)
-                    av_s[j] += r.s[j];
-
-                ind_ss = 0;
-                for (int j = 0; j < r.n - 1; ++j)
-                    for (int k = j + 1; k < r.n; ++k)
-                        av_ss[ind_ss++] += r.s[j] * r.s[k];
-            }
-        }
-    }
-
-    // Normalização após o loop de aprendizado
-    int total = rept * (t_step / relx);
-
-    // Normaliza av_s
-    for (int jj = 0; jj < r.n; ++jj)
-        av_s[jj] /= total;
-
-    // Normaliza av_ss
-    ind_ss = 0;
-    for (int jj = 0; jj < r.n - 1; ++jj)
-    {
-        for (int l = jj + 1; l < r.n; ++l)
-        {
-            av_ss[ind_ss++] /= total;
-        }
-    }
-}
-
 // Adaptative temperatures by Kone & Kofth
-void generate_adaptive_temperatures(double &T_min, double &T_max ,std::vector<double> &temperatures, const std::vector<double> &energies, int n_replicas) {
-    double mean_E = 0.0, var_E = 0.0;
-    int N = energies.size();
-    for (double E : energies) mean_E += E;
-    mean_E /= N;
-    for (double E : energies) var_E += (E - mean_E) * (E - mean_E);
-    var_E /= N;
-    double sigma_E = sqrt(var_E);
+// void generate_adaptive_temperatures(double &T_min, double &T_max ,std::vector<double> &temperatures, const std::vector<double> &energies, int n_replicas) {
+//     double mean_E = 0.0, var_E = 0.0;
+//     int N = energies.size();
+//     for (double E : energies) mean_E += E;
+//     mean_E /= N;
+//     for (double E : energies) var_E += (E - mean_E) * (E - mean_E);
+//     var_E /= N;
+//     double sigma_E = sqrt(var_E);
 	
-    // Ajustar T_min e T_max baseado no sigma_E
-    if (sigma_E > 1e-8) {
-        T_min = 1.0 / (2.0 * sigma_E);  // Mais físico: inversamente proporcional à flutuação
-    } else {
-        T_min = 2.0;  // fallback padrão
-    }
-    T_max = T_min * 7.0;  // ou 10.0x, depende da sua preferência
+//     // Ajustar T_min e T_max baseado no sigma_E
+//     if (sigma_E > 1e-8) {
+//         T_min = 1.0 / (2.0 * sigma_E);  // Mais físico: inversamente proporcional à flutuação
+//     } else {
+//         T_min = 2.0;  // fallback padrão
+//     }
+//     T_max = T_min * 7.0;  // ou 10.0x, depende da sua preferência
 
-    // Agora sim, gerar distribuição logarítmica entre novo T_min e T_max
-    temperatures.resize(n_replicas);
-    for (int i = 0; i < n_replicas; ++i) {
-        double alpha = (double)i / (n_replicas - 1);
-        temperatures[i] = T_min * pow(T_max / T_min, alpha);
-    }
-}
+//     // Agora sim, gerar distribuição logarítmica entre novo T_min e T_max
+//     temperatures.resize(n_replicas);
+//     for (int i = 0; i < n_replicas; ++i) {
+//         double alpha = (double)i / (n_replicas - 1);
+//         temperatures[i] = T_min * pow(T_max / T_min, alpha);
+//     }
+// }
 
 void parallel_tempering(
     const Rede &bm, int n_replicas, double T_min, double T_max,
@@ -1621,7 +1355,7 @@ void parallel_tempering(
     // Acumuladores
     int n_meas = 0;
     int swap_attempts = 0, swap_accepted = 0;
-    energy_per_replica.assign(n_replicas, 0.0);
+    //energy_per_replica.assign(n_replicas, 0.0);
 
     // Encontrar índice da réplica com beta mais próximo de 1.0
     int target_index = 0;
@@ -1720,7 +1454,7 @@ void parallel_tempering_multi(
     for (int i = 0; i < n_replicas; ++i)
         replicas[i].k = 1.0 / temperatures[i];
 
-    energy_per_replica.assign(n_replicas, 0.0);
+    //energy_per_replica.assign(n_replicas, 0.0);
     int n_meas = 0;
     int swap_attempts = 0, swap_accepted = 0;
 

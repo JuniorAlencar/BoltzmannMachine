@@ -17,38 +17,25 @@
 using namespace std::chrono;
 using namespace std;
 
-<<<<<<< HEAD
 int main(int argc, char *argv[]){
-=======
-int main(int argc, char *argv[]){	
->>>>>>> dea5f45 (metropolis with generator)
 	// Gaussian Parameters
 	int n;
 	double mean = 0.0;
 	double sigma = 0.25;
 	double k = 10;
 	int type = 0;
-	int H = 0;
+	int H = 2;
 	
 	string text_name	= argv[1];
 	double min_erro_j	= stod(argv[2]);
 	double min_erro_h	= stod(argv[3]);
 	int multiply_teq 	= stoi(argv[4]);
 	int multiply_relx 	= stoi(argv[5]);
-<<<<<<< HEAD
 	int seed 			= stoi(argv[6]);
 	string method = argv[7];
 	
     if (argc < 8) {
         cerr << "Uso: " << argv[0] << " <filename> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <seed> <method>" << endl;
-=======
-	int seed = stoi(argv[6]);
-	string method = argv[7];
-
-
-    if (argc < 7) {
-        std::cerr << "Uso: " << argv[0] << " <filename> <min_erro_j> <min_erro_h> <multi_teq> <multi_relx> <method>" << std::endl;
->>>>>>> dea5f45 (metropolis with generator)
         return 1;
     }
 
@@ -130,11 +117,12 @@ int main(int argc, char *argv[]){
 	ifstream rede (file_rede_input.c_str());
 	
 	rede >> n;
-	
+	// Generator to MC
+	std::mt19937 gen(seed); 
 	VecDoub av_s(n, 0.0), av_ss(n*(n-1)/2, 0.0), C(n*(n-1)/2, 0.0);
 	
 	//Rede r(tamanho, media, desvio, k, type = 0(random) 1(tree), H = 0(no field) 1(ConstField) -1(ConstField) 2(RandField))
-	Rede r(n, mean, sigma, k, 0, 1);	
+	Rede r(n, mean, sigma, k, 0, H, gen);	
 	
 	for (int i = 0; i < r.nbonds; i++)
 	{
@@ -157,7 +145,7 @@ int main(int argc, char *argv[]){
 	network_in >> r.n;
 	
 	//rede para ser atualizada
-	Rede bm(n, 0, 0, 0, 0, 0);
+	Rede bm(n, 0, 0, 0, 0, 0, gen);
 	
 	for(int i = 0; i < r.nbonds; i++)
 	{
@@ -194,13 +182,7 @@ int main(int argc, char *argv[]){
 	double eta_h = 0.03;
 
 	//Arquivo para salvar os erros ao longo do tempo
-<<<<<<< HEAD
-	
-	// Generator to MC
-	std::mt19937 gen(seed); 
-=======
-	std::mt19937 gen(seed);  // Seed fixa
->>>>>>> dea5f45 (metropolis with generator)
+
 
 	ofstream erros (file_name_erros.c_str());
 
@@ -223,7 +205,6 @@ int main(int argc, char *argv[]){
 		eta_J = pow(inter, -0.4);
 		eta_h = 2*pow(inter, -0.4);
 
-<<<<<<< HEAD
 		if(method == "metropolis"){
 			auto start = high_resolution_clock::now();
 			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
@@ -231,10 +212,6 @@ int main(int argc, char *argv[]){
 			std::chrono::duration<double> duration_sec = end - start;
 			times << duration_sec.count() << std::endl;
 		}
-=======
-		if(method == "metropolis")
-			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
->>>>>>> dea5f45 (metropolis with generator)
 		
 		else if(method == "exact" && n < 25){
 			auto start = high_resolution_clock::now();
@@ -244,38 +221,141 @@ int main(int argc, char *argv[]){
 			times << duration_sec.count() << std::endl;
 		}
 		
-		else if (method == "parallel_tempering") {
-			eta_J = pow(inter, -0.5);
-			eta_h = 2*pow(inter, -0.5);
-			// Parallel Tempering
-			double T_min, T_max;
-			std::vector<double> temperatures, energy_per_replica;
-			double swap_acceptance_ratio = 0.0;
-			int n_replicas = 12;
+	// else if (method == "parallel_tempering") {
+	// 	// eta_J = pow(inter, -0.5);
+	// 	// eta_h = 2*pow(inter, -0.5);
+	// 	// --- Cooling + Reheating cycles ---
+	// 	int cycle_length = 100;  // Número de iterações por ciclo
+	// 	double cooling_factor = pow(inter, -0.5);  // Decaimento normal
 
-			
-			double avg_abs_J = 0.0;
-			for (int i = 0; i < bm.nbonds; i++)
-				avg_abs_J += fabs(bm.J[i]);
-			avg_abs_J /= bm.nbonds;
+	// 	// Reheating multiplier: aumenta temporariamente o passo em ciclos ímpares
+	// 	double reheating_multiplier = 1.0;
+	// 	if ( (inter / cycle_length) % 2 == 1) {
+	// 		reheating_multiplier = 2.0;  // Pode usar 1.5 se quiser mais suave
+	// 	}
 
-			double avg_abs_h = 0.0;
-			for (int i = 0; i < bm.n; i++)
-				avg_abs_h += fabs(bm.h[i]);
-			avg_abs_h /= bm.n;
+	// 	eta_J = cooling_factor * reheating_multiplier;
+	// 	eta_h = 2 * cooling_factor * reheating_multiplier;
 
-			double avg_scale = 0.5 * (avg_abs_J + avg_abs_h);
-
-			if (avg_scale < 1e-8) {
+	
+	// 	double T_min, T_max;
+	// 	std::vector<double> temperatures, energy_per_replica;
+	// 	double swap_acceptance_ratio = 0.0;
+	// 	int n_replicas = 12;
+	
+	// 	// Se for a primeira interação: temperatura padrão
+	// 	if (inter == 1) {
+	// 		T_min = 0.2;
+	// 		T_max = T_min * 20.0;  // ou outro multiplicador, se quiser
+	// 		temperatures.resize(n_replicas);
+	// 		for (int i = 0; i < n_replicas; ++i)
+	// 			temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
+	// 	}
+	// 	else {
+	// 		// Após a primeira interação: adaptar com energy_per_replica
+	// 		double mean_E = 0.0, var_E = 0.0;
+	// 		for (double E : energy_per_replica) mean_E += E;
+	// 		mean_E /= n_replicas;
+	// 		for (double E : energy_per_replica) var_E += (E - mean_E) * (E - mean_E);
+	// 		var_E /= n_replicas;
+	// 		double sigma_E = sqrt(var_E);
+	
+	// 		if (sigma_E > 1e-8)
+	// 			T_min = 1.0 / (2.0 * sigma_E);
+	// 		else
+	// 			T_min = 2.0;  // fallback para caso sigma_E muito pequeno
+	
+	// 		T_max = T_min * 10.0;  // ou 7.0, 20.0, conforme preferir
+	
+	// 		temperatures.resize(n_replicas);
+	// 		for (int i = 0; i < n_replicas; ++i)
+	// 			temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
+	// 	}
+	
+	// 	auto start = high_resolution_clock::now();
+	
+	// 	parallel_tempering_multi(
+	// 		bm, n_replicas, T_min, T_max,
+	// 		bm_av_s, bm_av_ss,
+	// 		t_eq, t_step, relx, rept,
+	// 		n, mean, sigma,
+	// 		type, H, energy_per_replica, temperatures,
+	// 		swap_acceptance_ratio, gen
+	// 	);
+	
+	// 	auto end = high_resolution_clock::now();
+	// 	std::chrono::duration<double> duration_sec = end - start;
+	// 	times << duration_sec.count() << " " << swap_acceptance_ratio << std::endl;
+	
+	// 	// Diagnóstico no terminal
+	// 	std::cout << "Swap acceptance rate: " << swap_acceptance_ratio << std::endl;
+	// 	for (int i = 0; i < n_replicas; ++i)
+	// 		std::cout << "T = " << temperatures[i] << ", <E> = " << energy_per_replica[i] << std::endl;
+	// }
+	else if (method == "parallel_tempering") {
+		eta_J = pow(inter, -0.5);
+		eta_h = 2*pow(inter, -0.5);
+		// --- Cooling + Reheating cycles ---
+		// int cycle_length = 100;  // Número de iterações por ciclo
+		// double cooling_factor = pow(inter, -0.5);  // Decaimento normal
+	
+		// // Reheating multiplier: aumenta temporariamente o passo em ciclos ímpares
+		// double reheating_multiplier = 1.0;
+		// if ( (inter / cycle_length) % 2 == 1) {
+		// 	reheating_multiplier = 2.0;  // Pode usar 1.5 se quiser mais suave
+		// }
+	
+		// eta_J = cooling_factor * reheating_multiplier;
+		// eta_h = 2 * cooling_factor * reheating_multiplier;
+	
+		// --- Temperaturas e réplicas ---
+		double T_min, T_max;
+		int n_replicas = 12;
+	
+		// As temperaturas e as energias *devem ser mantidas entre as iterações*!
+		static std::vector<double> temperatures;       // Static: persiste entre as interações
+		static std::vector<double> energy_per_replica; // Static: idem
+	
+		double swap_acceptance_ratio = 0.0;
+	
+		if (inter == 1) {
+			T_min = 0.2;
+			T_max = T_min * 20.0;
+	
+			temperatures.resize(n_replicas);
+			for (int i = 0; i < n_replicas; ++i)
+				temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
+	
+			// Zerar energy_per_replica só no começo
+			energy_per_replica.assign(n_replicas, 0.0);
+		} 
+		else {
+			// --- Atualizar temperaturas com base nas energias ---
+			double mean_E = 0.0, var_E = 0.0;
+			for (double E : energy_per_replica) mean_E += E;
+			mean_E /= n_replicas;
+	
+			for (double E : energy_per_replica)
+				var_E += (E - mean_E) * (E - mean_E);
+			var_E /= n_replicas;
+	
+			double sigma_E = sqrt(var_E);
+	
+			if (sigma_E > 1e-8)
+				T_min = 1.0 / (2.0 * sigma_E);
+			else
 				T_min = 2.0;
-			} else {
-				T_min = std::max(0.2, 1.0 / (2.0 * avg_scale));
-			}
-		T_max = T_min * 20.0;
-
-
+	
+			T_max = T_min * 10.0;
+	
+			temperatures.resize(n_replicas);
+			for (int i = 0; i < n_replicas; ++i)
+				temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
+		}
+	
+		// --- Executar Parallel Tempering ---
 		auto start = high_resolution_clock::now();
-
+	
 		parallel_tempering_multi(
 			bm, n_replicas, T_min, T_max,
 			bm_av_s, bm_av_ss,
@@ -284,22 +364,19 @@ int main(int argc, char *argv[]){
 			type, H, energy_per_replica, temperatures,
 			swap_acceptance_ratio, gen
 		);
-
+	
 		auto end = high_resolution_clock::now();
 		std::chrono::duration<double> duration_sec = end - start;
 		times << duration_sec.count() << " " << swap_acceptance_ratio << std::endl;
-
-		// Diagnóstico no terminal
+	
+		// --- Diagnóstico ---
 		std::cout << "Swap acceptance rate: " << swap_acceptance_ratio << std::endl;
 		for (int i = 0; i < n_replicas; ++i)
-			std::cout << "T = " << temperatures[i]
-					<< ", <E> = " << energy_per_replica[i] << std::endl;
-
-			
-			
-		// Inicialização no primeiro passo
-		
+			std::cout << "T = " << temperatures[i] << ", <E> = " << energy_per_replica[i] << std::endl;
+	
 	}
+	
+	
 		
 		for (int i = 0; i < bm.nbonds; i++)
 		{
