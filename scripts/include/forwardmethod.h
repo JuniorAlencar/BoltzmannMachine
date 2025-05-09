@@ -1434,29 +1434,22 @@ void parallel_tempering(
 }
 
 
+// ===== Função paralelizada com OpenMP e sincronização dos campos =====
 void parallel_tempering_multi(
-    const Rede &bm, int n_replicas, double T_min, double T_max,
+    std::vector<Rede> &replicas,
     VecDoub_IO &av_s, VecDoub_IO &av_ss,
     const int t_eq, const int t_step, const int relx, const int rept,
     int n_spins, double mean, double sigma,
     const int &type, double H,
     std::vector<double> &energy_per_replica,
-    std::vector<double> &temperatures,
     double &swap_acceptance_ratio,
     std::mt19937 &gen_global
-)  {
-
-    temperatures.resize(n_replicas);
-    for (int i = 0; i < n_replicas; ++i)
-        temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
-    
-		std::vector<Rede> replicas(n_replicas, bm);
-    for (int i = 0; i < n_replicas; ++i)
-        replicas[i].k = 1.0 / temperatures[i];
-
-    //energy_per_replica.assign(n_replicas, 0.0);
+) {
+    int n_replicas = replicas.size();
     int n_meas = 0;
     int swap_attempts = 0, swap_accepted = 0;
+
+    // NÃO zerar energy_per_replica aqui! Isso é feito no loop principal se necessário.
 
     int target_index = 0;
     for (int i = 1; i < n_replicas; ++i)
@@ -1534,13 +1527,12 @@ void parallel_tempering_multi(
 
     for (int i = 0; i < av_s.size(); ++i)
         av_s[i] /= n_meas;
-
     for (int i = 0; i < av_ss.size(); ++i)
         av_ss[i] /= n_meas;
-
     for (int i = 0; i < n_replicas; ++i)
         energy_per_replica[i] /= rept;
 }
+
 
 void wang_landau(
     Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss,
