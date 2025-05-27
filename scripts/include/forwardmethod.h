@@ -1327,102 +1327,126 @@ void exact_solution_triplet (Rede &r, VecDoub_IO &av_s, VecDoub_IO &av_ss, vecto
 //     }
 // }
 
+void generate_temperatures_optimized(
+    double T_min, double T_max, 
+    std::vector<double> &temperatures, 
+    int n_replicas,
+    double alpha_mix = 0.8 // 0 = linear, 1 = log, intermediário é misto
+) {
+    temperatures.resize(n_replicas);
+
+    for (int i = 0; i < n_replicas; ++i) {
+        double frac = (double)i / (n_replicas - 1);
+
+        // Combinação linear + logarítmica
+        double T_log = T_min * pow(T_max / T_min, frac);
+        double T_lin = T_min + frac * (T_max - T_min);
+
+        temperatures[i] = alpha_mix * T_log + (1.0 - alpha_mix) * T_lin;
+    }
+}
+
 void parallel_tempering(
-    const Rede &bm, int n_replicas, double T_min, double T_max,
+    std::vector<Rede> &replicas,
     VecDoub_IO &av_s, VecDoub_IO &av_ss,
     const int t_eq, const int t_step, const int relx, const int rept,
     int n_spins, double mean, double sigma,
     const int &type, double H,
     std::vector<double> &energy_per_replica,
-    std::vector<double> &temperatures,
     double &swap_acceptance_ratio,
-    std::mt19937 &gen
+    std::mt19937 &gen_global
 ) {
-    // Distribuição logarítmica de temperaturas
-    temperatures.resize(n_replicas);
-    for (int i = 0; i < n_replicas; ++i)
-        temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
-
-    // Inicializar réplicas
-    std::vector<Rede> replicas;
-	for (int i = 0; i < n_replicas; ++i) {
-		Rede replica = bm;
-		replica.k = 1.0 / temperatures[i];
-		replicas.push_back(replica);
-	}
-
-
-    // Acumuladores
+    int n_replicas = replicas.size();
     int n_meas = 0;
     int swap_attempts = 0, swap_accepted = 0;
-    //energy_per_replica.assign(n_replicas, 0.0);
 
-    // Encontrar índice da réplica com beta mais próximo de 1.0
+    // --- Encontrar réplica alvo (beta mais próximo de 1) ---
     int target_index = 0;
     for (int i = 1; i < n_replicas; ++i)
         if (fabs(replicas[i].k - 1.0) < fabs(replicas[target_index].k - 1.0))
             target_index = i;
 
-    for (int rep = 0; rep < rept; ++rep) {
-        // Equilibração
-        for (int step = 0; step < t_eq; ++step) {
+    // --- Reset Acumuladores ---
+    energy_per_replica.assign(n_replicas, 0.0);
+
+    int num_threads = omp_get_num_procs();
+    omp_set_num_threads(num_threads);
+
+    #pragma omp parallel
+    {
+        std::mt19937 gen_local(gen_global() + omp_get_thread_num());
+
+        #pragma omp single
+        {
             for (int i = 0; i < n_replicas; ++i) {
-                int s_flip = draw_site(replicas[i], gen);
-                double dE = delta_E(replicas[i], s_flip);
-                if (dE <= 0 || draw_probability(gen) < exp(-replicas[i].k * dE))
-                    replicas[i].s[s_flip] *= -1;
-            }
-        }
+                #pragma omp task firstprivate(i)
+                {
+                    for (int rep = 0; rep < rept; ++rep) {
+                        // --- Equilibração ---
+                        for (int step = 0; step < t_eq; ++step) {
+                            int s_flip = draw_site(replicas[i], gen_local);
+                            double dE = delta_E(replicas[i], s_flip);
+                            if (dE <= 0 || draw_probability(gen_local) < exp(-replicas[i].k * dE))
+                                replicas[i].s[s_flip] *= -1;
+                        }
 
-        // Amostragem
-        for (int step = 0; step < t_step; ++step) {
-            for (int i = 0; i < n_replicas; ++i) {
-                int s_flip = draw_site(replicas[i], gen);
-                double dE = delta_E(replicas[i], s_flip);
-                if (dE <= 0 || draw_probability(gen) < exp(-replicas[i].k * dE))
-                    replicas[i].s[s_flip] *= -1;
-            }
+                        // --- Amostragem ---
+                        for (int step = 0; step < t_step; ++step) {
+                            int s_flip = draw_site(replicas[i], gen_local);
+                            double dE = delta_E(replicas[i], s_flip);
+                            if (dE <= 0 || draw_probability(gen_local) < exp(-replicas[i].k * dE))
+                                replicas[i].s[s_flip] *= -1;
 
-            // Acumular da réplica-alvo
-            if (step % relx == 0) {
-                Rede &target = replicas[target_index];
-                for (int i = 0; i < target.n; ++i)
-                    av_s[i] += target.s[i];
+                            if (i == target_index && step % relx == 0) {
+                                #pragma omp critical
+                                {
+                                    for (int j = 0; j < replicas[i].n; ++j)
+                                        av_s[j] += replicas[i].s[j];
 
-                int ind_ss = 0;
-                for (int i = 0; i < target.n - 1; ++i)
-                    for (int j = i + 1; j < target.n; ++j)
-                        av_ss[ind_ss++] += target.s[i] * target.s[j];
+                                    int ind_ss = 0;
+                                    for (int j = 0; j < replicas[i].n - 1; ++j)
+                                        for (int k = j + 1; k < replicas[i].n; ++k)
+                                            av_ss[ind_ss++] += replicas[i].s[j] * replicas[i].s[k];
 
-                ++n_meas;
-            }
+                                    n_meas++;
+                                }
+                            }
+                        }
 
-            // Tentativas de troca entre réplicas adjacentes
-            for (int i = 0; i < n_replicas - 1; ++i) {
-                double beta_i = replicas[i].k;
-                double beta_j = replicas[i + 1].k;
-                double E_i = Energy(replicas[i]);
-                double E_j = Energy(replicas[i + 1]);
+                        // --- Energia média local ---
+                        double E_local = 0.0;
+                        for (int step = 0; step < t_step; ++step)
+                            E_local += Energy(replicas[i]);
 
-                double delta = (beta_j - beta_i) * (E_j - E_i);
-                ++swap_attempts;
-
-                if (draw_probability(gen) < exp(delta)) {
-                    std::swap(replicas[i].s, replicas[i + 1].s);
-                    ++swap_accepted;
+                        #pragma omp atomicc
+                        energy_per_replica[i] += E_local / t_step;
+                    }
                 }
-
-                energy_per_replica[i] += E_i;
-                if (i == n_replicas - 2)
-                    energy_per_replica[i + 1] += E_j;
             }
         }
     }
 
-    // Taxa de aceitação
+    // --- Swaps entre réplicas ---
+    for (int rep = 0; rep < rept; ++rep) {
+        for (int i = 0; i < n_replicas - 1; ++i) {
+            double beta_i = replicas[i].k;
+            double beta_j = replicas[i + 1].k;
+            double E_i = Energy(replicas[i]);
+            double E_j = Energy(replicas[i + 1]);
+
+            double delta = (beta_j - beta_i) * (E_j - E_i);
+            swap_attempts++;
+
+            if (draw_probability(gen_global) < exp(delta)) {
+                std::swap(replicas[i].s, replicas[i + 1].s);
+                swap_accepted++;
+            }
+        }
+    }
+
     swap_acceptance_ratio = (swap_attempts > 0) ? (double)swap_accepted / swap_attempts : 0.0;
 
-    // Normalizações
+    // --- Normalização dos acumuladores ---
     for (int i = 0; i < av_s.size(); ++i)
         av_s[i] /= n_meas;
 
@@ -1430,8 +1454,11 @@ void parallel_tempering(
         av_ss[i] /= n_meas;
 
     for (int i = 0; i < n_replicas; ++i)
-        energy_per_replica[i] /= (t_step * rept);
+        energy_per_replica[i] /= rept;
 }
+
+
+
 
 
 // ===== Função paralelizada com OpenMP e sincronização dos campos =====

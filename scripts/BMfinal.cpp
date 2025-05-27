@@ -196,337 +196,103 @@ int main(int argc, char *argv[]){
 		times << "time(s) " << "swap_accept_rate" << endl;
 	else
 		times << "time(s)" << endl;
-	// Running with inter_max interations
-	// while (inter <= inter_max)
-	// {	
-
-	// 	erroJ = erroh = 0;
-
-	// 	eta_J = pow(inter, -0.4);
-	// 	eta_h = 2*pow(inter, -0.4);
-
-	// 	if(method == "metropolis"){
-	// 		auto start = high_resolution_clock::now();
-	// 		metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
-	// 		auto end = high_resolution_clock::now();
-	// 		std::chrono::duration<double> duration_sec = end - start;
-	// 		times << duration_sec.count() << std::endl;
-	// 	}
-		
-	// 	else if(method == "exact" && n < 25){
-	// 		auto start = high_resolution_clock::now();
-	// 		exact_solution_bm (bm, bm_av_s, bm_av_ss, 1);
-	// 		auto end = high_resolution_clock::now();
-	// 		std::chrono::duration<double> duration_sec = end - start;
-	// 		times << duration_sec.count() << std::endl;
-	// 	}
-		
-	// // else if (method == "parallel_tempering") {
-	// // 	// eta_J = pow(inter, -0.5);
-	// // 	// eta_h = 2*pow(inter, -0.5);
-	// // 	// --- Cooling + Reheating cycles ---
-	// // 	int cycle_length = 100;  // Número de iterações por ciclo
-	// // 	double cooling_factor = pow(inter, -0.5);  // Decaimento normal
-
-	// // 	// Reheating multiplier: aumenta temporariamente o passo em ciclos ímpares
-	// // 	double reheating_multiplier = 1.0;
-	// // 	if ( (inter / cycle_length) % 2 == 1) {
-	// // 		reheating_multiplier = 2.0;  // Pode usar 1.5 se quiser mais suave
-	// // 	}
-
-	// // 	eta_J = cooling_factor * reheating_multiplier;
-	// // 	eta_h = 2 * cooling_factor * reheating_multiplier;
-
 	
-	// // 	double T_min, T_max;
-	// // 	std::vector<double> temperatures, energy_per_replica;
-	// // 	double swap_acceptance_ratio = 0.0;
-	// // 	int n_replicas = 12;
-	
-	// // 	// Se for a primeira interação: temperatura padrão
-	// // 	if (inter == 1) {
-	// // 		T_min = 0.2;
-	// // 		T_max = T_min * 20.0;  // ou outro multiplicador, se quiser
-	// // 		temperatures.resize(n_replicas);
-	// // 		for (int i = 0; i < n_replicas; ++i)
-	// // 			temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
-	// // 	}
-	// // 	else {
-	// // 		// Após a primeira interação: adaptar com energy_per_replica
-	// // 		double mean_E = 0.0, var_E = 0.0;
-	// // 		for (double E : energy_per_replica) mean_E += E;
-	// // 		mean_E /= n_replicas;
-	// // 		for (double E : energy_per_replica) var_E += (E - mean_E) * (E - mean_E);
-	// // 		var_E /= n_replicas;
-	// // 		double sigma_E = sqrt(var_E);
-	
-	// // 		if (sigma_E > 1e-8)
-	// // 			T_min = 1.0 / (2.0 * sigma_E);
-	// // 		else
-	// // 			T_min = 2.0;  // fallback para caso sigma_E muito pequeno
-	
-	// // 		T_max = T_min * 10.0;  // ou 7.0, 20.0, conforme preferir
-	
-	// // 		temperatures.resize(n_replicas);
-	// // 		for (int i = 0; i < n_replicas; ++i)
-	// // 			temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
-	// // 	}
-	
-	// // 	auto start = high_resolution_clock::now();
-	
-	// // 	parallel_tempering_multi(
-	// // 		bm, n_replicas, T_min, T_max,
-	// // 		bm_av_s, bm_av_ss,
-	// // 		t_eq, t_step, relx, rept,
-	// // 		n, mean, sigma,
-	// // 		type, H, energy_per_replica, temperatures,
-	// // 		swap_acceptance_ratio, gen
-	// // 	);
-	
-	// // 	auto end = high_resolution_clock::now();
-	// // 	std::chrono::duration<double> duration_sec = end - start;
-	// // 	times << duration_sec.count() << " " << swap_acceptance_ratio << std::endl;
-	
-	// // 	// Diagnóstico no terminal
-	// // 	std::cout << "Swap acceptance rate: " << swap_acceptance_ratio << std::endl;
-	// // 	for (int i = 0; i < n_replicas; ++i)
-	// // 		std::cout << "T = " << temperatures[i] << ", <E> = " << energy_per_replica[i] << std::endl;
-	// // }
-	// else if (method == "parallel_tempering") {
-	// 	eta_J = pow(inter, -0.5);
-	// 	eta_h = 2*pow(inter, -0.5);
-	// 	// --- Cooling + Reheating cycles ---
-	// 	// int cycle_length = 100;  // Número de iterações por ciclo
-	// 	// double cooling_factor = pow(inter, -0.5);  // Decaimento normal
-	
-	// 	// // Reheating multiplier: aumenta temporariamente o passo em ciclos ímpares
-	// 	// double reheating_multiplier = 1.0;
-	// 	// if ( (inter / cycle_length) % 2 == 1) {
-	// 	// 	reheating_multiplier = 2.0;  // Pode usar 1.5 se quiser mais suave
-	// 	// }
-	
-	// 	// eta_J = cooling_factor * reheating_multiplier;
-	// 	// eta_h = 2 * cooling_factor * reheating_multiplier;
-	
-	// 	// --- Temperaturas e réplicas ---
-	// 	double T_min, T_max;
-	// 	int n_replicas = 12;
-	
-	// 	// As temperaturas e as energias *devem ser mantidas entre as iterações*!
-	// 	static std::vector<double> temperatures;       // Static: persiste entre as interações
-	// 	static std::vector<double> energy_per_replica; // Static: idem
-	
-	// 	double swap_acceptance_ratio = 0.0;
-	
-	// 	if (inter == 1) {
-	// 		T_min = 0.2;
-	// 		T_max = T_min * 20.0;
-	
-	// 		temperatures.resize(n_replicas);
-	// 		for (int i = 0; i < n_replicas; ++i)
-	// 			temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
-	
-	// 		// Zerar energy_per_replica só no começo
-	// 		energy_per_replica.assign(n_replicas, 0.0);
-	// 	} 
-	// 	else {
-	// 		// --- Atualizar temperaturas com base nas energias ---
-	// 		double mean_E = 0.0, var_E = 0.0;
-	// 		for (double E : energy_per_replica) mean_E += E;
-	// 		mean_E /= n_replicas;
-	
-	// 		for (double E : energy_per_replica)
-	// 			var_E += (E - mean_E) * (E - mean_E);
-	// 		var_E /= n_replicas;
-	
-	// 		double sigma_E = sqrt(var_E);
-	
-	// 		if (sigma_E > 1e-8)
-	// 			T_min = 1.0 / (2.0 * sigma_E);
-	// 		else
-	// 			T_min = 2.0;
-	
-	// 		T_max = T_min * 10.0;
-	
-	// 		temperatures.resize(n_replicas);
-	// 		for (int i = 0; i < n_replicas; ++i)
-	// 			temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
-	// 	}
-	
-	// 	// --- Executar Parallel Tempering ---
-	// 	auto start = high_resolution_clock::now();
-	
-	// 	parallel_tempering_multi(
-	// 		bm, n_replicas, T_min, T_max,
-	// 		bm_av_s, bm_av_ss,
-	// 		t_eq, t_step, relx, rept,
-	// 		n, mean, sigma,
-	// 		type, H, energy_per_replica, temperatures,
-	// 		swap_acceptance_ratio, gen
-	// 	);
-	
-	// 	auto end = high_resolution_clock::now();
-	// 	std::chrono::duration<double> duration_sec = end - start;
-	// 	times << duration_sec.count() << " " << swap_acceptance_ratio << std::endl;
-	
-	// 	// --- Diagnóstico ---
-	// 	std::cout << "Swap acceptance rate: " << swap_acceptance_ratio << std::endl;
-	// 	for (int i = 0; i < n_replicas; ++i)
-	// 		std::cout << "T = " << temperatures[i] << ", <E> = " << energy_per_replica[i] << std::endl;
-	
-	// }
-	
-	
-		
-	// 	for (int i = 0; i < bm.nbonds; i++)
-	// 	{
-	// 		if (i < bm.n)
-	// 		{
-	// 			dh = eta_h*(bm_av_s[i] - av_s[i]);
-	// 			erroh += pow(bm_av_s[i] - av_s[i], 2);
-	// 			bm.h[i] -= dh;
-	// 		}
-			
-	// 		dJ = eta_J*(bm_av_ss[i] - av_ss[i]);
-	// 		erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
-	// 		bm.J[i] -= dJ;
-
-	// 	}
-
-		
-	// 	erroJ = sqrt(erroJ/bm.nbonds);
-	// 	erroh = sqrt(erroh/bm.n);
-
-		
-	// 	//Salvando Erros
-	// 	erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl; 
-		
-	// 	if (inter%cort == 0)
-	// 	{
-	// 		std::cout << text_name << " " << inter << " "
-    //           << "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
-    //           << "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
-	// 	}			
-		
-	// 	// If J and h converge, break loop
-	// 	if(erroJ <= min_erro_j && erroh <= min_erro_h){
-	// 		cout << "Converged with: " << inter << " interations\n";
-	// 		break;
-	// 	}
-		
-	// 	inter++;
-	
-	// 	}
 	while (inter <= inter_max) {
-		erroJ = erroh = 0.0;
-	
-		// --- Cooling + Reheating (opcional) ---
-		// int cycle_length = 100;
-		// double cooling_factor = pow(inter, -0.5);
-		// double reheating_multiplier = ((inter / cycle_length) % 2 == 1) ? 2.0 : 1.0;
-	
-		// eta_J = cooling_factor * reheating_multiplier;
-		// eta_h = 2.0 * eta_J;
-		eta_J = pow(inter, -0.4);
-		eta_h = 2.0 * eta_J;
-		if (method == "metropolis") {
-			auto start = high_resolution_clock::now();
-			metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
-			auto end = high_resolution_clock::now();
-			std::chrono::duration<double> duration_sec = end - start;
-			times << duration_sec.count() << std::endl;
-		}
-		else if (method == "exact" && n < 25) {
+    erroJ = erroh = 0.0;
+
+    // --- Cooling + Reheating (opcional) ---
+    eta_J = pow(inter, -0.4);
+    eta_h = 2.0 * eta_J;
+
+    // --- Escolha do método ---
+    if (method == "metropolis") {
+		auto start = high_resolution_clock::now();
+		metropolis_bm(bm, bm_av_s, bm_av_ss, t_eq, t_step, relx, rept, 1, gen);
+		auto end = high_resolution_clock::now();
+		std::chrono::duration<double> duration_sec = end - start;
+		times << duration_sec.count() << std::endl;
+    }
+    else if (method == "exact" && n < 25) {
 			auto start = high_resolution_clock::now();
 			exact_solution_bm(bm, bm_av_s, bm_av_ss, 1);
 			auto end = high_resolution_clock::now();
 			std::chrono::duration<double> duration_sec = end - start;
 			times << duration_sec.count() << std::endl;
-		}
-		else if (method == "parallel_tempering") {
-			eta_J = pow(inter, -0.5);
-			eta_h = 2.0 * eta_J;
-			static std::vector<double> temperatures;
-			static std::vector<double> energy_per_replica;
-	
-			double T_min, T_max;
-			double swap_acceptance_ratio = 0.0;
-			int n_replicas = 12;
-	
-			if (inter == 1) {
-				T_min = 0.2;
-				T_max = T_min * 20.0;
-				temperatures.resize(n_replicas);
-				for (int i = 0; i < n_replicas; ++i)
-					temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
-				energy_per_replica.assign(n_replicas, 0.0);
-			} 
-			else {
-				double mean_E = 0.0, var_E = 0.0;
-				for (double E : energy_per_replica) mean_E += E;
-				mean_E /= n_replicas;
-				for (double E : energy_per_replica)
-					var_E += (E - mean_E) * (E - mean_E);
-				var_E /= n_replicas;
-				double sigma_E = sqrt(var_E);
-				T_min = (sigma_E > 1e-8) ? 1.0 / (2.0 * sigma_E) : 2.0;
-				T_max = T_min * 10.0;
-				temperatures.resize(n_replicas);
-				for (int i = 0; i < n_replicas; ++i)
-					temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
-			}
-			
-			// Create replicas from bm actual
-			std::vector<Rede> replicas(n_replicas, bm);  // Cada réplica é uma cópia da rede atual
-			for (int i = 0; i < n_replicas; ++i)
-				replicas[i].k = 1.0 / temperatures[i];
-			
-			auto start = high_resolution_clock::now();
-			parallel_tempering_multi(
-				replicas, bm_av_s, bm_av_ss,
-				t_eq, t_step, relx, rept,
-				n, mean, sigma, type, H,
-				energy_per_replica, swap_acceptance_ratio, gen
-			);
-			auto end = high_resolution_clock::now();
-			std::chrono::duration<double> duration_sec = end - start;
-			times << duration_sec.count() << " " << swap_acceptance_ratio << std::endl;
-	
-			// --- Diagnóstico ---
-			std::cout << "Swap acceptance rate: " << swap_acceptance_ratio << std::endl;
-			for (int i = 0; i < n_replicas; ++i)
-				std::cout << "T = " << temperatures[i] << ", <E> = " << energy_per_replica[i] << std::endl;
-		}
-	
-		// Atualização dos parâmetros J e h
-		for (int i = 0; i < bm.nbonds; ++i) {
-			if (i < bm.n) {
-				dh = eta_h * (bm_av_s[i] - av_s[i]);
-				erroh += pow(bm_av_s[i] - av_s[i], 2);
-				bm.h[i] -= dh;
-			}
-			dJ = eta_J * (bm_av_ss[i] - av_ss[i]);
-			erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
-			bm.J[i] -= dJ;
-		}
-	
-		erroJ = sqrt(erroJ / bm.nbonds);
-		erroh = sqrt(erroh / bm.n);
-		erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl;
-	
-		if (inter % cort == 0) {
-			std::cout << text_name << " " << inter << " "
-					  << "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
-					  << "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
-		}
-	
-		if (erroJ <= min_erro_j && erroh <= min_erro_h) {
-			cout << "Converged with: " << inter << " interations\n";
-			break;
-		}
-	
-		inter++;
-	}
+    }
+    else if (method == "parallel_tempering") {
+        static std::vector<double> temperatures;
+        static std::vector<double> energy_per_replica;
+
+        double T_min, T_max;
+        double swap_acceptance_ratio = 0.0;
+        int n_replicas = 12;
+		// Control the type of range of temperatures: alpha_mix = 0 (linear), alpha_mix = 1 (log)
+		double alpha_mix = 0.25;
+        
+		T_min = 0.5;
+		T_max = 7.0;
+
+		generate_temperatures_optimized(T_min, T_max, temperatures, n_replicas, alpha_mix);
+		// temperatures.resize(n_replicas);
+		// for (int i = 0; i < n_replicas; ++i)
+		// 	temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
+		
+			energy_per_replica.assign(n_replicas, 0.0);
+        
+        // --- Cria réplicas da rede atual ---
+        std::vector<Rede> replicas(n_replicas, bm);
+        for (int i = 0; i < n_replicas; ++i)
+            replicas[i].k = 1.0 / temperatures[i];
+
+        // --- Executa o parallel tempering ---
+        auto start = high_resolution_clock::now();
+		parallel_tempering(
+            replicas, bm_av_s, bm_av_ss,
+            t_eq, t_step, relx, rept,
+            n, mean, sigma, type, H,
+            energy_per_replica, swap_acceptance_ratio, gen
+        );
+		auto end = high_resolution_clock::now();
+		std::chrono::duration<double> duration_sec = end - start;
+		times << duration_sec.count() << " " << swap_acceptance_ratio << std::endl;
+        
+		// Log das temperaturas e energia
+        std::cout << "Swap acceptance rate: " << swap_acceptance_ratio << std::endl;
+        for (int i = 0; i < n_replicas; ++i)
+            std::cout << "T = " << temperatures[i] << ", <E> = " << energy_per_replica[i] << std::endl;
+    }
+
+    // --- Atualização dos parâmetros J e h (COMUM A TODOS OS MÉTODOS) ---
+    for (int i = 0; i < bm.nbonds; ++i) {
+        if (i < bm.n) {
+            dh = eta_h * (bm_av_s[i] - av_s[i]);
+            erroh += pow(bm_av_s[i] - av_s[i], 2);
+            bm.h[i] -= dh;
+        }
+        dJ = eta_J * (bm_av_ss[i] - av_ss[i]);
+        erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
+        bm.J[i] -= dJ;
+    }
+
+    erroJ = sqrt(erroJ / bm.nbonds);
+    erroh = sqrt(erroh / bm.n);
+
+    erros << inter << " " << setprecision(13) << erroJ << " " << setprecision(13) << erroh << endl;
+
+    if (inter % cort == 0) {
+        std::cout << text_name << " " << inter << " "
+                  << "err_J" << " " << left << setw(13) << scientific << setprecision(6) << erroJ << " "
+                  << "err_h" << " " << left << setw(13) << scientific << setprecision(6) << erroh << '\n';
+    }
+
+    if (erroJ <= min_erro_j && erroh <= min_erro_h) {
+        cout << "Converged with: " << inter << " iterations\n";
+        break;
+    }
+
+    inter++;
+}
+
 	
 	// Close errors file
 	erros.close();
