@@ -220,7 +220,15 @@ int main(int argc, char *argv[]){
 			times << duration_sec.count() << std::endl;
     }
     else if (method == "parallel_tempering") {
-        static std::vector<double> temperatures;
+
+		if(inter < 300)
+			eta_J = pow(inter, -0.4);
+		else
+			eta_J = pow(300, -0.4);
+		
+		eta_h = 2.0 * eta_J;
+		
+		static std::vector<double> temperatures;
         static std::vector<double> energy_per_replica;
 
         double T_min, T_max;
@@ -234,8 +242,6 @@ int main(int argc, char *argv[]){
 
 		generate_temperatures_optimized(T_min, T_max, temperatures, n_replicas, alpha_mix);
 		// temperatures.resize(n_replicas);
-		// for (int i = 0; i < n_replicas; ++i)
-		// 	temperatures[i] = T_min * pow(T_max / T_min, (double)i / (n_replicas - 1));
 		
 			energy_per_replica.assign(n_replicas, 0.0);
         
@@ -274,6 +280,18 @@ int main(int argc, char *argv[]){
         bm.J[i] -= dJ;
     }
 
+
+    // --- Atualização dos parâmetros J e h (COMUM A TODOS OS MÉTODOS) ---
+    for (int i = 0; i < bm.nbonds; ++i) {
+        if (i < bm.n) {
+            dh = eta_h * (bm_av_s[i] - av_s[i]);
+            erroh += pow(bm_av_s[i] - av_s[i], 2);
+            bm.h[i] -= dh;
+        }
+        dJ = eta_J * (bm_av_ss[i] - av_ss[i]);
+        erroJ += pow(bm_av_ss[i] - av_ss[i], 2);
+        bm.J[i] -= dJ;
+    }
     erroJ = sqrt(erroJ / bm.nbonds);
     erroh = sqrt(erroh / bm.n);
 

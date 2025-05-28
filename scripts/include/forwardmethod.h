@@ -1461,6 +1461,7 @@ void parallel_tempering(
 
 
 
+
 // ===== Função paralelizada com OpenMP e sincronização dos campos =====
 void parallel_tempering_multi(
     std::vector<Rede> &replicas,
